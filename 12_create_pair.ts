@@ -1,0 +1,68 @@
+import yargs from "yargs/yargs";
+import { MsgExecuteContract } from "@terra-money/terra.js";
+import * as keystore from "./keystore";
+import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+
+const argv = yargs(process.argv)
+  .options({
+    network: {
+      type: "string",
+      demandOption: true,
+    },
+    key: {
+      type: "string",
+      demandOption: true,
+    },
+    "key-dir": {
+      type: "string",
+      demandOption: false,
+      default: keystore.DEFAULT_KEY_DIR,
+    },
+    "factory-address": {
+      type: "string",
+      demandOption: true,
+    },
+    "token-address": {
+      type: "string",
+      demandOption: true,
+    },
+  })
+  .parseSync();
+
+// ts-node 12_create_pair.ts --network testnet --key testnet --factory-address terra1jha5avc92uerwp9qzx3flvwnyxs3zax2rrm6jkcedy2qvzwd2k7qk7yxcl --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
+// ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqxl5qul --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
+
+// mainnet: https://finder.terra.money/mainnet/tx/0D5F52EA014C8B36E0ADF86CB7AC9CF30EE1C7B55A4CE4ACA5D95346A3B834B7
+// pair contract: terra1ccxwgew8aup6fysd7eafjzjz6hw89n40h273sgu3pl4lxrajnk5st2hvfh
+// lp: terra1eh2aulwsyc9m45ggeznav402xcck4ll0yn0xgtlxyf4zkwch7juqsxvfzr
+(async function () {
+  const terra = createLCDClient(argv["network"]);
+  const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
+
+  const { txhash } = await sendTxWithConfirm(worker, [
+    new MsgExecuteContract(
+      worker.key.accAddress,
+      argv["factory-address"],
+      {
+        create_pair: {
+          asset_infos: [
+            {
+              token: {
+                contract_addr: argv["token-address"],
+              },
+            },
+            {
+              native_token: {
+                denom: "uluna",
+              },
+            },
+          ],
+        },
+      },
+      {
+        uluna: "100",
+      }
+    ),
+  ]);
+  console.log(`Success! Txhash: ${txhash}`);
+})();
