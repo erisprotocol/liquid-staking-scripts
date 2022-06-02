@@ -33,7 +33,7 @@ const argv = yargs(process.argv)
 // ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqxl5qul --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
 // phoenix
-// ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1pewdsxywmwurekjwrgvjvxvv0dv2pf8xtdl9ykfce2z0q3gf0k3qr8nezy --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
+// ts-node 12_create_pair_phoenix.ts --network mainnet --key mainnet --factory-address terra1pewdsxywmwurekjwrgvjvxvv0dv2pf8xtdl9ykfce2z0q3gf0k3qr8nezy --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
 // mainnet: https://finder.terra.money/mainnet/tx/0D5F52EA014C8B36E0ADF86CB7AC9CF30EE1C7B55A4CE4ACA5D95346A3B834B7
 // pair contract: terra1ccxwgew8aup6fysd7eafjzjz6hw89n40h273sgu3pl4lxrajnk5st2hvfh
@@ -48,23 +48,19 @@ const argv = yargs(process.argv)
       argv["factory-address"],
       {
         create_pair: {
+          pair_type: { stable: {} },
           asset_infos: [
             {
               token: {
                 contract_addr: argv["token-address"],
               },
             },
-            {
-              native_token: {
-                denom: "uluna",
-              },
-            },
+            { native_token: { denom: "uluna" } },
           ],
+          init_params: "eyJhbXAiOjF9",
         },
       },
-      {
-        uluna: "100",
-      }
+      {}
     ),
   ]);
   console.log(`Success! Txhash: ${txhash}`);
