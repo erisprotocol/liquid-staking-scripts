@@ -16,6 +16,11 @@ export type ExecuteMsg =
       };
     }
   | {
+      donate: {
+        [k: string]: unknown;
+      };
+    }
+  | {
       withdraw_unbonded: {
         receiver?: string | null;
         [k: string]: unknown;

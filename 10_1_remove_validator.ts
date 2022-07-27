@@ -1,7 +1,7 @@
-import yargs from "yargs/yargs";
 import { MsgExecuteContract } from "@terra-money/terra.js";
-import * as keystore from "./keystore";
+import yargs from "yargs/yargs";
 import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import * as keystore from "./keystore";
 import { ExecuteMsg } from "./types/hub/execute_msg";
 
 const argv = yargs(process.argv)
@@ -30,9 +30,9 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ts-node 10_1_remove_validator.ts --network testnet --key testnet --hub-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --validator-address terravaloper1uxx32m0u5svtvrujnpcs6pxuv7yvn4pjhl0fux
+// ts-node 10_1_remove_validator.ts --network testnet --key testnet --hub-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --validator-address terravaloper15lsftv92eyssjwkh2393s0nhjc07kryqen2fqf
 
-// ts-node 10_1_remove_validator.ts --network mainnet --key mainnet --hub-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --validator-address terravaloper1uxx32m0u5svtvrujnpcs6pxuv7yvn4pjhl0fux
+// ts-node 10_1_remove_validator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --validator-address terravaloper13fkxypqa0e3lvzu2fay7mslc2xsghv26a3a7jl
 //
 (async function () {
   const terra = createLCDClient(argv["network"]);

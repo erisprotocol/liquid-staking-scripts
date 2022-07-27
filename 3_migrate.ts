@@ -1,14 +1,14 @@
+import { MsgMigrateContract } from "@terra-money/terra.js";
 import * as path from "path";
 import yargs from "yargs/yargs";
-import { MsgMigrateContract } from "@terra-money/terra.js";
-import * as keystore from "./keystore";
 import {
   createLCDClient,
   createWallet,
-  waitForConfirm,
   sendTxWithConfirm,
   storeCodeWithConfirm,
+  waitForConfirm,
 } from "./helpers";
+import * as keystore from "./keystore";
 
 const argv = yargs(process.argv)
   .options({
@@ -37,14 +37,20 @@ const argv = yargs(process.argv)
     "code-id": {
       type: "number",
       demandOption: false,
+      default: 1382,
     },
     binary: {
       type: "string",
       demandOption: false,
-      default: "../artifacts/eris_staking_hub.wasm",
+      default: "../liquid-staking-contracts/artifacts/eris_staking_hub.wasm",
     },
   })
   .parseSync();
+
+// testnet
+// ts-node 3_migrate.ts --network testnet --key testnet --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// ts-node 3_migrate.ts --network testnet --key ledger --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// ts-node 3_migrate.ts --network mainnet --key mainnet --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

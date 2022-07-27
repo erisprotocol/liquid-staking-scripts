@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as promptly from "promptly";
+import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
+import { LedgerKey } from "@terra-money/ledger-terra-js";
 import {
   isTxError,
   LCDClient,
@@ -9,6 +9,9 @@ import {
   MsgStoreCode,
   Wallet,
 } from "@terra-money/terra.js";
+import { SignMode } from "@terra-money/terra.proto/cosmos/tx/signing/v1beta1/signing";
+import * as fs from "fs";
+import * as promptly from "promptly";
 import * as keystore from "./keystore";
 
 const DEFAULT_GAS_SETTINGS = {
@@ -57,6 +60,11 @@ export async function createWallet(
   keyName: string,
   keyDir: string
 ): Promise<Wallet> {
+  if (keyName === "ledger") {
+    const lk = await LedgerKey.create(await TransportNodeHid.create(60 * 1000));
+    return terra.wallet(lk);
+  }
+
   const password = await promptly.password(
     "Enter password to decrypt the key:"
   );
@@ -80,12 +88,22 @@ export async function waitForConfirm(msg: string) {
 export async function sendTxWithConfirm(
   signer: Wallet,
   msgs: Msg[],
-  memo?: string
+  memo?: string,
+  gas?: string
 ) {
+  console.log("🚀 ~ file: helpers.ts ~ line 95 ~ signer", signer);
+
+  let signMode: SignMode | undefined;
+  if (signer.key instanceof LedgerKey) {
+    signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+  }
+
   const tx = await signer.createAndSignTx({
     msgs,
     ...DEFAULT_GAS_SETTINGS,
     memo: memo as string,
+    gas: gas as string,
+    signMode: signMode as SignMode,
   });
   console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");
 

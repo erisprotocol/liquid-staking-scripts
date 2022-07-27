@@ -1,7 +1,7 @@
-import yargs from "yargs/yargs";
 import { MsgExecuteContract } from "@terra-money/terra.js";
-import * as keystore from "./keystore";
+import yargs from "yargs/yargs";
 import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import * as keystore from "./keystore";
 import { ExecuteMsg } from "./types/hub/execute_msg";
 
 const argv = yargs(process.argv)
@@ -31,7 +31,12 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node 10_add_validator.ts --network testnet --key testnet --hub-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --validator-address terravaloper15lsftv92eyssjwkh2393s0nhjc07kryqen2fqf
-//
+
+// ts-node 10_add_validator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --validator-address terravaloper1tz203ptlsfs8c63f2j0d0872pt5frjrvtfg0vd
+// ts-node 10_add_validator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --validator-address terravaloper10c04ysz9uznx2mkenuk3j3esjczyqh0j783nzt
+// ts-node 10_add_validator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --validator-address terravaloper1vrkzjujfds9p8t5g0xety3e3ft4dep02etv9le
+// ts-node 10_add_validator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --validator-address terravaloper1f6wuq93320s6w7vvnkc0576g9mtqfmz9a8wqxk
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);

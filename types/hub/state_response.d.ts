@@ -6,12 +6,6 @@
  */
 
 /**
- * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
- *
- * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
- */
-export type Decimal = string;
-/**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
  * # Examples
@@ -25,20 +19,29 @@ export type Decimal = string;
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
+/**
+ * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
+ *
+ * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
+ */
+export type Decimal = string;
 
 export interface StateResponse {
+  available: Uint128;
   /**
    * The exchange rate between ustake and uluna, in terms of uluna per ustake
    */
   exchange_rate: Decimal;
   /**
-   * Total amount of uluna staked
+   * Total amount of uluna staked (bonded)
    */
   total_uluna: Uint128;
   /**
    * Total supply to the Stake token
    */
   total_ustake: Uint128;
+  tvl_uluna: Uint128;
+  unbonding: Uint128;
   /**
    * Staking rewards currently held by the contract that are ready to be reinvested
    */
