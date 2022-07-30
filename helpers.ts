@@ -134,7 +134,8 @@ export async function instantiateWithConfirm(
   signer: Wallet,
   admin: string,
   codeId: number,
-  initMsg: object
+  initMsg: object,
+  label = "Eris Liquid Staking Hub"
 ) {
   const result = await sendTxWithConfirm(signer, [
     new MsgInstantiateContract(
@@ -143,9 +144,32 @@ export async function instantiateWithConfirm(
       codeId,
       initMsg,
       undefined,
-      "Eris Liquid Staking Hub"
+      label
     ),
   ]);
+  return result;
+}
+
+export async function instantiateMultipleWithConfirm(
+  signer: Wallet,
+  admin: string,
+  codeId: number,
+  init: { msg: object; label: string }[]
+) {
+  const result = await sendTxWithConfirm(
+    signer,
+    init.map(
+      (a) =>
+        new MsgInstantiateContract(
+          signer.key.accAddress,
+          admin,
+          codeId,
+          a.msg,
+          undefined,
+          a.label
+        )
+    )
+  );
   return result;
 }
 
