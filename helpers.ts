@@ -37,6 +37,7 @@ export function createLCDClient(network: string): LCDClient {
     return new LCDClient({
       chainID: "columbus-5",
       URL: "https://lcd.terra.dev",
+      gasPrices: { uluna: "5.665" },
     });
   } else if (network === "classic-testnet") {
     return new LCDClient({
