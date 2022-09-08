@@ -15,8 +15,8 @@ import * as promptly from "promptly";
 import * as keystore from "./keystore";
 
 const DEFAULT_GAS_SETTINGS = {
-  gasPrices: "0.15uluna",
-  gasAdjustment: 1.2,
+  // gasPrices: "5.665uluna",
+  // gasAdjustment: 1.2,
 };
 
 /**

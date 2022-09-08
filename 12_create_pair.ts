@@ -38,6 +38,12 @@ const argv = yargs(process.argv)
 // mainnet: https://finder.terra.money/mainnet/tx/0D5F52EA014C8B36E0ADF86CB7AC9CF30EE1C7B55A4CE4ACA5D95346A3B834B7
 // pair contract: terra1ccxwgew8aup6fysd7eafjzjz6hw89n40h273sgu3pl4lxrajnk5st2hvfh
 // lp: terra1eh2aulwsyc9m45ggeznav402xcck4ll0yn0xgtlxyf4zkwch7juqsxvfzr
+
+// classic:
+// ts-node 12_create_pair.ts --network classic --key invest --factory-address terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
+// pair terra1r8k9pea8wmt93l703azhs82kpjva0cpq8tq5at
+// lp terra1c64zl49ukr62zdzdggn36luym9edyys63xkywn
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
