@@ -125,11 +125,35 @@ const templates: Record<string, InstantiateMsg> = {
     protocol_reward_fee: "0.05",
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
   },
+  "classic-testnet": <InstantiateMsg>{
+    name: "Eris Amplified TEST",
+    symbol: "ampTEST",
+    cw20_code_id: 0,
+    decimals: 6,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "terravaloper1e6w5qgzs5rzrz8ark25lagm2ga2h9n2tvgzpsl",
+      "terravaloper1alpf6snw2d76kkwjv3dp4l7pcl6cn9uyt0tcj9",
+      "terravaloper12g4nkvsjjnl0t7fvq3hdcw7y8dc9fq69nyeu9q",
+      "terravaloper19hflr9ay8usqxsxm4zzrsxfy3xz7hp6kv4ydnd",
+      "terravaloper1fjuvyccn8hfmn5r7wc2t3kwqy09zzp6tyjcf50",
+      "terravaloper1we68q2zel6ajpxuzw5aqhh07zlxxywrkx7jcfz",
+      "terravaloper12r8929na0amxfj406zw7vk8jmd03fmzcj9r2gg",
+      "terravaloper13slfa8cc7zvmjt4wkap2lwmlkp4h3azwltlj6s",
+      "terravaloper1k5hw6rl060zpnnjhgnvky9cs8evrts2g2l28tt",
+      "terravaloper1krj7amhhagjnyg2tkkuh6l0550y733jnjnnlzy",
+    ],
+    protocol_fee_contract: "terra1rgggsspquaxjp4lmegx7a3q4l9lg44hnu7rjxa",
+    protocol_reward_fee: "0.05",
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+  },
 };
 
 // ts-node 2_deploy_hub.ts --network testnet --key testnet --hub-code-id 169 --token-code-id 125
 
 // ts-node 2_deploy_hub.ts --network classic --key ledger --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
+// ts-node 2_deploy_hub.ts --network classic-testnet --key invest --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

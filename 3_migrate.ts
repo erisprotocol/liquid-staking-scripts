@@ -55,7 +55,13 @@ const argv = yargs(process.argv)
 // ts-node 3_migrate.ts --network testnet --key ledger --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
 // ts-node 3_migrate.ts --network mainnet --key mainnet --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
 
+// Classic Testnet
+// ts-node 3_migrate.ts --network classic-testnet --key invest --key-migrate invest --contract-address terra1lpj9g73lpe8h5jmlg67r57j23grkzkuelzt2ts --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
+
+// Classic mainnet
 // ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
+
+// ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --code-id 6018  --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

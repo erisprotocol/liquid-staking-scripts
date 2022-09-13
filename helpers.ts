@@ -33,7 +33,7 @@ export function createLCDClient(network: string): LCDClient {
       chainID: "pisco-1",
       URL: "https://pisco-lcd.terra.dev",
     });
-  } else if (network === "classic") {
+  } else if (network === "classic" || network === "classic-testnet") {
     return new LCDClient({
       chainID: "columbus-5",
       URL: "https://lcd.terra.dev",

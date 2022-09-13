@@ -1,7 +1,7 @@
-import yargs from "yargs/yargs";
 import { MsgExecuteContract } from "@terra-money/terra.js";
-import * as keystore from "./keystore";
+import yargs from "yargs/yargs";
 import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import * as keystore from "./keystore";
 import { ExecuteMsg } from "./types/hub/execute_msg";
 
 const argv = yargs(process.argv)
@@ -26,7 +26,11 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ts-node 14_change_fees.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
+// Classic Testnet
+// ts-node 14_2_change_swaps.ts --network classic-testnet --key mainnet --hub-address terra1lpj9g73lpe8h5jmlg67r57j23grkzkuelzt2ts
+// Classic
+// ts-node 14_2_change_swaps.ts --network classic --key mainnet --hub-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -36,7 +40,12 @@ const argv = yargs(process.argv)
       ExecuteMsg
     >{
       update_config: {
-        protocol_reward_fee: "0",
+        swap_config: [
+          {
+            denom: "uusd",
+            contract: "terra1m6ywlgn6wrjuagcmmezzz2a029gtldhey5k552",
+          },
+        ],
       },
     }),
   ]);

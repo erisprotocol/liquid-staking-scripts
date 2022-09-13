@@ -34,6 +34,13 @@ const argv = yargs(process.argv)
 
 // terra14lr9zdfn0d5gxjwafh3mg5nrrculj4dndunynve452zws2lzyd3smx46ta
 // terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
+
+// Astroport classic terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g
+// ts-node 13_provide_liquidity.ts --network classic --key invest --factory-address terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
+
+// Terraswap classic
+// ts-node 13_provide_liquidity.ts --network classic --key invest --factory-address terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);

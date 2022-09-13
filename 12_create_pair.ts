@@ -41,8 +41,10 @@ const argv = yargs(process.argv)
 
 // classic:
 // ts-node 12_create_pair.ts --network classic --key invest --factory-address terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
-// pair terra1r8k9pea8wmt93l703azhs82kpjva0cpq8tq5at
-// lp terra1c64zl49ukr62zdzdggn36luym9edyys63xkywn
+// pair luna terra1r8k9pea8wmt93l703azhs82kpjva0cpq8tq5at
+// lp luna terra1c64zl49ukr62zdzdggn36luym9edyys63xkywn
+// pair ust	terra1305xtjl5qtlpdlp8gg0k8u4yl05hj7qvyffvd4
+// lp ust terra14nhfccre389ypnmfr5s462gyhe05naqzwumss0
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -62,15 +64,13 @@ const argv = yargs(process.argv)
             },
             {
               native_token: {
-                denom: "uluna",
+                denom: "uusd",
               },
             },
           ],
         },
       },
-      {
-        uluna: "100",
-      }
+      {}
     ),
   ]);
   console.log(`Success! Txhash: ${txhash}`);
