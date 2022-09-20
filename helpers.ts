@@ -44,6 +44,16 @@ export function createLCDClient(network: string): LCDClient {
       chainID: "bombay-12",
       URL: "https://bombay-lcd.terra.dev",
     });
+  } else if (network === "juno") {
+    return new LCDClient({
+      chainID: "juno-1",
+      // URL: "https://juno-api.polkachu.com",
+      URL: "https://lcd-juno.whispernode.com",
+      gasPrices: {
+        ujuno: "0.0025",
+      },
+      gasAdjustment: 1.3,
+    });
   } else if (network === "localterra") {
     return new LocalTerra();
   } else {
@@ -65,11 +75,20 @@ export async function createWallet(
     const lk = await LedgerKey.create(await TransportNodeHid.create(60 * 1000));
     return terra.wallet(lk);
   }
+  if (keyName === "ledger-juno") {
+    const lk = await JunoLedgerKey.create(
+      await TransportNodeHid.create(60 * 1000)
+    );
+
+    return terra.wallet(lk);
+  }
 
   const password = await promptly.password(
     "Enter password to decrypt the key:"
   );
-  return terra.wallet(keystore.load(keyName, keyDir, password));
+  const key = keystore.load(keyName, keyDir, password);
+  console.log("🚀 ~ file: helpers.ts ~ line 90 ~ key", key);
+  return terra.wallet(key);
 }
 
 /**

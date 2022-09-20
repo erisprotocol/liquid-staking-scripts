@@ -68,6 +68,7 @@ const argv = yargs(process.argv)
 // ts-node 2_deploy.ts --network mainnet --key mainnet --token-code-id 12 --yield-extract-addr terra10ge6t62gzesz378e09kkgqvx9ev7tf6xcl0as0 --name Angel
 // ts-node 2_deploy.ts --network mainnet --key ledger --token-code-id 12 --yield-extract-addr terra10ge6t62gzesz378e09kkgqvx9ev7tf6xcl0as0 --contract-code-id 292 --name Angel
 // ts-node 2_deploy.ts --network mainnet --key ledger --token-code-id 12 --yield-extract-addr terra1tz203ptlsfs8c63f2j0d0872pt5frjrvtxyju7 --contract-code-id 292 --name Burn
+// ts-node 2_deploy.ts --network mainnet --key ledger --token-code-id 12 --yield-extract-addr terra16f874e52x5704ecrxyg5m9ljfv20cn0hajpng7 --contract-code-id 292 --name Spaces
 
 async function uploadCode(deployer: Wallet, path: string) {
   await waitForConfirm(`Upload code ${path}?`);

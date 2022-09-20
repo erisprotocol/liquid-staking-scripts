@@ -148,6 +148,25 @@ const templates: Record<string, InstantiateMsg> = {
     protocol_reward_fee: "0.05",
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
   },
+  juno: <InstantiateMsg>{
+    name: "Eris Amplified JUNO",
+    symbol: "ampJUNO",
+    cw20_code_id: 0,
+    decimals: 6,
+    epoch_period: 4 * 24 * 60 * 60,
+    unbond_period: 28 * 24 * 60 * 60,
+    validators: [
+      "junovaloper17n3w6v5q3n0tws4xv8upd9ul4qqes0nlg7q0xd", // Imperator
+      "junovaloper1083svrca4t350mphfv9x45wq9asrs60cpqzg0y", // Notional
+      "junovaloper1gp957czryfgyvxwn3tfnyy2f0t9g2p4pvzc6k3", // Polkachu
+      "junovaloper1ncu32g0lzhk0epzdar7smd3qv9da2n8w8mwn4k", // CryptoCrew
+      "junovaloper13qjgwewgrwu979wn8xxrh274rjtwk4m5gqkehp", // Danku
+      "junovaloper1y3u3ht35yn82j72sejtf85dkvqwlt302x47lk9", // Coinhall
+    ],
+    protocol_fee_contract: "juno1z3txc4x7scxsypx9tgynyfhu48nw60a5n83vrk",
+    protocol_reward_fee: "0.05",
+    owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
+  },
 };
 
 // ts-node 2_deploy_hub.ts --network testnet --key testnet --hub-code-id 169 --token-code-id 125
@@ -155,6 +174,8 @@ const templates: Record<string, InstantiateMsg> = {
 // ts-node 2_deploy_hub.ts --network classic --key ledger --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 // ts-node 2_deploy_hub.ts --network classic-testnet --key invest --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 
+// ts-node 2_deploy_hub.ts --network juno --key mainnet-juno --hub-code-id 1016 --token-code-id 1017 --hub-binary "../contracts-juno/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-juno/artifacts/eris_staking_token.wasm"
+// Hub-Code 1016 , you need to edit bech32 and pubkey of terrajs node_modules
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);

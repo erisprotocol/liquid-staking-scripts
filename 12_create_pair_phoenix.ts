@@ -39,6 +39,10 @@ const argv = yargs(process.argv)
 // pair contract: terra1ccxwgew8aup6fysd7eafjzjz6hw89n40h273sgu3pl4lxrajnk5st2hvfh
 // lp: terra1eh2aulwsyc9m45ggeznav402xcck4ll0yn0xgtlxyf4zkwch7juqsxvfzr
 
+// mainnet astro
+// factory: terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r
+// ts-node 12_create_pair_phoenix.ts --network mainnet --key mainnet --factory-address terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
+
 // classic astroport
 // ts-node 12_create_pair_phoenix.ts --network classic --key invest --factory-address terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
 // https://finder.terra.money/classic/tx/31007f756f300a65898750a589422bf7dd7779e85705b1fcc62f832245e88836
