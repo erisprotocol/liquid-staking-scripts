@@ -7,8 +7,8 @@ import {
   sendTxWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
-} from "./../helpers";
-import * as keystore from "./../keystore";
+} from "../helpers";
+import * as keystore from "../keystore";
 
 const argv = yargs(process.argv)
   .options({

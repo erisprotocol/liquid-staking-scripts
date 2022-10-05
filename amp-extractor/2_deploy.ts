@@ -9,9 +9,9 @@ import {
   instantiateMultipleWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
-} from "./../helpers";
-import * as keystore from "./../keystore";
-import { InstantiateMsg } from "./../types/yield-extractor/instantiate_msg";
+} from "../helpers";
+import * as keystore from "../keystore";
+import { InstantiateMsg } from "../types/yield-extractor/instantiate_msg";
 
 const argv = yargs(process.argv)
   .options({

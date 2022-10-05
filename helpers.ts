@@ -75,13 +75,13 @@ export async function createWallet(
     const lk = await LedgerKey.create(await TransportNodeHid.create(60 * 1000));
     return terra.wallet(lk);
   }
-  if (keyName === "ledger-juno") {
-    const lk = await JunoLedgerKey.create(
-      await TransportNodeHid.create(60 * 1000)
-    );
+  // if (keyName === "ledger-juno") {
+  //   const lk = await JunoLedgerKey.create(
+  //     await TransportNodeHid.create(60 * 1000)
+  //   );
 
-    return terra.wallet(lk);
-  }
+  //   return terra.wallet(lk);
+  // }
 
   const password = await promptly.password(
     "Enter password to decrypt the key:"

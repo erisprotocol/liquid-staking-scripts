@@ -61,11 +61,11 @@ const argv = yargs(process.argv)
 // Classic mainnet
 // ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
 
-// ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --code-id 6018  --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
+// 6065
+// ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --code-id 6064  --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
-  const upload = await createWallet(terra, argv["key"], argv["key-dir"]);
   const admin = await createWallet(
     terra,
     argv["key-migrate"] || argv.key,
@@ -74,6 +74,7 @@ const argv = yargs(process.argv)
 
   let codeId = argv["code-id"];
   if (!codeId) {
+    const upload = await createWallet(terra, argv["key"], argv["key-dir"]);
     codeId = await storeCodeWithConfirm(upload, path.resolve(argv["binary"]));
     console.log(`Code uploaded! codeId: ${codeId}`);
     await waitForConfirm("Proceed to migrate contract?");
