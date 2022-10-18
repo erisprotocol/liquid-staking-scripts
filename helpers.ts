@@ -27,17 +27,20 @@ export function createLCDClient(network: string): LCDClient {
     return new LCDClient({
       chainID: "phoenix-1",
       URL: "https://phoenix-lcd.terra.dev",
+      gasAdjustment: 1.2,
     });
   } else if (network === "testnet") {
     return new LCDClient({
       chainID: "pisco-1",
       URL: "https://pisco-lcd.terra.dev",
+      gasAdjustment: 1.5,
     });
   } else if (network === "classic" || network === "classic-testnet") {
     return new LCDClient({
       chainID: "columbus-5",
       URL: "https://lcd.terra.dev",
       gasPrices: { uluna: "5.665" },
+      gasAdjustment: 1.2,
     });
   } else if (network === "classic-testnet") {
     return new LCDClient({

@@ -36,6 +36,8 @@ const argv = yargs(process.argv)
 
 // ts-node 3_instantiate_generator.ts --network testnet --key testnet --contract-code-id 4550 --label "Eris Governance Proxy"
 
+// ts-node 3_instantiate_generator.ts --network mainnet --key ledger --contract-code-id 515 --label "Eris Governance Proxy"
+
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
     astro_gov: {
@@ -58,6 +60,29 @@ const templates: Record<string, InstantiateMsg> = {
       "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
     max_quota: "0",
     owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
+    staker_rate: "0.5",
+  },
+  mainnet: <InstantiateMsg>{
+    astro_gov: {
+      fee_distributor:
+        "terra1ksvlfex49desf4c452j6dewdjs6c48nafemetuwjyj6yexd7x3wqvwa7j9", //
+      generator_controller:
+        "terra1ksvlfex49desf4c452j6dewdjs6c48nafemetuwjyj6yexd7x3wqvwa7j9", //
+      voting_escrow:
+        "terra1ksvlfex49desf4c452j6dewdjs6c48nafemetuwjyj6yexd7x3wqvwa7j9", //
+      xastro_token:
+        "terra1x62mjnme4y0rdnag3r8rfgjuutsqlkkyuh4ndgex0wl3wue25uksau39q8", //
+    },
+    astro_token:
+      "terra1nsuqsk6kh58ulczatwev87ttq2z6r3pusulg9r24mfj2fvtzd4uq3exn26", //
+    boost_fee: "0.01",
+    controller: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup", //
+    fee_collector:
+      "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9", //
+    generator:
+      "terra1ksvlfex49desf4c452j6dewdjs6c48nafemetuwjyj6yexd7x3wqvwa7j9", //
+    max_quota: "0",
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl", //
     staker_rate: "0.5",
   },
 };

@@ -32,6 +32,8 @@ const argv = yargs(process.argv)
 
 // ts-node 2_instantiate_fee_collector.ts --network testnet --key testnet --contract-code-id 4549
 
+// ts-node 2_instantiate_fee_collector.ts --network mainnet --key ledger --contract-code-id 514
+
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
     // astroport factory
@@ -53,6 +55,30 @@ const templates: Record<string, InstantiateMsg> = {
       },
     ],
   },
+  mainnet: <InstantiateMsg>{
+    // astroport factory
+    factory_contract:
+      "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r",
+    max_spread: "0.01",
+    operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    stablecoin: { native_token: { denom: "uluna" } },
+    target_list: [
+      {
+        addr: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+        weight: 1,
+        msg: Buffer.from(JSON.stringify({ donate: {} })).toString("base64"),
+      },
+      {
+        addr: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
+        weight: 1,
+      },
+      {
+        addr: "terra1rgggsspquaxjp4lmegx7a3q4l9lg44hnu7rjxa",
+        weight: 3,
+      },
+    ],
+  },
 };
 
 (async function () {
@@ -60,6 +86,7 @@ const templates: Record<string, InstantiateMsg> = {
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
   const msg = templates[argv["network"]];
+  console.log("🚀 ~ file: 2_instantiate_fee_collector.ts ~ line 89 ~ msg", msg);
 
   const result = await instantiateWithConfirm(
     deployer,

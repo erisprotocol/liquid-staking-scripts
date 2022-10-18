@@ -36,31 +36,10 @@ const argv = yargs(process.argv)
 
 // ts-node 4_instantiate_compound.ts --network testnet --key testnet --contract-code-id 4548 --label "Eris Zapper"
 
+// ts-node 4_instantiate_compound.ts --network mainnet --key ledger --contract-code-id 513 --label "Eris Zapper"
+
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
-    //   astro_gov: {
-    //     fee_distributor:
-    //       "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
-    //     generator_controller:
-    //       "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
-    //     voting_escrow:
-    //       "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
-    //     xastro_token:
-    //       "terra1ctzthkc0nzseppqtqlwq9mjwy9gq8ht2534rtcj3yplerm06snmqfc5ucr",
-    //   },
-    //   astro_token:
-    //     "terra167dsqkh2alurx997wmycw9ydkyu54gyswe3ygmrs4lwume3vmwks8ruqnv",
-    //   boost_fee: "0.01",
-    //   controller: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
-    //   fee_collector:
-    //     "terra1250jufq9xdxkkgakx27elqzch53curh94tyy0gugd2k35kmjnszs9zawyf",
-    //   generator:
-    //     "terra1gc4d4v82vjgkz0ag28lrmlxx3tf6sq69tmaujjpe7jwmnqakkx0qm28j2l",
-    //   max_quota: "0",
-    //   owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
-    //   staker_rate: "0.5",
-    // },
-
     factory: "terra1z3y69xas85r7egusa0c7m5sam0yk97gsztqmh8f2cc6rr4s4anysudp7k0",
     lps: [
       {
@@ -103,6 +82,84 @@ const templates: Record<string, InstantiateMsg> = {
       },
     ],
     owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
+    routes: [],
+  },
+  mainnet: <InstantiateMsg>{
+    factory: "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r",
+    lps: [
+      // axlUSDC-axlUSDT
+      {
+        commission_bps: 5,
+        pair_contract:
+          "terra1ygn5h8v8rm0v8y57j3mtu3mjr2ywu9utj6jch6e0ys2fc2pkyddqekwrew",
+        slippage_tolerance: "0.01",
+        wanted_token: {
+          native_token: {
+            denom:
+              "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+          },
+        },
+      },
+      // LUNA-axlUSDC
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra1fd68ah02gr2y8ze7tm9te7m70zlmc7vjyyhs6xlhsdmqqcjud4dql4wpxr",
+        slippage_tolerance: "0.01",
+        wanted_token: { native_token: { denom: "uluna" } },
+      },
+      // VKR-axlUSDC
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra1alzkrc6hkvs8g5a064cukfxnv0jj4l3l8vhgfypfxvysk78v6dgqsymgmv",
+        slippage_tolerance: "0.01",
+        wanted_token: {
+          native_token: {
+            denom:
+              "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+          },
+        },
+      },
+      // ASTRO-axlUSDC
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra1w579ysjvpx7xxhckxewk8sykxz70gm48wpcuruenl29rhe6p6raslhj0m6",
+        slippage_tolerance: "0.01",
+        wanted_token: {
+          token: {
+            contract_addr:
+              "terra1nsuqsk6kh58ulczatwev87ttq2z6r3pusulg9r24mfj2fvtzd4uq3exn26",
+          },
+        },
+      },
+      // TPT-LUNA
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra15l5pqlp8q5d4z8tvermadvp429d8pfctg4j802t8edzkf8aavp7q59t7er",
+        slippage_tolerance: "0.01",
+        wanted_token: { native_token: { denom: "uluna" } },
+      },
+      // LUNAX-LUNA
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra1mpj7j25fw5a0q5vfasvsvdp6xytaqxh006lh6f5zpwxvadem9hwsy6m508",
+        slippage_tolerance: "0.01",
+        wanted_token: { native_token: { denom: "uluna" } },
+      },
+      // ampLUNA-LUNA
+      {
+        commission_bps: 30,
+        pair_contract:
+          "terra1cr8dg06sh343hh4xzn3gxd3ayetsjtet7q5gp4kfrewul2kql8sqvhaey4",
+        slippage_tolerance: "0.01",
+        wanted_token: { native_token: { denom: "uluna" } },
+      },
+    ],
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     routes: [],
   },
 };

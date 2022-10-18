@@ -45,7 +45,8 @@ const argv = yargs(process.argv)
     binary: {
       type: "string",
       demandOption: false,
-      default: "./../../cw-plus/artifacts/cw20_ics20.wasm",
+      // default: "./../../cw-plus/artifacts/cw20_ics20.wasm",
+      default: "cw20_ics20_090.wasm",
     },
   })
   .parseSync();
@@ -85,11 +86,25 @@ const templates: Record<string, InitCw20> = {
     default_timeout: 900,
     gov_contract: "",
   },
+  classic: {
+    allowlist: [
+      {
+        contract: "terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm",
+      },
+    ],
+    default_timeout: 900,
+    gov_contract: "",
+  },
 };
 
 // ts-node 2_deploy_ics.ts --network mainnet --key ledger --key-upload invest --code-id 441
 // mainnet code 441
 // mainnet contract terra1e0mrzy8077druuu42vs0hu7ugguade0cj65dgtauyaw4gsl4kv0qtdf2au
+
+// Classic
+// ts-node 2_deploy_ics.ts --network classic --key ledger --key-upload invest
+// classic code 6193
+// classic contract terra1z5a8d75p2vl7528d7wuqhnl6dr0umyqm675h56
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
