@@ -1,7 +1,7 @@
-import yargs from "yargs/yargs";
 import { MsgExecuteContract } from "@terra-money/terra.js";
-import * as keystore from "./keystore";
+import yargs from "yargs/yargs";
 import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import * as keystore from "./keystore";
 
 const argv = yargs(process.argv)
   .options({
