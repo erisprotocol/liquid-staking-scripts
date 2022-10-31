@@ -5,6 +5,12 @@
     "dev:harvester": "yarn dev:bot bots/harvester.ts"
   },
   "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.29.3",
+    "@cosmjs/launchpad": "^0.27.1",
+    "@cosmjs/ledger-amino": "^0.29.3",
+    "@cosmjs/proto-signing": "^0.29.3",
+    "@cosmjs/stargate": "^0.29.3",
+    "@cosmjs/tendermint-rpc": "^0.29.3",
     "@cosmostation/cosmosjs": "^0.11.2",
     "@ledgerhq/hw-transport-node-hid": "^6.27.1",
     "@ledgerhq/hw-transport-webhid": "^6.27.4",
