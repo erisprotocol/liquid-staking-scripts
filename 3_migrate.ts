@@ -1,9 +1,10 @@
-import { MsgMigrateContract } from "@terra-money/terra.js";
+import { MsgMigrateContract } from "@terra-money/feather.js";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   sendTxWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
@@ -53,6 +54,8 @@ const argv = yargs(process.argv)
 // testnet
 // ts-node 3_migrate.ts --network testnet --key testnet --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
 // ts-node 3_migrate.ts --network testnet --key ledger --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// ts-node 3_migrate.ts --network testnet --key ledger --key-migrate ledger --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --code-id 5415
+
 // ts-node 3_migrate.ts --network mainnet --key mainnet --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
 
 // Classic Testnet
@@ -60,9 +63,14 @@ const argv = yargs(process.argv)
 
 // Classic mainnet
 // ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
+// ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --code-id 6370
 
 // 6065
 // ts-node 3_migrate.ts --network classic --key invest --key-migrate ledger --contract-address terra1zmf49p3wl7ck2cwer7kghzumfpwhfqk6x893ah --code-id 6064  --binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm"
+
+// JUNO
+// ts-node 3_migrate.ts --network ledger-juno --key mainnet-juno --key-migrate mainnet-juno --contract-address juno17cya4sw72h4886zsm2lk3udxaw5m8ssgpsl6nd6xl6a4ukepdgkqeuv99x --code-id 1570 --binary "../contracts-juno/artifacts/eris_staking_hub.wasm"
+// 1570
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -82,7 +90,7 @@ const argv = yargs(process.argv)
 
   const { txhash } = await sendTxWithConfirm(admin, [
     new MsgMigrateContract(
-      admin.key.accAddress,
+      admin.key.accAddress(getPrefix()),
       argv["contract-address"],
       codeId,
       JSON.parse(argv["msg"])

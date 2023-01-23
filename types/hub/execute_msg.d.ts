@@ -55,7 +55,20 @@ export type ExecuteMsg =
       };
     }
   | {
+      vote: {
+        proposal_id: number;
+        vote: VoteOption;
+        [k: string]: unknown;
+      };
+    }
+  | {
+      tune_delegations: {
+        [k: string]: unknown;
+      };
+    }
+  | {
       rebalance: {
+        min_redelegation?: Uint128 | null;
         [k: string]: unknown;
       };
     }
@@ -75,6 +88,10 @@ export type ExecuteMsg =
   | {
       update_config: {
         /**
+         * Strategy how delegations should be handled
+         */
+        delegation_strategy?: DelegationStrategyFor_String | null;
+        /**
          * Contract address where fees are sent
          */
         protocol_fee_contract?: string | null;
@@ -82,6 +99,7 @@ export type ExecuteMsg =
          * Fees that are being applied during reinvest of staking rewards
          */
         protocol_reward_fee?: Decimal | null;
+        vote_operator?: string | null;
         [k: string]: unknown;
       };
     };
@@ -102,14 +120,53 @@ export type Uint128 = string;
 /**
  * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
  *
- * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>
+ * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
 export type Binary = string;
-export type CallbackMsg = {
-  reinvest: {
-    [k: string]: unknown;
-  };
-};
+export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+export type CallbackMsg =
+  | {
+      reinvest: {
+        [k: string]: unknown;
+      };
+    }
+  | {
+      check_received_coin: {
+        snapshot: Coin;
+        [k: string]: unknown;
+      };
+    };
+export type DelegationStrategyFor_String =
+  | "uniform"
+  | {
+      gauges: {
+        /**
+         * weight between amp and emp gauges between 0 and 1
+         */
+        amp_factor_bps: number;
+        /**
+         * gauges based on vAmp voting
+         */
+        amp_gauges: string;
+        /**
+         * gauges based on eris merit points
+         */
+        emp_gauges?: string | null;
+        /**
+         * max amount of delegation needed
+         */
+        max_delegation_bps: number;
+        /**
+         * min amount of delegation needed
+         */
+        min_delegation_bps: number;
+        /**
+         * count of validators that should receive delegations
+         */
+        validator_count: number;
+        [k: string]: unknown;
+      };
+    };
 /**
  * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
  *
@@ -124,5 +181,10 @@ export interface Cw20ReceiveMsg {
   amount: Uint128;
   msg: Binary;
   sender: string;
+  [k: string]: unknown;
+}
+export interface Coin {
+  amount: Uint128;
+  denom: string;
   [k: string]: unknown;
 }

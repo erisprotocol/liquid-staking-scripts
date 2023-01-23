@@ -31,7 +31,22 @@ export type ExecuteMsg =
          * slippage tolerance when providing LP
          */
         slippage_tolerance?: Decimal | null;
-        [k: string]: unknown;
+      };
+    }
+  | {
+      multi_swap: {
+        /**
+         * List of reward asset send to compound
+         */
+        assets: Description[];
+        /**
+         * LP into which the assets should be compounded into
+         */
+        into: AssetInfo;
+        /**
+         * Receiver address for LP token
+         */
+        receiver?: string | null;
       };
     }
   | {
@@ -44,7 +59,6 @@ export type ExecuteMsg =
          * The newly proposed owner
          */
         owner: string;
-        [k: string]: unknown;
       };
     }
   | {
@@ -55,18 +69,13 @@ export type ExecuteMsg =
         insert_routes?: RouteInit[] | null;
         remove_factory?: boolean | null;
         upsert_lps?: LpInit[] | null;
-        [k: string]: unknown;
       };
     }
   | {
-      drop_ownership_proposal: {
-        [k: string]: unknown;
-      };
+      drop_ownership_proposal: {};
     }
   | {
-      claim_ownership: {
-        [k: string]: unknown;
-      };
+      claim_ownership: {};
     }
   | {
       callback: CallbackMsg;
@@ -123,7 +132,6 @@ export type RouteInit =
         route: AssetInfo[];
         router: string;
         router_type: RouterType;
-        [k: string]: unknown;
       };
     }
   | {
@@ -133,7 +141,6 @@ export type RouteInit =
          * when specified, a pair can be defined as a single direction
          */
         single_direction_from?: AssetInfo | null;
-        [k: string]: unknown;
       };
     };
 export type RouterType = "astro_swap" | "terra_swap" | "token_swap";
@@ -144,7 +151,6 @@ export type CallbackMsg =
   | {
       optimal_swap: {
         lp_token: string;
-        [k: string]: unknown;
       };
     }
   | {
@@ -153,7 +159,12 @@ export type CallbackMsg =
         prev_balances: Description[];
         receiver: string;
         slippage_tolerance?: Decimal | null;
-        [k: string]: unknown;
+      };
+    }
+  | {
+      send_swap_result: {
+        receiver: string;
+        token: AssetInfo;
       };
     };
 
@@ -175,7 +186,6 @@ export interface RouteDelete {
   both?: boolean | null;
   from: AssetInfo;
   to: AssetInfo;
-  [k: string]: unknown;
 }
 export interface LpInit {
   /**
@@ -194,5 +204,4 @@ export interface LpInit {
    * Token used for providing liquidity
    */
   wanted_token: AssetInfo;
-  [k: string]: unknown;
 }

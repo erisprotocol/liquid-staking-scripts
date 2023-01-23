@@ -5,6 +5,37 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type DelegationStrategyFor_String =
+  | "uniform"
+  | {
+      gauges: {
+        /**
+         * weight between amp and emp gauges between 0 and 1
+         */
+        amp_factor_bps: number;
+        /**
+         * gauges based on vAmp voting
+         */
+        amp_gauges: string;
+        /**
+         * gauges based on eris merit points
+         */
+        emp_gauges?: string | null;
+        /**
+         * max amount of delegation needed
+         */
+        max_delegation_bps: number;
+        /**
+         * min amount of delegation needed
+         */
+        min_delegation_bps: number;
+        /**
+         * count of validators that should receive delegations
+         */
+        validator_count: number;
+        [k: string]: unknown;
+      };
+    };
 /**
  * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
  *
@@ -21,6 +52,10 @@ export interface InstantiateMsg {
    * Number of decimals of the liquid staking token
    */
   decimals: number;
+  /**
+   * Strategy how delegations should be handled
+   */
+  delegation_strategy?: DelegationStrategyFor_String | null;
   /**
    * How often the unbonding queue is to be executed, in seconds
    */
@@ -53,5 +88,6 @@ export interface InstantiateMsg {
    * Initial set of validators who will receive the delegations
    */
   validators: string[];
+  vote_operator?: string | null;
   [k: string]: unknown;
 }

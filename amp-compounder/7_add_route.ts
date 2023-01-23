@@ -27,6 +27,7 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node 7_add_route.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
+// ts-node 7_add_route.ts --network testnet --key testnet --contract terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -61,28 +62,28 @@ const argv = yargs(process.argv)
             //     router_type: "astro_swap",
             //   },
             // },
-            {
-              path: {
-                route: [
-                  {
-                    token: {
-                      contract_addr:
-                        "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
-                    },
-                  },
-                  { native_token: { denom: "uluna" } },
-                  {
-                    native_token: {
-                      denom:
-                        "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
-                    },
-                  },
-                ],
-                router:
-                  "terra1j8hayvehh3yy02c2vtw5fdhz9f4drhtee8p5n5rguvg3nyd6m83qd2y90a",
-                router_type: "astro_swap",
-              },
-            },
+            // {
+            //   path: {
+            //     route: [
+            //       {
+            //         token: {
+            //           contract_addr:
+            //             "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
+            //         },
+            //       },
+            //       { native_token: { denom: "uluna" } },
+            //       {
+            //         native_token: {
+            //           denom:
+            //             "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+            //         },
+            //       },
+            //     ],
+            //     router:
+            //       "terra1j8hayvehh3yy02c2vtw5fdhz9f4drhtee8p5n5rguvg3nyd6m83qd2y90a",
+            //     router_type: "astro_swap",
+            //   },
+            // },
           ],
         },
       }),

@@ -5,6 +5,37 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type DelegationStrategyFor_String =
+  | "uniform"
+  | {
+      gauges: {
+        /**
+         * weight between amp and emp gauges between 0 and 1
+         */
+        amp_factor_bps: number;
+        /**
+         * gauges based on vAmp voting
+         */
+        amp_gauges: string;
+        /**
+         * gauges based on eris merit points
+         */
+        emp_gauges?: string | null;
+        /**
+         * max amount of delegation needed
+         */
+        max_delegation_bps: number;
+        /**
+         * min amount of delegation needed
+         */
+        min_delegation_bps: number;
+        /**
+         * count of validators that should receive delegations
+         */
+        validator_count: number;
+        [k: string]: unknown;
+      };
+    };
 /**
  * A human readable address.
  *
@@ -23,6 +54,10 @@ export type Addr = string;
 export type Decimal = string;
 
 export interface ConfigResponse {
+  /**
+   * Defines how delegations are spread out
+   */
+  delegation_strategy: DelegationStrategyFor_String;
   /**
    * How often the unbonding queue is to be executed, in seconds
    */

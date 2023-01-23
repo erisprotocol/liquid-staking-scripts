@@ -1,14 +1,13 @@
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
-import { LedgerKey } from "@terra-money/ledger-terra-js";
 import {
   isTxError,
   LCDClient,
-  LocalTerra,
   Msg,
   MsgInstantiateContract,
   MsgStoreCode,
   Wallet,
-} from "@terra-money/terra.js";
+} from "@terra-money/feather.js";
+import { LedgerKey } from "@terra-money/ledger-station-js";
 import { SignMode } from "@terra-money/terra.proto/cosmos/tx/signing/v1beta1/signing";
 import * as fs from "fs";
 import * as promptly from "promptly";
@@ -19,51 +18,107 @@ const DEFAULT_GAS_SETTINGS = {
   // gasAdjustment: 1.2,
 };
 
+let current_network:
+  | "juno"
+  | "classic"
+  | "ledger"
+  | "ledger-juno"
+  | "mainnet"
+  | "testnet" = "testnet";
+
+export function getChainId() {
+  switch (current_network) {
+    case "juno":
+      return "juno-1";
+    case "ledger":
+      return "phoenix-1";
+    case "mainnet":
+      return "phoenix-1";
+    case "testnet":
+      return "pisco-1";
+    case "classic":
+      return "columbus-5";
+    case "ledger-juno":
+      return "juno-1";
+    default: {
+    }
+  }
+  throw new Error("unknown network");
+}
+
+export function getPrefix() {
+  switch (current_network) {
+    case "juno":
+      return "juno";
+    case "ledger":
+      return "terra";
+    case "mainnet":
+      return "terra";
+    case "testnet":
+      return "terra";
+    case "classic":
+      return "terra";
+    case "ledger-juno":
+      return "juno";
+    default: {
+    }
+  }
+  throw new Error("unknown network");
+}
+
 /**
  * @notice Create an `LCDClient` instance based on provided network identifier
  */
 export function createLCDClient(network: string): LCDClient {
-  if (network === "mainnet") {
-    return new LCDClient({
-      chainID: "phoenix-1",
-      URL: "https://phoenix-lcd.terra.dev",
-      gasAdjustment: 1.2,
-    });
-  } else if (network === "testnet") {
-    return new LCDClient({
-      chainID: "pisco-1",
-      URL: "https://pisco-lcd.terra.dev",
-      gasAdjustment: 1.5,
-    });
-  } else if (network === "classic" || network === "classic-testnet") {
-    return new LCDClient({
-      chainID: "columbus-5",
-      URL: "https://lcd.terra.dev",
-      gasPrices: { uluna: "5.665" },
-      gasAdjustment: 1.2,
-    });
-  } else if (network === "classic-testnet") {
-    return new LCDClient({
-      chainID: "bombay-12",
-      URL: "https://bombay-lcd.terra.dev",
-    });
-  } else if (network === "juno") {
-    return new LCDClient({
+  current_network = network as any;
+
+  return new LCDClient({
+    ...(network === "mainnet" || network === "ledger"
+      ? {
+          "phoenix-1": {
+            chainID: "phoenix-1",
+            lcd: "https://phoenix-lcd.terra.dev",
+            gasAdjustment: 1.2,
+            prefix: "terra",
+            gasPrices: { uluna: 0.015 },
+          },
+        }
+      : {}),
+
+    ...(network === "testnet"
+      ? {
+          "pisco-1": {
+            chainID: "pisco-1",
+            lcd: "https://pisco-lcd.terra.dev",
+            gasAdjustment: 1.5,
+            prefix: "terra",
+            gasPrices: { uluna: 0.015 },
+          },
+        }
+      : {}),
+
+    ...(network === "classic"
+      ? {
+          "columbus-5": {
+            chainID: "columbus-5",
+            lcd: "https://lcd.terra.dev",
+            gasPrices: { uluna: "28.325" },
+            gasAdjustment: 1.2,
+            prefix: "terra",
+          },
+        }
+      : {}),
+
+    "juno-1": {
       chainID: "juno-1",
-      // URL: "https://juno-api.polkachu.com",
-      URL: "https://lcd-juno.whispernode.com",
+      lcd: "https://juno-api.polkachu.com",
       gasPrices: {
         ujuno: "0.0025",
       },
       gasAdjustment: 1.3,
-    });
-  } else if (network === "localterra") {
-    return new LocalTerra();
-  } else {
-    throw new Error(
-      `invalid network: ${network}, must be mainnet|testnet|localterra|classic-testnet`
-    );
-  }
+      prefix: "juno",
+    },
+  });
 }
 
 /**
@@ -75,7 +130,16 @@ export async function createWallet(
   keyDir: string
 ): Promise<Wallet> {
   if (keyName === "ledger") {
-    const lk = await LedgerKey.create(await TransportNodeHid.create(60 * 1000));
+    const lk = await LedgerKey.create({
+      transport: await TransportNodeHid.create(60 * 1000),
+    });
+    return terra.wallet(lk);
+  }
+  if (keyName === "ledger-juno") {
+    const lk = await LedgerKey.create({
+      transport: await TransportNodeHid.create(60 * 1000),
+      coinType: 118,
+    });
     return terra.wallet(lk);
   }
   // if (keyName === "ledger-juno") {
@@ -90,7 +154,6 @@ export async function createWallet(
     "Enter password to decrypt the key:"
   );
   const key = keystore.load(keyName, keyDir, password);
-  console.log("🚀 ~ file: helpers.ts ~ line 90 ~ key", key);
   return terra.wallet(key);
 }
 
@@ -112,41 +175,60 @@ export async function sendTxWithConfirm(
   signer: Wallet,
   msgs: Msg[],
   memo?: string,
-  gas?: string
+  gas?: string,
+  confirm = true
 ) {
-  console.log("🚀 ~ file: helpers.ts ~ line 95 ~ signer", signer);
+  try {
+    let signMode: SignMode | undefined;
+    if (signer.key instanceof LedgerKey) {
+      signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+    }
 
-  let signMode: SignMode | undefined;
-  if (signer.key instanceof LedgerKey) {
-    signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+    const x = {
+      msgs,
+      ...DEFAULT_GAS_SETTINGS,
+      memo: memo as string,
+      gas: gas as string,
+      signMode: signMode as SignMode,
+      chainID: getChainId(),
+    };
+    console.log("🚀 ~ file: helpers.ts:195 ~ x", x);
+    const tx = await signer.createAndSignTx(x);
+    console.log("🚀 ~ file: helpers.ts:195 ~ tx", tx);
+
+    if (confirm) {
+      console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");
+
+      await waitForConfirm("Confirm transaction before broadcasting");
+    }
+
+    const result = await signer.lcd.tx.broadcast(tx, getChainId());
+    if (isTxError(result)) {
+      throw new Error(`tx failed! raw log: ${result.raw_log}`);
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-
-  const tx = await signer.createAndSignTx({
-    msgs,
-    ...DEFAULT_GAS_SETTINGS,
-    memo: memo as string,
-    gas: gas as string,
-    signMode: signMode as SignMode,
-  });
-  console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");
-
-  await waitForConfirm("Confirm transaction before broadcasting");
-
-  const result = await signer.lcd.tx.broadcast(tx);
-  if (isTxError(result)) {
-    throw new Error(`tx failed! raw log: ${result.raw_log}`);
-  }
-  return result;
 }
 
 /**
  * @notice Same with `storeCode`, but requires confirmation for CLI before broadcasting
  */
-export async function storeCodeWithConfirm(signer: Wallet, filePath: string) {
+export async function storeCodeWithConfirm(
+  signer: Wallet,
+  filePath: string,
+  confirm = true
+) {
   const code = fs.readFileSync(filePath).toString("base64");
-  const result = await sendTxWithConfirm(signer, [
-    new MsgStoreCode(signer.key.accAddress, code),
-  ]);
+  const result = await sendTxWithConfirm(
+    signer,
+    [new MsgStoreCode(signer.key.accAddress(getPrefix()), code)],
+    undefined,
+    undefined,
+    confirm
+  );
   return parseInt(result.logs[0].eventsByType["store_code"]["code_id"][0]);
 }
 
@@ -162,7 +244,7 @@ export async function instantiateWithConfirm(
 ) {
   const result = await sendTxWithConfirm(signer, [
     new MsgInstantiateContract(
-      signer.key.accAddress,
+      signer.key.accAddress(getPrefix()),
       admin,
       codeId,
       initMsg,
@@ -184,7 +266,7 @@ export async function instantiateMultipleWithConfirm(
     init.map(
       (a) =>
         new MsgInstantiateContract(
-          signer.key.accAddress,
+          signer.key.accAddress(getPrefix()),
           admin,
           codeId,
           a.msg,

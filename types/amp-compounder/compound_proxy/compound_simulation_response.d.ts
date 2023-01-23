@@ -44,5 +44,4 @@ export interface CompoundSimulationResponse {
    * The amount of asset B to be swapped
    */
   swap_asset_b_amount: Uint128;
-  [k: string]: unknown;
 }

@@ -32,6 +32,11 @@ const argv = yargs(process.argv)
 // ts-node 12_create_pair.ts --network testnet --key testnet --factory-address terra1jha5avc92uerwp9qzx3flvwnyxs3zax2rrm6jkcedy2qvzwd2k7qk7yxcl --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
 // ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqxl5qul --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
+// testnet astroport
+// ts-node 12_create_pair_phoenix.ts --network testnet --key testnet --factory-address terra1z3y69xas85r7egusa0c7m5sam0yk97gsztqmh8f2cc6rr4s4anysudp7k0 --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
+// lp: terra1n7pgzxhunusffja0mfqls7tntj604s2ywvu2ufuxxqk2spzmttwqc45qh0
+// pair: terra1kh5lcndrpgsuclulatmadyl35xl9te3evaant2n4f95we5jext0qxah7j7
+
 // phoenix
 // ts-node 12_create_pair_phoenix.ts --network mainnet --key mainnet --factory-address terra1pewdsxywmwurekjwrgvjvxvv0dv2pf8xtdl9ykfce2z0q3gf0k3qr8nezy --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
@@ -59,7 +64,7 @@ const argv = yargs(process.argv)
       argv["factory-address"],
       {
         create_pair: {
-          pair_type: { xyk: {} },
+          pair_type: { stableswap: {} },
           asset_infos: [
             {
               token: {

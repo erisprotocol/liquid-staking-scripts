@@ -17,6 +17,20 @@ export type QueryMsg =
       };
     }
   | {
+      wanted_delegations: {
+        [k: string]: unknown;
+      };
+    }
+  | {
+      simulate_wanted_delegations: {
+        /**
+         * by default uses the next period to look into the future.
+         */
+        period?: number | null;
+        [k: string]: unknown;
+      };
+    }
+  | {
       pending_batch: {
         [k: string]: unknown;
       };

@@ -35,6 +35,9 @@ const argv = yargs(process.argv)
 // terra14lr9zdfn0d5gxjwafh3mg5nrrculj4dndunynve452zws2lzyd3smx46ta
 // terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
+// Astroport testnet
+// ts-node 13_provide_liquidity.ts --network testnet --key testnet --factory-address terra1z3y69xas85r7egusa0c7m5sam0yk97gsztqmh8f2cc6rr4s4anysudp7k0 --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
+
 // Astroport classic terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g
 // ts-node 13_provide_liquidity.ts --network classic --key invest --factory-address terra1fnywlw4edny3vw44x04xd67uzkdqluymgreu7g --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
 
@@ -67,11 +70,13 @@ const argv = yargs(process.argv)
 
   console.log("Found contract: " + JSON.stringify(pair));
 
+  const amount = (500).toFixed(0);
+
   const { txhash } = await sendTxWithConfirm(worker, [
     new MsgExecuteContract(worker.key.accAddress, argv["token-address"], {
       increase_allowance: {
         spender: pair.contract_addr,
-        amount: "500000000",
+        amount: amount,
         expires: {
           never: {},
         },
@@ -82,29 +87,43 @@ const argv = yargs(process.argv)
       worker.key.accAddress,
       pair.contract_addr,
       {
-        provide_liquidity: {
-          assets: [
-            {
-              info: {
-                token: {
-                  contract_addr: argv["token-address"],
-                },
+        //   provide_liquidity: {
+        //     assets: [
+        //       {
+        //         info: {
+        //           token: {
+        //             contract_addr: argv["token-address"],
+        //           },
+        //         },
+        //         amount: amount,
+        //       },
+        //       {
+        //         info: {
+        //           native_token: {
+        //             denom: "uluna",
+        //           },
+        //         },
+        //         amount: "500",
+        //       },
+        //     ],
+
+        //     slippage_tolerance: "0.5",
+        //   },
+        // },
+        swap: {
+          offer_asset: {
+            info: {
+              native_token: {
+                denom: "uluna",
               },
-              amount: "500000000",
             },
-            {
-              info: {
-                native_token: {
-                  denom: "uluna",
-                },
-              },
-              amount: "500000000",
-            },
-          ],
+            amount: "50000",
+          },
+          max_spread: "0.5",
         },
       },
       {
-        uluna: "500000000",
+        uluna: "50000",
       }
     ),
   ]);
