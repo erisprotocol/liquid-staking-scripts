@@ -25,4 +25,8 @@ export interface InstantiateMsg {
    * Min voting power required
    */
   quorum_bps: number;
+  /**
+   * Specifies wether voting should be weighted based on VP
+   */
+  use_weighted_vote: boolean;
 }

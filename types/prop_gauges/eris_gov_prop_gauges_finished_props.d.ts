@@ -31,5 +31,6 @@ export interface PropInfo {
   no_vp: Uint128;
   nwv_vp: Uint128;
   period: number;
+  total_vp?: Uint128 & string;
   yes_vp: Uint128;
 }

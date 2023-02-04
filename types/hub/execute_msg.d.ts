@@ -45,19 +45,17 @@ export type ExecuteMsg =
       };
     }
   | {
+      drop_ownership_proposal: {
+        [k: string]: unknown;
+      };
+    }
+  | {
       accept_ownership: {
         [k: string]: unknown;
       };
     }
   | {
       harvest: {
-        [k: string]: unknown;
-      };
-    }
-  | {
-      vote: {
-        proposal_id: number;
-        vote: VoteOption;
         [k: string]: unknown;
       };
     }
@@ -83,10 +81,28 @@ export type ExecuteMsg =
       };
     }
   | {
+      vote: {
+        proposal_id: number;
+        vote: VoteOption;
+        [k: string]: unknown;
+      };
+    }
+  | {
+      vote_weighted: {
+        proposal_id: number;
+        votes: [Decimal, VoteOption][];
+        [k: string]: unknown;
+      };
+    }
+  | {
       callback: CallbackMsg;
     }
   | {
       update_config: {
+        /**
+         * Specifies wether donations are allowed.
+         */
+        allow_donations?: boolean | null;
         /**
          * Strategy how delegations should be handled
          */
@@ -99,6 +115,9 @@ export type ExecuteMsg =
          * Fees that are being applied during reinvest of staking rewards
          */
         protocol_reward_fee?: Decimal | null;
+        /**
+         * Update the vote_operator
+         */
         vote_operator?: string | null;
         [k: string]: unknown;
       };
@@ -124,6 +143,12 @@ export type Uint128 = string;
  */
 export type Binary = string;
 export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
+/**
+ * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
+ *
+ * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
+ */
+export type Decimal = string;
 export type CallbackMsg =
   | {
       reinvest: {
@@ -167,12 +192,6 @@ export type DelegationStrategyFor_String =
         [k: string]: unknown;
       };
     };
-/**
- * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
- *
- * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
- */
-export type Decimal = string;
 
 /**
  * Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg

@@ -7,7 +7,7 @@ import {
   sendTxWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
-import { ExecuteMsg } from "../types/voting_escrow/eris_gov_voting_escrow_execute";
+import { ExecuteMsg } from "../types/prop_gauges/eris_gov_prop_gauges_execute";
 
 const argv = yargs(process.argv)
   .options({
@@ -32,16 +32,13 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // Testnet
-// ts-node amp-governance/5_config_escrow_for_update.ts --network testnet --key testnet --contract terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
+// ts-node amp-governance/5_config_propgauges.ts --network testnet --key testnet --contract terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5
 //
 
 const templates: Record<string, ExecuteMsg> = {
   testnet: <ExecuteMsg>{
     update_config: {
-      push_update_contracts: [
-        "terra1a507lxc7sztyfu8az5np54t6w86nhv2a0n2q5y858jf9ms5t5rsqh648jt", // amp gauge
-        "terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5", // prop gauge
-      ],
+      use_weighted_vote: true,
     },
   },
   mainnet: <ExecuteMsg>{},

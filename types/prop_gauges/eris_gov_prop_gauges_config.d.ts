@@ -36,4 +36,5 @@ export interface ConfigResponse {
    * Required min quorum (voted voting power / total voting power must be > quorum to allow the contract to vote)
    */
   quorum_bps: number;
+  use_weighted_vote?: boolean;
 }

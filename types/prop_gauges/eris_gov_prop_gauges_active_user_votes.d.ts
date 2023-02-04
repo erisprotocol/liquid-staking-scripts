@@ -5,6 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -19,18 +20,15 @@
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
-export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 
-export interface PropsResponse {
-  props: [number, PropInfo][];
+export interface ActiveUserVotesResponse {
+  props: UserPropResponseItem[];
 }
-export interface PropInfo {
-  abstain_vp: Uint128;
-  current_vote?: VoteOption | null;
-  end_time_s: number;
-  no_vp: Uint128;
-  nwv_vp: Uint128;
-  period: number;
-  total_vp?: Uint128 & string;
-  yes_vp: Uint128;
+export interface UserPropResponseItem {
+  id: number;
+  user: PropUserInfo;
+}
+export interface PropUserInfo {
+  current_vote: VoteOption;
+  vp: Uint128;
 }

@@ -33,6 +33,10 @@ export type ExecuteMsg =
          * ChangeValidatorsLimit changes the max amount of validators that can be voted at once to receive delegations
          */
         quorum_bps?: number | null;
+        /**
+         * Updates if weighted voting is used
+         */
+        use_weighted_vote?: boolean | null;
       };
     }
   | {

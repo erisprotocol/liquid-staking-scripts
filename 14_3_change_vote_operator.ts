@@ -31,7 +31,10 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ts-node 14_1_change_fees.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
+// ts-node 14_3_change_vote_operator.ts --network testnet --key testnet --hub-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+
+// ts-node 14_3_change_vote_operator.ts --network mainnet --key mainnet --hub-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -42,7 +45,8 @@ const argv = yargs(process.argv)
       argv["hub-address"],
       <ExecuteMsg>{
         update_config: {
-          protocol_reward_fee: "0.05",
+          vote_operator:
+            "terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5",
         },
       }
     ),

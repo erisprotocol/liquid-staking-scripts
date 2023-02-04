@@ -31,6 +31,13 @@ export type QueryMsg =
       };
     }
   | {
+      user_votes: {
+        limit?: number | null;
+        start_after?: number | null;
+        user: string;
+      };
+    }
+  | {
       prop_voters: {
         limit?: number | null;
         proposal_id: number;

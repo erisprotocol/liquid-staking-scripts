@@ -1,10 +1,11 @@
-import { Wallet } from "@terra-money/terra.js";
+import { Wallet } from "@terra-money/feather.js";
 import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
@@ -80,8 +81,8 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "",
   },
   mainnet: <InstantiateMsg>{
-    name: "Eris Amplified LUNA",
-    symbol: "ampLUNA",
+    name: "Test Migration",
+    symbol: "test",
     cw20_code_id: 0,
     decimals: 6,
     epoch_period: 3 * 24 * 60 * 60,
@@ -169,7 +170,11 @@ const templates: Record<string, InstantiateMsg> = {
   },
 };
 
+// TESTNET
 // ts-node 2_deploy_hub.ts --network testnet --key testnet --hub-code-id 169 --token-code-id 125
+
+// TESTMIGRATION: terra1ckthjpaw9w74s409hsr2peracq8akx6e86lxyd0j28e0hw4dd6tqn938pa
+// ts-node 2_deploy_hub.ts --network mainnet --key invest --hub-code-id 167 --token-code-id 12
 
 // ts-node 2_deploy_hub.ts --network classic --key ledger --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 // ts-node 2_deploy_hub.ts --network classic-testnet --key invest --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
@@ -194,14 +199,14 @@ const templates: Record<string, InstantiateMsg> = {
     msg = templates[argv["network"]];
   }
   msg["cw20_code_id"] = tokenCodeId;
-  msg["owner"] = msg["owner"] || deployer.key.accAddress;
+  msg["owner"] = msg["owner"] || deployer.key.accAddress(getPrefix());
 
   console.log("\n" + JSON.stringify(msg).replace(/\\/g, "") + "\n");
 
   await waitForConfirm("Proceed to deploy contracts?");
   const result = await instantiateWithConfirm(
     deployer,
-    argv["admin"] ? argv["admin"] : deployer.key.accAddress,
+    argv["admin"] ? argv["admin"] : deployer.key.accAddress(getPrefix()),
     hubCodeId,
     msg
   );

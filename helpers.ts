@@ -192,9 +192,9 @@ export async function sendTxWithConfirm(
       signMode: signMode as SignMode,
       chainID: getChainId(),
     };
-    console.log("🚀 ~ file: helpers.ts:195 ~ x", x);
+    // console.log("🚀 ~ file: helpers.ts:195 ~ x", x);
     const tx = await signer.createAndSignTx(x);
-    console.log("🚀 ~ file: helpers.ts:195 ~ tx", tx);
+    // console.log("🚀 ~ file: helpers.ts:195 ~ tx", tx);
 
     if (confirm) {
       console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");

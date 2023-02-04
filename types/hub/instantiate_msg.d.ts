@@ -88,6 +88,9 @@ export interface InstantiateMsg {
    * Initial set of validators who will receive the delegations
    */
   validators: string[];
+  /**
+   * Contract address that is allowed to vote
+   */
   vote_operator?: string | null;
   [k: string]: unknown;
 }

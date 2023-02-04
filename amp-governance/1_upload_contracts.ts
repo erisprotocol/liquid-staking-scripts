@@ -5,7 +5,7 @@ import {
   createLCDClient,
   createWallet,
   storeCodeWithConfirm,
-  waitForConfirm
+  waitForConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
 
@@ -39,20 +39,23 @@ const argv = yargs(process.argv)
 // DO NOT FORGET THE RIGHT PERIOD TIME FRAME
 // ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_gov_voting_escrow eris_gov_emp_gauges eris_gov_amp_gauges eris_staking_hub
 // ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_gov_amp_gauges
-// ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_staking_hub
+// ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_staking_hub eris_gov_prop_gauges
 // ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_gov_emp_gauges
 // ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_gov_voting_escrow eris_gov_amp_gauges
+// ts-node amp-governance/1_upload_contracts.ts --network testnet --key testnet --contracts eris_gov_prop_gauges
 
 // eris_gov_voting_escrow: 6603 terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
 // eris_gov_emp_gauges: 5543 terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a
 // eris_gov_amp_gauges: 5527 terra1a507lxc7sztyfu8az5np54t6w86nhv2a0n2q5y858jf9ms5t5rsqh648jt
 // eris_staking_hub: 5535 terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// eris_gov_prop_gauges: 7018 terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5
 
 // Migrate
-// escrow: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6612 --contract-address terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
-// empgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6615 --contract-address terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a
-// ampgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6636 --contract-address terra1a507lxc7sztyfu8az5np54t6w86nhv2a0n2q5y858jf9ms5t5rsqh648jt
-// stakin: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate ledger --code-id 6616 --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// escrow: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7007 --contract-address terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
+// empgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6995 --contract-address terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a
+// ampgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6996 --contract-address terra1a507lxc7sztyfu8az5np54t6w86nhv2a0n2q5y858jf9ms5t5rsqh648jt
+// stakin: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7439 --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// propga: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7027 --contract-address terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5
 
 // classic
 // ts-node 1_upload_contracts.ts --network classic --key mainnet --folder contracts-terra-classic --contracts eris_staking_hub_classic
