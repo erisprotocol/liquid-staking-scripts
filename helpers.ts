@@ -5,6 +5,7 @@ import {
   Msg,
   MsgInstantiateContract,
   MsgStoreCode,
+  Tx,
   Wallet,
 } from "@terra-money/feather.js";
 import { LedgerKey } from "@terra-money/ledger-station-js";
@@ -24,6 +25,7 @@ let current_network:
   | "ledger"
   | "ledger-juno"
   | "mainnet"
+  | "testnet-migaloo"
   | "testnet" = "testnet";
 
 export function getChainId() {
@@ -40,6 +42,8 @@ export function getChainId() {
       return "columbus-5";
     case "ledger-juno":
       return "juno-1";
+    case "testnet-migaloo":
+      return "narwhal-1";
     default: {
     }
   }
@@ -60,6 +64,8 @@ export function getPrefix() {
       return "terra";
     case "ledger-juno":
       return "juno";
+    case "testnet-migaloo":
+      return "migaloo";
     default: {
     }
   }
@@ -93,6 +99,18 @@ export function createLCDClient(network: string): LCDClient {
             gasAdjustment: 1.5,
             prefix: "terra",
             gasPrices: { uluna: 0.015 },
+          },
+        }
+      : {}),
+
+    ...(network === "testnet-migaloo"
+      ? {
+          "narwhal-1": {
+            chainID: "narwhal-1",
+            lcd: "https://whitewhale-testnet-api.polkachu.com",
+            gasAdjustment: 1.5,
+            prefix: "migaloo",
+            gasPrices: { uwhale: 0 },
           },
         }
       : {}),
@@ -193,7 +211,25 @@ export async function sendTxWithConfirm(
       chainID: getChainId(),
     };
     // console.log("🚀 ~ file: helpers.ts:195 ~ x", x);
-    const tx = await signer.createAndSignTx(x);
+
+    let tx: Tx;
+
+    try {
+      tx = await signer.createAndSignTx(x);
+    } catch (error: any) {
+      if (error?.response?.data?.message?.includes("not found")) {
+        console.log("INSIDE");
+        const accountNumber = await signer.accountNumber(x.chainID);
+        console.log("🚀 ~ file: helpers.ts:223 ~ accountNumber", accountNumber);
+        tx = await signer.createAndSignTx({
+          ...x,
+          accountNumber,
+          sequence: 0,
+        });
+      } else {
+        throw error;
+      }
+    }
     // console.log("🚀 ~ file: helpers.ts:195 ~ tx", tx);
 
     if (confirm) {

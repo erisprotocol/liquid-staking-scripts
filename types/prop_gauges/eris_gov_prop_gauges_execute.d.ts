@@ -45,6 +45,11 @@ export type ExecuteMsg =
       };
     }
   | {
+      remove_prop: {
+        proposal_id: number;
+      };
+    }
+  | {
       propose_new_owner: {
         /**
          * The timestamp when the contract ownership change expires

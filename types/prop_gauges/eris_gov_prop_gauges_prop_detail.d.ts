@@ -50,6 +50,6 @@ export interface PropInfo {
 }
 export interface PropUserInfo {
   current_vote: VoteOption;
-  user: Addr;
+  user?: Addr & string;
   vp: Uint128;
 }

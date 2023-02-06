@@ -38,8 +38,8 @@ export interface Batch {
    */
   total_shares: Uint128;
   /**
-   * Amount of `uluna` in this batch that have not been claimed
+   * Amount of `utoken` in this batch that have not been claimed
    */
-  uluna_unclaimed: Uint128;
+  utoken_unclaimed: Uint128;
   [k: string]: unknown;
 }

@@ -29,18 +29,18 @@ export type Decimal = string;
 export interface StateResponse {
   available: Uint128;
   /**
-   * The exchange rate between ustake and uluna, in terms of uluna per ustake
+   * The exchange rate between ustake and utoken, in terms of utoken per ustake
    */
   exchange_rate: Decimal;
-  /**
-   * Total amount of uluna staked (bonded)
-   */
-  total_uluna: Uint128;
   /**
    * Total supply to the Stake token
    */
   total_ustake: Uint128;
-  tvl_uluna: Uint128;
+  /**
+   * Total amount of utoken staked (bonded)
+   */
+  total_utoken: Uint128;
+  tvl_utoken: Uint128;
   unbonding: Uint128;
   /**
    * Staking rewards currently held by the contract that are ready to be reinvested

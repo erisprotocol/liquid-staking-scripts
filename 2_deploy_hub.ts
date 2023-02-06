@@ -65,6 +65,24 @@ async function uploadCode(deployer: Wallet, path: string) {
 }
 
 const templates: Record<string, InstantiateMsg> = {
+  "testnet-migaloo": <InstantiateMsg>{
+    name: "Eris Amplified WHALE",
+    symbol: "ampWHALE",
+    cw20_code_id: 0,
+    decimals: 6,
+    // epoch_period: Math.ceil((10 * 60) / 7),
+    // unbond_period: 10 * 60,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "migaloovaloper1rqvctgdpafvc0k9fx4ng8ckt94x723zmp3g0jv",
+      "migaloovaloper1820a86x8e70ecsw486uvh5af6zqk3tq037pqcr",
+      "migaloovaloper18ulrp6juyj0tt0zmkrxn3ex4mkd3kkg6uk7nfx",
+    ],
+    protocol_fee_contract: "migaloo1z3txc4x7scxsypx9tgynyfhu48nw60a5gpmd3y",
+    protocol_reward_fee: "0.05",
+    owner: "",
+  },
   testnet: <InstantiateMsg>{
     name: "Eris Amplified LUNA",
     symbol: "ampLUNA",
@@ -181,6 +199,10 @@ const templates: Record<string, InstantiateMsg> = {
 
 // ts-node 2_deploy_hub.ts --network juno --key mainnet-juno --hub-code-id 1016 --token-code-id 1017 --hub-binary "../contracts-juno/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-juno/artifacts/eris_staking_token.wasm"
 // Hub-Code 1016 , you need to edit bech32 and pubkey of terrajs node_modules
+
+// MIGALOO TESTNET
+// ts-node 2_deploy_hub.ts --network testnet-migaloo --key testnet-migaloo --hub-binary "../contracts-whitewhale/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-whitewhale/artifacts/eris_staking_token.wasm"
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
