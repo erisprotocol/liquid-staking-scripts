@@ -108,6 +108,10 @@ export type ExecuteMsg =
          */
         delegation_strategy?: DelegationStrategyFor_String | null;
         /**
+         * How often the unbonding queue is to be executed, in seconds
+         */
+        epoch_period?: number | null;
+        /**
          * Contract address where fees are sent
          */
         protocol_fee_contract?: string | null;
@@ -115,6 +119,10 @@ export type ExecuteMsg =
          * Fees that are being applied during reinvest of staking rewards
          */
         protocol_reward_fee?: Decimal | null;
+        /**
+         * The staking module's unbonding time, in seconds
+         */
+        unbond_period?: number | null;
         /**
          * Update the vote_operator
          */

@@ -43,6 +43,28 @@ export type Addr = string;
  * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
 export type Binary = string;
+export type TargetType =
+  | "weight"
+  | {
+      fill_up_first: {
+        filled_to: Uint128;
+        min_fill?: Uint128 | null;
+      };
+    };
+/**
+ * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
+ *
+ * # Examples
+ *
+ * Use `from` to create instances of this and `u128` to get the value out:
+ *
+ * ``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);
+ *
+ * let b = Uint128::from(42u64); assert_eq!(b.u128(), 42);
+ *
+ * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
+ */
+export type Uint128 = string;
 
 /**
  * This structure stores general parameters for the contract.
@@ -71,13 +93,14 @@ export interface InstantiateMsg {
   /**
    * The beneficiary addresses to received fees in stablecoin
    */
-  target_list: TargetConfigUnchecked[];
+  target_list: TargetConfigFor_String[];
 }
 /**
  * This struct holds parameters to configure receiving contracts and messages.
  */
-export interface TargetConfigUnchecked {
+export interface TargetConfigFor_String {
   addr: string;
   msg?: Binary | null;
+  target_type?: TargetType & string;
   weight: number;
 }

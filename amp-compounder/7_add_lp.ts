@@ -32,41 +32,19 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node amp-compounder/7_add_lp.ts --network testnet --key testnet --contract terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0
-// ts-node 7_add_lp.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
+// ts-node amp-compounder/7_add_lp.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
 
 // commission_bps
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
 
+  const account = admin.key.accAddress(getPrefix());
+
   const { txhash } = await sendTxWithConfirm(admin, [
-    new MsgExecuteContract(admin.key.accAddress(getPrefix()), argv.contract, <
-      ExecuteMsg
-    >{
+    new MsgExecuteContract(account, argv.contract, <ExecuteMsg>{
       update_config: {
         upsert_lps: [
-          // {
-          //   commission_bps: 5,
-          //   pair_contract:
-          //     "terra1mpj7j25fw5a0q5vfasvsvdp6xytaqxh006lh6f5zpwxvadem9hwsy6m508",
-          //   slippage_tolerance: "0.01",
-          //   wanted_token: {
-          //     native_token: {
-          //       denom: "uluna",
-          //     },
-          //   },
-          // },
-          // {
-          //   commission_bps: 5,
-          //   pair_contract:
-          //     "terra1cr8dg06sh343hh4xzn3gxd3ayetsjtet7q5gp4kfrewul2kql8sqvhaey4",
-          //   slippage_tolerance: "0.01",
-          //   wanted_token: {
-          //     native_token: {
-          //       denom: "uluna",
-          //     },
-          //   },
-          // },
           // {
           //   commission_bps: 5,
           //   pair_contract:
@@ -78,18 +56,17 @@ const argv = yargs(process.argv)
           //     },
           //   },
           // },
-          // {
-          //   commission_bps: 30,
-          //   pair_contract:
-          //     "terra1zhq0rqermczklmw89ranmgz28zthsthw6u35umgvpykfwzlwtgcsylpqqf",
-          //   slippage_tolerance: "0.01",
-          //   wanted_token: {
-          //     native_token: {
-          //       denom: "uluna",
-          //     },
-          //   },
-          // },
-          //
+          {
+            commission_bps: 30,
+            pair_contract:
+              "terra1nckl6ex6239tv4kjzv03ecmuxwakjm8uj8cy6p850vmlmejfmj9sy094yr",
+            slippage_tolerance: "0.01",
+            wanted_token: {
+              native_token: {
+                denom: "uluna",
+              },
+            },
+          },
         ],
       },
     }),

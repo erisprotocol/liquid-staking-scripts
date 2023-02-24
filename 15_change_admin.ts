@@ -42,6 +42,12 @@ const argv = yargs(process.argv)
 // TESTMIGRATION
 // ts-node 15_change_admin.ts --network mainnet --key invest --contract-address terra1ckthjpaw9w74s409hsr2peracq8akx6e86lxyd0j28e0hw4dd6tqn938pa --new-admin terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8
 
+// ICS20
+// ts-node 15_change_admin.ts --network mainnet --key ledger --contract-address terra1e0mrzy8077druuu42vs0hu7ugguade0cj65dgtauyaw4gsl4kv0qtdf2au --new-admin terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8
+
+// HUB
+// ts-node 15_change_admin.ts --network mainnet --key ledger --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --new-admin terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -56,7 +62,7 @@ const argv = yargs(process.argv)
       ),
     ],
     undefined,
-    "75000"
+    "100000"
   );
   console.log(`Contract admin changed! Txhash: ${txhash}`);
 })();

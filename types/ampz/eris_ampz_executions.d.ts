@@ -5,7 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Destination =
+export type DestinationState =
   | {
       deposit_amplifier: {};
     }
@@ -72,7 +72,7 @@ export interface ExecutionsResponse {
   executions: [number, Execution][];
 }
 export interface Execution {
-  destination: Destination;
+  destination: DestinationState;
   schedule: Schedule;
   source: Source;
   user: string;

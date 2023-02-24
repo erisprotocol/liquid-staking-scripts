@@ -45,8 +45,10 @@ const argv = yargs(process.argv)
       argv["hub-address"],
       <ExecuteMsg>{
         update_config: {
-          vote_operator:
-            "terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5",
+          // vote_operator:
+          //   "terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5",
+          epoch_period: Math.ceil((5 * 24 * 60 * 60) / 7),
+          unbond_period: 5 * 24 * 60 * 60,
         },
       }
     ),

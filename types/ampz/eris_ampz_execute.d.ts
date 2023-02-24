@@ -12,7 +12,6 @@ export type ExecuteMsg =
   | {
       execute: {
         id: number;
-        user?: string | null;
       };
     }
   | {
@@ -40,6 +39,9 @@ export type ExecuteMsg =
       };
     }
   | {
+      drop_ownership_proposal: {};
+    }
+  | {
       accept_ownership: {};
     }
   | {
@@ -48,6 +50,7 @@ export type ExecuteMsg =
         astroport?: AstroportConfigFor_String | null;
         controller?: string | null;
         fee?: FeeConfigFor_String | null;
+        hub?: string | null;
         remove_farms?: string[] | null;
         zapper?: string | null;
       };
@@ -92,7 +95,7 @@ export type AssetInfo =
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-export type Destination =
+export type DestinationState =
   | {
       deposit_amplifier: {};
     }
@@ -132,9 +135,18 @@ export type CallbackMsg =
     }
   | {
       finish_execution: {
+        destination: DestinationRuntime;
+        executor: Addr;
+      };
+    };
+export type DestinationRuntime =
+  | {
+      deposit_amplifier: {};
+    }
+  | {
+      deposit_farm: {
         asset_infos: AssetInfo[];
-        destination: Destination;
-        operator: Addr;
+        farm: string;
       };
     };
 /**
@@ -157,7 +169,7 @@ export interface Description {
   [k: string]: unknown;
 }
 export interface Execution {
-  destination: Destination;
+  destination: DestinationState;
   schedule: Schedule;
   source: Source;
   user: string;

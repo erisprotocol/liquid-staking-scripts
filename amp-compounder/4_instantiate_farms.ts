@@ -32,7 +32,7 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node 4_instantiate_farms.ts --network testnet --key testnet --contract-code-id 4813
-// ts-node 4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 527
+// ts-node amp-compounder/4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 527
 
 //
 
@@ -124,8 +124,12 @@ const lps: Record<string, { lp: string }[]> = {
     //   lp: "terra1h3z2zv6aw94fx5263dy6tgz6699kxmewlx3vrcu4jjrudg6xmtyqk6vt0u",
     // },
     // RED
+    // {
+    //   lp: "terra1ua7uk7xvx89dg8tnr8k8smk5vermlaer50zsglmpx8plttaxvvtsem5fgy",
+    // },
+    // SAYVE
     {
-      lp: "terra1ua7uk7xvx89dg8tnr8k8smk5vermlaer50zsglmpx8plttaxvvtsem5fgy",
+      lp: "terra1zqthrqndchxp5ye443zdulhhh2938uak78q4ztthfrnkfltpgrpsu3c5xd",
     },
   ],
 };

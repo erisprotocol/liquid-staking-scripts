@@ -6,5 +6,5 @@
  */
 
 export interface StateResponse {
-  id: number;
+  next_id: number;
 }

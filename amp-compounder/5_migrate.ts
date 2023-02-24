@@ -53,7 +53,7 @@ const argv = yargs(process.argv)
 // zapper
 // ts-node 5_migrate.ts --network mainnet --key ledger --code-id 528 --contracts terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
 // generator
-// ts-node 5_migrate.ts --network mainnet --key ledger --code-id 529 --contracts terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0
+// ts-node amp-compounder/5_migrate.ts --network mainnet --key ledger --code-id 1088 --contracts terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

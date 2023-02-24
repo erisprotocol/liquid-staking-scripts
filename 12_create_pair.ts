@@ -1,6 +1,11 @@
-import { MsgExecuteContract } from "@terra-money/terra.js";
+import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import {
+  createLCDClient,
+  createWallet,
+  getPrefix,
+  sendTxWithConfirm,
+} from "./helpers";
 import * as keystore from "./keystore";
 
 const argv = yargs(process.argv)
@@ -32,6 +37,9 @@ const argv = yargs(process.argv)
 // ts-node 12_create_pair.ts --network testnet --key testnet --factory-address terra1jha5avc92uerwp9qzx3flvwnyxs3zax2rrm6jkcedy2qvzwd2k7qk7yxcl --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
 // ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjqxl5qul --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
+// testnet
+//ts-node 12_create_pair.ts --network testnet --key testnet --factory-address terra1jha5avc92uerwp9qzx3flvwnyxs3zax2rrm6jkcedy2qvzwd2k7qk7yxcl --token-address terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6
+
 // phoenix
 // ts-node 12_create_pair.ts --network mainnet --key mainnet --factory-address terra1pewdsxywmwurekjwrgvjvxvv0dv2pf8xtdl9ykfce2z0q3gf0k3qr8nezy --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
 
@@ -52,7 +60,7 @@ const argv = yargs(process.argv)
 
   const { txhash } = await sendTxWithConfirm(worker, [
     new MsgExecuteContract(
-      worker.key.accAddress,
+      worker.key.accAddress(getPrefix()),
       argv["factory-address"],
       {
         create_pair: {

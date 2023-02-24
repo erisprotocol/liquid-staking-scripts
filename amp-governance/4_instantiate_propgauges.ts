@@ -36,20 +36,43 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // Testnet
-// ts-node amp-governance/4_instantiate_propgauges.ts --network testnet --key testnet --contract-code-id 6997 --label "ERIS Proposal Gauge"
+// ts-node amp-governance/4_instantiate_propgauges.ts --network testnet --key testnet --contract-code-id 7770 --label "Proposal Gauge"
+
+// Mainnet
+// ts-node amp-governance/4_instantiate_propgauges.ts --network mainnet --key ledger --contract-code-id 1164 --label "Prop Gauge"
 
 const templates: Record<string, InstantiateMsg> = {
+  // testnet: <InstantiateMsg>{
+  //   hub_addr:
+  //     "terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88",
+  //   owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
+  //   // validators_limit: 5,
+  //   escrow_addr:
+  //     "terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp",
+
+  //   quorum_bps: 1000,
+  // },
   testnet: <InstantiateMsg>{
     hub_addr:
       "terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88",
     owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
     // validators_limit: 5,
     escrow_addr:
-      "terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp",
+      "terra185fzsf0e247dsa9npuc0kdn8ef3ht2q5rwedle43h3q5ymjmvs2qkvdp3f",
 
     quorum_bps: 1000,
+    use_weighted_vote: true,
   },
-  mainnet: <InstantiateMsg>{},
+  mainnet: <InstantiateMsg>{
+    hub_addr:
+      "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    // ampLUNA Escrow
+    escrow_addr:
+      "terra1ep7exp42jjtwgjly36y4vgylz82fplnjwpkz95wljzwfald8zwwqggsdzz",
+    quorum_bps: 1000,
+    use_weighted_vote: true,
+  },
 };
 
 (async function () {

@@ -1,8 +1,9 @@
-import { TxLog } from "@terra-money/terra.js";
+import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
@@ -35,15 +36,19 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // Testnet
-// ts-node 2_instantiate_escrow.ts --network testnet --key testnet --contract-code-id 5396 --label "Vote-escrowed ampLUNA-LUNA ampLP"
-// terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
+// ts-node amp-governance/2_instantiate_escrow.ts --network testnet --key testnet --contract-code-id 7768 --label "Vote-escrowed ampLUNA"
+// ampLP: terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
+// ampLUNA: terra185fzsf0e247dsa9npuc0kdn8ef3ht2q5rwedle43h3q5ymjmvs2qkvdp3f
 
 // ts-node 2_instantiate_escrow.ts --network mainnet --key ledger --contract-code-id xx
 
+// ts-node amp-governance/2_instantiate_escrow.ts --network mainnet --key ledger --contract-code-id 1162 --label "Vote-escrowed ampLUNA"
+
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
+    // ampLUNA
     deposit_token_addr:
-      "terra1s2prs6eaepym9tfck5fxnhlqjlku43thkvayhdyc2afdmv8t2hfqx74ynk",
+      "terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6",
     logo_urls_whitelist: [
       "https://dev.erisprotocol.com/",
       "https://erisprotocol.com/",
@@ -52,7 +57,29 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
     guardian_addr: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
   },
-  mainnet: <InstantiateMsg>{},
+  // testnet: <InstantiateMsg>{
+  //   deposit_token_addr:
+  //     "terra1s2prs6eaepym9tfck5fxnhlqjlku43thkvayhdyc2afdmv8t2hfqx74ynk",
+  //   logo_urls_whitelist: [
+  //     "https://dev.erisprotocol.com/",
+  //     "https://erisprotocol.com/",
+  //     "https://www.erisprotocol.com/",
+  //   ],
+  //   owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
+  //   guardian_addr: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
+  // },
+  mainnet: <InstantiateMsg>{
+    // ampLUNA
+    deposit_token_addr:
+      "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
+    logo_urls_whitelist: [
+      "https://dev.erisprotocol.com/",
+      "https://erisprotocol.com/",
+      "https://www.erisprotocol.com/",
+    ],
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    guardian_addr: "terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew",
+  },
 };
 
 (async function () {
@@ -64,7 +91,7 @@ const templates: Record<string, InstantiateMsg> = {
 
   const result = await instantiateWithConfirm(
     deployer,
-    deployer.key.accAddress,
+    deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
     msg,
     argv.label

@@ -34,7 +34,7 @@ export type ExecuteMsg =
         /**
          * The list of target address to receive fees in stablecoin
          */
-        target_list?: TargetConfigUnchecked[] | null;
+        target_list?: TargetConfigFor_String[] | null;
       };
     }
   | {
@@ -128,6 +128,14 @@ export type Decimal = string;
  * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
 export type Binary = string;
+export type TargetType =
+  | "weight"
+  | {
+      fill_up_first: {
+        filled_to: Uint128;
+        min_fill?: Uint128 | null;
+      };
+    };
 
 /**
  * This struct holds parameters to help with swapping a specific amount of a fee token to ASTRO.
@@ -145,8 +153,9 @@ export interface AssetWithLimit {
 /**
  * This struct holds parameters to configure receiving contracts and messages.
  */
-export interface TargetConfigUnchecked {
+export interface TargetConfigFor_String {
   addr: string;
   msg?: Binary | null;
+  target_type?: TargetType & string;
   weight: number;
 }

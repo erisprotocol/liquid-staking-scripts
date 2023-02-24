@@ -52,9 +52,9 @@ export interface Batch {
    */
   total_shares: Uint128;
   /**
-   * Amount of `utoken` in this batch that have not been claimed
+   * Amount of `uluna` in this batch that have not been claimed
    */
-  utoken_unclaimed: Uint128;
+  uluna_unclaimed: Uint128;
   [k: string]: unknown;
 }
 export interface PendingBatch {

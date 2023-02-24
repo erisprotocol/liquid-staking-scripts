@@ -1,4 +1,4 @@
-import { MsgExecuteContract } from "@terra-money/terra.js";
+import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
 import * as keystore from "./keystore";

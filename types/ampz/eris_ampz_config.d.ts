@@ -38,7 +38,7 @@ export type BasicPoints = number;
 
 export interface ConfigResponse {
   astroport: AstroportConfigFor_String;
-  executor: string;
+  controller: string;
   /**
    * Farms
    */

@@ -1,5 +1,6 @@
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid";
 import {
+  Coins,
   isTxError,
   LCDClient,
   Msg,
@@ -25,7 +26,9 @@ let current_network:
   | "ledger"
   | "ledger-juno"
   | "mainnet"
+  | "migaloo"
   | "testnet-migaloo"
+  | "testnet-kujira"
   | "testnet" = "testnet";
 
 export function getChainId() {
@@ -44,6 +47,10 @@ export function getChainId() {
       return "juno-1";
     case "testnet-migaloo":
       return "narwhal-1";
+    case "migaloo":
+      return "migaloo-1";
+    case "testnet-kujira":
+      return "harpoon-4";
     default: {
     }
   }
@@ -66,6 +73,10 @@ export function getPrefix() {
       return "juno";
     case "testnet-migaloo":
       return "migaloo";
+    case "migaloo":
+      return "migaloo";
+    case "testnet-kujira":
+      return "kujira";
     default: {
     }
   }
@@ -96,6 +107,7 @@ export function createLCDClient(network: string): LCDClient {
           "pisco-1": {
             chainID: "pisco-1",
             lcd: "https://pisco-lcd.terra.dev",
+            // lcd: "https://pisco-lcd.erisprotocol.com",
             gasAdjustment: 1.5,
             prefix: "terra",
             gasPrices: { uluna: 0.015 },
@@ -111,6 +123,44 @@ export function createLCDClient(network: string): LCDClient {
             gasAdjustment: 1.5,
             prefix: "migaloo",
             gasPrices: { uwhale: 0 },
+          },
+        }
+      : {}),
+    ...(network === "migaloo"
+      ? {
+          "migaloo-1": {
+            chainID: "migaloo-1",
+            lcd: "https://migaloo-api.polkachu.com",
+            gasAdjustment: 1.5,
+            prefix: "migaloo",
+            gasPrices: { uwhale: 0 },
+          },
+        }
+      : {}),
+
+    // ...(network === "testnet-kujira"
+    // ? {
+    //     "harpoon-4": {
+    //       chainID: "harpoon-4",
+    //       lcd: "https://lcd.harpoon.kujira.setten.io",
+    //       gasAdjustment: 1.3,
+    //       prefix: "kujira",
+    //       gasPrices: {
+    //         ukuji: 0.0025,
+    //       },
+    //     },
+    //   }
+    // : {}),
+    ...(network === "testnet-kujira"
+      ? {
+          "harpoon-4": {
+            chainID: "harpoon-4",
+            lcd: "https://kujira-testnet-api.polkachu.com",
+            gasAdjustment: 1.3,
+            prefix: "kujira",
+            gasPrices: {
+              ukuji: 0.0025,
+            },
           },
         }
       : {}),
@@ -276,7 +326,8 @@ export async function instantiateWithConfirm(
   admin: string,
   codeId: number,
   initMsg: object,
-  label = "Eris Liquid Staking Hub"
+  label = "Eris Liquid Staking Hub",
+  initCoins?: Coins.Input
 ) {
   const result = await sendTxWithConfirm(signer, [
     new MsgInstantiateContract(
@@ -284,7 +335,7 @@ export async function instantiateWithConfirm(
       admin,
       codeId,
       initMsg,
-      undefined,
+      initCoins,
       label
     ),
   ]);
