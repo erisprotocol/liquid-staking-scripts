@@ -1,6 +1,11 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import {
+  createLCDClient,
+  createWallet,
+  getPrefix,
+  sendTxWithConfirm,
+} from "./helpers";
 import * as keystore from "./keystore";
 
 const argv = yargs(process.argv)
@@ -44,9 +49,16 @@ const argv = yargs(process.argv)
 // Terraswap classic
 // ts-node 13_provide_liquidity.ts --network classic --key invest --factory-address terra1ulgw0td86nvs4wtpsc80thv6xelk76ut7a7apj --token-address terra1wvk6r3pmj0835udwns4r5e0twsclvcyuq9ucgm
 
+// Astroport mainnet
+// ts-node 13_provide_liquidity.ts --network mainnet --key ledger --factory-address terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r --token-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
+
+  const token1 = argv["token-address"];
+  const token2 =
+    "terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst";
 
   const pair = await worker.lcd.wasm.contractQuery<{ contract_addr: string }>(
     argv["factory-address"],
@@ -55,12 +67,12 @@ const argv = yargs(process.argv)
         asset_infos: [
           {
             token: {
-              contract_addr: argv["token-address"],
+              contract_addr: token1,
             },
           },
           {
-            native_token: {
-              denom: "uluna",
+            token: {
+              contract_addr: token2,
             },
           },
         ],
@@ -70,13 +82,24 @@ const argv = yargs(process.argv)
 
   console.log("Found contract: " + JSON.stringify(pair));
 
-  const amount = (500).toFixed(0);
+  const SOLID = 5000;
+  const amount1 = (SOLID / 1.7548).toFixed(0);
+  const amount2 = SOLID.toFixed(0);
 
   const { txhash } = await sendTxWithConfirm(worker, [
-    new MsgExecuteContract(worker.key.accAddress, argv["token-address"], {
+    new MsgExecuteContract(worker.key.accAddress(getPrefix()), token1, {
       increase_allowance: {
         spender: pair.contract_addr,
-        amount: amount,
+        amount: amount1,
+        expires: {
+          never: {},
+        },
+      },
+    }),
+    new MsgExecuteContract(worker.key.accAddress(getPrefix()), token2, {
+      increase_allowance: {
+        spender: pair.contract_addr,
+        amount: amount2,
         expires: {
           never: {},
         },
@@ -84,46 +107,45 @@ const argv = yargs(process.argv)
     }),
 
     new MsgExecuteContract(
-      worker.key.accAddress,
+      worker.key.accAddress(getPrefix()),
       pair.contract_addr,
       {
-        //   provide_liquidity: {
-        //     assets: [
-        //       {
-        //         info: {
-        //           token: {
-        //             contract_addr: argv["token-address"],
-        //           },
-        //         },
-        //         amount: amount,
-        //       },
-        //       {
-        //         info: {
-        //           native_token: {
-        //             denom: "uluna",
-        //           },
-        //         },
-        //         amount: "500",
-        //       },
-        //     ],
-
-        //     slippage_tolerance: "0.5",
-        //   },
-        // },
-        swap: {
-          offer_asset: {
-            info: {
-              native_token: {
-                denom: "uluna",
+        provide_liquidity: {
+          assets: [
+            {
+              info: {
+                token: {
+                  contract_addr: token1,
+                },
               },
+              amount: amount1,
             },
-            amount: "50000",
-          },
-          max_spread: "0.5",
+            {
+              info: {
+                token: {
+                  contract_addr: token2,
+                },
+              },
+              amount: amount2,
+            },
+          ],
+
+          slippage_tolerance: "0.5",
         },
+        // swap: {
+        //   offer_asset: {
+        //     info: {
+        //       native_token: {
+        //         denom: "uluna",
+        //       },
+        //     },
+        //     amount: "50000",
+        //   },
+        //   max_spread: "0.5",
+        // },
       },
       {
-        uluna: "50000",
+        // uluna: "50000",
       }
     ),
   ]);

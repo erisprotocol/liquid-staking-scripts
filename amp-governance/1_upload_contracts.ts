@@ -59,7 +59,7 @@ const argv = yargs(process.argv)
 // escrow: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7768 --contract-address terra15h6tu0qxx542rs0njefujw5mjag3gfc0d3seruydhvs6z07ftz6s6uuwdp
 // empgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 6995 --contract-address terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a
 // ampgau: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7769 --contract-address terra1a507lxc7sztyfu8az5np54t6w86nhv2a0n2q5y858jf9ms5t5rsqh648jt
-// stakin: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7771 --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
+// stakin: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 8001 --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88
 // propga: ts-node 3_migrate.ts --network testnet --key testnet --key-migrate testnet --code-id 7770 --contract-address terra1xvef2n7kky4ffzg6yl0rrej9j9d6prdgn79na7yxzcy006znkqwsrztmg5
 
 // ampLUNA
@@ -81,7 +81,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key invest --folder contracts-terra --contracts eris_generator_proxy
 // staking:
 //   ts-node amp-governance/1_upload_contracts.ts --network mainnet --key invest --contracts eris_staking_hub
-//   1160
+//   1160 -> 1257
 // voting-escrow:
 //   ts-node amp-governance/1_upload_contracts.ts --network mainnet --key invest --contracts eris_gov_voting_escrow
 //   1162

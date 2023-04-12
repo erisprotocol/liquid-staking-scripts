@@ -11,7 +11,7 @@
 export type ExecuteMsg =
   | {
       execute: {
-        id: number;
+        id: Uint128;
       };
     }
   | {
@@ -27,7 +27,7 @@ export type ExecuteMsg =
     }
   | {
       remove_executions: {
-        ids?: number[] | null;
+        ids?: Uint128[] | null;
       };
     }
   | {
@@ -47,7 +47,9 @@ export type ExecuteMsg =
   | {
       update_config: {
         add_farms?: string[] | null;
+        arb_vault?: string | null;
         astroport?: AstroportConfigFor_String | null;
+        capapult?: CapapultConfigFor_String | null;
         controller?: string | null;
         fee?: FeeConfigFor_String | null;
         hub?: string | null;
@@ -97,13 +99,43 @@ export type AssetInfo =
 export type Addr = string;
 export type DestinationState =
   | {
-      deposit_amplifier: {};
+      deposit_amplifier: {
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_arb_vault: {
+        receiver?: Addr | null;
+      };
     }
   | {
       deposit_farm: {
         farm: string;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      swap_to: {
+        asset_info: AssetInfo;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_collateral: {
+        market: DepositMarket;
+      };
+    }
+  | {
+      repay: {
+        market: RepayMarket;
       };
     };
+export type DepositMarket = {
+  capapult: {
+    asset_info: AssetInfo;
+  };
+};
+export type RepayMarket = "capapult";
 export type Source =
   | "claim"
   | {
@@ -141,12 +173,36 @@ export type CallbackMsg =
     };
 export type DestinationRuntime =
   | {
-      deposit_amplifier: {};
+      deposit_amplifier: {
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_arb_vault: {
+        receiver?: Addr | null;
+      };
     }
   | {
       deposit_farm: {
         asset_infos: AssetInfo[];
         farm: string;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      send_swap_result_to_user: {
+        asset_info: AssetInfo;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_collateral: {
+        market: DepositMarket;
+      };
+    }
+  | {
+      repay: {
+        market: RepayMarket;
       };
     };
 /**
@@ -186,6 +242,12 @@ export interface CallbackWrapper {
 export interface AstroportConfigFor_String {
   coins: AssetInfo[];
   generator: string;
+}
+export interface CapapultConfigFor_String {
+  custody: string;
+  market: string;
+  overseer: string;
+  stable_cw: string;
 }
 export interface FeeConfigFor_String {
   fee_bps: BasicPoints;

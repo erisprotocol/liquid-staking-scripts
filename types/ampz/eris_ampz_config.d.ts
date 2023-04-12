@@ -37,7 +37,12 @@ export type Addr = string;
 export type BasicPoints = number;
 
 export interface ConfigResponse {
+  /**
+   * Arb Vault contract
+   */
+  arb_vault: string;
   astroport: AstroportConfigFor_String;
+  capapult: CapapultConfigFor_String;
   controller: string;
   /**
    * Farms
@@ -61,6 +66,12 @@ export interface ConfigResponse {
 export interface AstroportConfigFor_String {
   coins: AssetInfo[];
   generator: string;
+}
+export interface CapapultConfigFor_String {
+  custody: string;
+  market: string;
+  overseer: string;
+  stable_cw: string;
 }
 export interface FeeConfigFor_String {
   fee_bps: BasicPoints;

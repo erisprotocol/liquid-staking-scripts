@@ -7,6 +7,7 @@ import {
   MsgInstantiateContract,
   MsgStoreCode,
   Tx,
+  TxLog,
   Wallet,
 } from "@terra-money/feather.js";
 import { LedgerKey } from "@terra-money/ledger-station-js";
@@ -27,6 +28,7 @@ let current_network:
   | "ledger-juno"
   | "mainnet"
   | "migaloo"
+  | "chihuahua"
   | "testnet-migaloo"
   | "testnet-kujira"
   | "testnet" = "testnet";
@@ -49,6 +51,8 @@ export function getChainId() {
       return "narwhal-1";
     case "migaloo":
       return "migaloo-1";
+    case "chihuahua":
+      return "chihuahua-1";
     case "testnet-kujira":
       return "harpoon-4";
     default: {
@@ -75,6 +79,8 @@ export function getPrefix() {
       return "migaloo";
     case "migaloo":
       return "migaloo";
+    case "chihuahua":
+      return "chihuahua";
     case "testnet-kujira":
       return "kujira";
     default: {
@@ -95,6 +101,7 @@ export function createLCDClient(network: string): LCDClient {
           "phoenix-1": {
             chainID: "phoenix-1",
             lcd: "https://phoenix-lcd.terra.dev",
+            // lcd: "https://phoenix-lcd.erisprotocol.com",
             gasAdjustment: 1.2,
             prefix: "terra",
             gasPrices: { uluna: 0.015 },
@@ -106,8 +113,8 @@ export function createLCDClient(network: string): LCDClient {
       ? {
           "pisco-1": {
             chainID: "pisco-1",
-            lcd: "https://pisco-lcd.terra.dev",
-            // lcd: "https://pisco-lcd.erisprotocol.com",
+            // lcd: "https://pisco-lcd.terra.dev",
+            lcd: "https://pisco-lcd.erisprotocol.com",
             gasAdjustment: 1.5,
             prefix: "terra",
             gasPrices: { uluna: 0.015 },
@@ -137,6 +144,39 @@ export function createLCDClient(network: string): LCDClient {
           },
         }
       : {}),
+    ...(network === "chihuahua"
+      ? {
+          "chihuahua-1": {
+            chainID: "chihuahua-1",
+            lcd: "https://api.chihuahua.wtf",
+            gasAdjustment: 1.3,
+            prefix: "chihuahua",
+            gasPrices: { uhuahua: "1" },
+          },
+        }
+      : {}),
+    // ...(network === "injective"
+    //   ? {
+    //       "injective-1": {
+    //         chainID: "injective-1",
+    //         lcd: "https://k8s.global.mainnet.lcd.injective.network:443",
+    //         gasAdjustment: 1.3,
+    //         prefix: "inj",
+    //         gasPrices: { inj: "500000000" },
+    //       },
+    //     }
+    //   : {}),
+    // ...(network === "testnet-injective"
+    //   ? {
+    //       "injective-888": {
+    //         chainID: "injective-888",
+    //         lcd: "	https://k8s.testnet.lcd.injective.network",
+    //         gasAdjustment: 1.3,
+    //         prefix: "inj",
+    //         gasPrices: { inj: "500000000" },
+    //       },
+    //     }
+    //   : {}),
 
     // ...(network === "testnet-kujira"
     // ? {
@@ -260,7 +300,6 @@ export async function sendTxWithConfirm(
       signMode: signMode as SignMode,
       chainID: getChainId(),
     };
-    // console.log("🚀 ~ file: helpers.ts:195 ~ x", x);
 
     let tx: Tx;
 
@@ -268,7 +307,7 @@ export async function sendTxWithConfirm(
       tx = await signer.createAndSignTx(x);
     } catch (error: any) {
       if (error?.response?.data?.message?.includes("not found")) {
-        console.log("INSIDE");
+        console.log("INSIDE " + error?.response?.data?.message);
         const accountNumber = await signer.accountNumber(x.chainID);
         console.log("🚀 ~ file: helpers.ts:223 ~ accountNumber", accountNumber);
         tx = await signer.createAndSignTx({
@@ -280,7 +319,14 @@ export async function sendTxWithConfirm(
         throw error;
       }
     }
-    // console.log("🚀 ~ file: helpers.ts:195 ~ tx", tx);
+
+    // if (x.chainID === "chihuahua-1") {
+    //   const fee = new Coin("uchihuahua", tx.auth_info.fee.gas_limit);
+    //   tx = await signer.createAndSignTx({
+    //     ...x,
+    //     fee: new Fee(tx.auth_info.fee.gas_limit, [fee]),
+    //   });
+    // }
 
     if (confirm) {
       console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");
@@ -339,7 +385,15 @@ export async function instantiateWithConfirm(
       label
     ),
   ]);
-  return result;
+
+  const extendedResult = {
+    ...result,
+    address: result.logs.map(
+      (a: TxLog) => a.eventsByType["instantiate"]["_contract_address"][0]
+    )[0],
+  };
+
+  return extendedResult;
 }
 
 export async function instantiateMultipleWithConfirm(
@@ -371,3 +425,11 @@ export async function instantiateMultipleWithConfirm(
 export function encodeBase64(obj: object | string | number) {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
 }
+
+export const delayPromise = (delayMs: number): Promise<any> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(delayMs);
+    }, delayMs);
+  });
+};

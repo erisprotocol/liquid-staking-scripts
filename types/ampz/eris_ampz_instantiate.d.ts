@@ -40,7 +40,12 @@ export type BasicPoints = number;
  * This structure describes the basic settings for creating a contract.
  */
 export interface InstantiateMsg {
+  /**
+   * Arb vault contract address
+   */
+  arb_vault: string;
   astroport: AstroportConfigFor_String;
+  capapult: CapapultConfigFor_String;
   /**
    * The controller address to execute compound
    */
@@ -63,6 +68,12 @@ export interface InstantiateMsg {
 export interface AstroportConfigFor_String {
   coins: AssetInfo[];
   generator: string;
+}
+export interface CapapultConfigFor_String {
+  custody: string;
+  market: string;
+  overseer: string;
+  stable_cw: string;
 }
 export interface FeeConfigFor_String {
   fee_bps: BasicPoints;

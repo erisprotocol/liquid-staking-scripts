@@ -57,9 +57,10 @@ const argv = yargs(process.argv)
           //   },
           // },
           {
-            commission_bps: 30,
+            commission_bps: 5,
             pair_contract:
-              "terra1nckl6ex6239tv4kjzv03ecmuxwakjm8uj8cy6p850vmlmejfmj9sy094yr",
+              // LUNA-stLUNA
+              "terra1re0yj0j6e9v2szg7kp02ut6u8jjea586t6pnpq6628wl36fphtpqwt6l7p",
             slippage_tolerance: "0.01",
             wanted_token: {
               native_token: {
@@ -67,6 +68,19 @@ const argv = yargs(process.argv)
               },
             },
           },
+
+          // terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc
+          // {
+          //   commission_bps: 30,
+          //   pair_contract:
+          //     "terra1nckl6ex6239tv4kjzv03ecmuxwakjm8uj8cy6p850vmlmejfmj9sy094yr",
+          //   slippage_tolerance: "0.01",
+          //   wanted_token: {
+          //     native_token: {
+          //       denom: "uluna",
+          //     },
+          //   },
+          // },
         ],
       },
     }),

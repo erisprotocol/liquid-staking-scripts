@@ -39,6 +39,12 @@ export type QueryMsg =
         limit?: number | null;
         start_after?: [AssetInfo, AssetInfo] | null;
       };
+    }
+  | {
+      supports_swap: {
+        from: AssetInfo;
+        to: AssetInfo;
+      };
     };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.

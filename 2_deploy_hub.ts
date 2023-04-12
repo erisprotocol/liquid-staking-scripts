@@ -11,6 +11,7 @@ import {
   waitForConfirm,
 } from "./helpers";
 import * as keystore from "./keystore";
+import { InstantiateMsg as InstantiateCw20Msg } from "./types/cw20/hub/instantiate_msg";
 import { InstantiateMsg } from "./types/hub/instantiate_msg";
 
 const argv = yargs(process.argv)
@@ -206,6 +207,32 @@ const templates: Record<string, InstantiateMsg> = {
     protocol_reward_fee: "0.05",
     owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
   },
+  chihuahua: <InstantiateCw20Msg>{
+    name: "Eris Amplified HUAHUA",
+    symbol: "ampHUAHUA",
+    denom: "ampHUAHUA",
+    operator: "",
+    utoken: "uhuahua",
+    delegation_strategy: "uniform",
+    cw20_code_id: 0,
+    decimals: 6,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "chihuahuavaloper149c3xwd6al6nphyvx8gkvnd9363rnc4v3uwcfu",
+      "chihuahuavaloper1vrd6h59f2e95r52t5rj4yt5mpkrxeuluud56z3",
+      "chihuahuavaloper18jlk0pkpr8cnnpjtgu3dqxjvpvlnj6r4e2dtvf",
+      "chihuahuavaloper1670dvuv348eynr9lsmdrhqu3g7vpmzx96h4l2d",
+      "chihuahuavaloper166ks8xvs36m0ggyxwavv7rj4d9nqwthgq5g7s8",
+      "chihuahuavaloper1pzqjgfd25qsyfdtmx9elrqx6zjjvnc9sj52r2y",
+      "chihuahuavaloper1h6vcu4r2hx70x5f0l3du3ey2g98u9ut2tafnnv",
+      "chihuahuavaloper15tnycxe9csn7mkul4vvlyxlkd9jyqlw4q80nmy",
+      "chihuahuavaloper1gp957czryfgyvxwn3tfnyy2f0t9g2p4p40qac2",
+    ],
+    protocol_fee_contract: "chihuahua1dpaaxgw4859qhew094s87l0he8tfea3l8l3v7g",
+    protocol_reward_fee: "0.05",
+    owner: "",
+  },
 };
 
 // TESTNET
@@ -222,6 +249,10 @@ const templates: Record<string, InstantiateMsg> = {
 
 // MIGALOO TESTNET
 // ts-node 2_deploy_hub.ts --network testnet-migaloo --key testnet-migaloo --hub-binary "../contracts-whitewhale/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-whitewhale/artifacts/eris_staking_token.wasm"
+
+// CHIHUAHUA
+// ts-node 2_deploy_hub.ts --network chihuahua --key mainnet-chihuahua --hub-code-id 280 --token-code-id 281 --hub-binary "../contracts-cw20/artifacts/eris_staking_hub_cw20.wasm" --token-binary "../contracts-cw20/artifacts/eris_staking_token.wasm"
+// chihuahua12c7cn87udfg9uktk0kdaressme7s7ae5nxg0yqsawxf3q8exsr7sq9ueyh
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -242,6 +273,7 @@ const templates: Record<string, InstantiateMsg> = {
   }
   msg["cw20_code_id"] = tokenCodeId;
   msg["owner"] = msg["owner"] || deployer.key.accAddress(getPrefix());
+  msg["operator"] = msg["operator"] || deployer.key.accAddress(getPrefix());
 
   console.log("\n" + JSON.stringify(msg).replace(/\\/g, "") + "\n");
 

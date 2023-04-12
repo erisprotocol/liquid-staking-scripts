@@ -7,7 +7,7 @@ import {
   instantiateMultipleWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
-import { InstantiateMsg } from "../types/amp-compounder/astroport_farm/instantiate_msg";
+import { InstantiateMsg } from "../types/amp-compounder/astroport_farm/eris_astroport_farm_instantiate";
 
 const argv = yargs(process.argv)
   .options({
@@ -32,7 +32,7 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node 4_instantiate_farms.ts --network testnet --key testnet --contract-code-id 4813
-// ts-node amp-compounder/4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 527
+// ts-node amp-compounder/4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 1170
 
 //
 
@@ -77,6 +77,7 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     staking_contract:
       "terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0",
+    deposit_profit_delay_s: 24 * 60 * 60,
   },
 };
 
@@ -127,9 +128,13 @@ const lps: Record<string, { lp: string }[]> = {
     // {
     //   lp: "terra1ua7uk7xvx89dg8tnr8k8smk5vermlaer50zsglmpx8plttaxvvtsem5fgy",
     // },
-    // SAYVE
+    // // SAYVE
+    // {
+    //   lp: "terra1zqthrqndchxp5ye443zdulhhh2938uak78q4ztthfrnkfltpgrpsu3c5xd",
+    // },
+    // stLUNA-LUNA
     {
-      lp: "terra1zqthrqndchxp5ye443zdulhhh2938uak78q4ztthfrnkfltpgrpsu3c5xd",
+      lp: "terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc",
     },
   ],
 };

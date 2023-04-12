@@ -5,28 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type DestinationState =
-  | {
-      deposit_amplifier: {};
-    }
-  | {
-      deposit_farm: {
-        farm: string;
-      };
-    };
-export type Source =
-  | "claim"
-  | {
-      astro_rewards: {
-        lps: string[];
-      };
-    }
-  | {
-      wallet: {
-        max_amount?: Uint128 | null;
-        over: Description;
-      };
-    };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -41,6 +19,49 @@ export type Source =
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
+export type DestinationState =
+  | {
+      deposit_amplifier: {
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_arb_vault: {
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_farm: {
+        farm: string;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      swap_to: {
+        asset_info: AssetInfo;
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_collateral: {
+        market: DepositMarket;
+      };
+    }
+  | {
+      repay: {
+        market: RepayMarket;
+      };
+    };
+/**
+ * A human readable address.
+ *
+ * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
+ *
+ * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
+ *
+ * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
+ */
+export type Addr = string;
 /**
  * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("terra...") }; NativeToken { denom: String::from("uluna") }; ```
  */
@@ -57,19 +78,28 @@ export type AssetInfo =
         [k: string]: unknown;
       };
     };
-/**
- * A human readable address.
- *
- * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
- *
- * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
- *
- * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
- */
-export type Addr = string;
+export type DepositMarket = {
+  capapult: {
+    asset_info: AssetInfo;
+  };
+};
+export type RepayMarket = "capapult";
+export type Source =
+  | "claim"
+  | {
+      astro_rewards: {
+        lps: string[];
+      };
+    }
+  | {
+      wallet: {
+        max_amount?: Uint128 | null;
+        over: Description;
+      };
+    };
 
 export interface ExecutionsResponse {
-  executions: [number, Execution][];
+  executions: [Uint128, Execution][];
 }
 export interface Execution {
   destination: DestinationState;

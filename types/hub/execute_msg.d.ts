@@ -129,6 +129,12 @@ export type ExecuteMsg =
         vote_operator?: string | null;
         [k: string]: unknown;
       };
+    }
+  | {
+      claim: {
+        claims: ClaimType[];
+        [k: string]: unknown;
+      };
     };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
@@ -200,6 +206,9 @@ export type DelegationStrategyFor_String =
         [k: string]: unknown;
       };
     };
+export type ClaimType = {
+  default: string;
+};
 
 /**
  * Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg

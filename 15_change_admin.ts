@@ -48,6 +48,9 @@ const argv = yargs(process.argv)
 // HUB
 // ts-node 15_change_admin.ts --network mainnet --key ledger --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --new-admin terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8
 
+// CW20
+// ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct --new-admin terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);

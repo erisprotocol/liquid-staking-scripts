@@ -58,7 +58,7 @@ function decrypt(cipherText: string, password: string): string {
   return decryptedText.toString();
 }
 
-export function save(
+export async function save(
   keyName: string,
   keyDir: string,
   mnemonic: string,
@@ -71,18 +71,44 @@ export function save(
     throw new Error(`file ${filePath} already exists!`);
   }
 
+  // if (prefix === "inj") {
+  //   const privateKeyFromMnemonic = PrivateKey.fromMnemonic(mnemonic);
+  //   const address = privateKeyFromMnemonic.toAddress();
+  //   const privateKey = privateKeyFromMnemonic.toHex();
+  //   const cipherText = encrypt(privateKey, password);
+  //   const entity: Entity = {
+  //     name: keyName,
+  //     address: address.bech32Address,
+  //     cipherText,
+  //   };
+  //   fs.writeFileSync(filePath, JSON.stringify(entity, null, 2));
+  //   return address;
+  // }
+
+  // if (prefix === "inj") {
+  //   const mnemonic =
+  //     "unfold client turtle either pilot stock floor glow toward bullet car science";
+  //   const chain = chains.find(({ chain_name }) => chain_name === "injective");
+  //   const signer = await getOfflineSigner({
+  //     mnemonic,
+  //     chain,
+  //   });
+  //   signer;
+  // }
+
   const mnemonicKey = new MnemonicKey({ mnemonic, coinType });
   const privateKey = mnemonicKey.privateKey.toString("hex");
   const cipherText = encrypt(privateKey, password);
+  const address = mnemonicKey.accAddress(prefix);
 
   const entity: Entity = {
     name: keyName,
-    address: mnemonicKey.accAddress(prefix),
+    address: address,
     cipherText,
   };
   fs.writeFileSync(filePath, JSON.stringify(entity, null, 2));
 
-  return mnemonicKey.accAddress;
+  return address;
 }
 
 export function load(

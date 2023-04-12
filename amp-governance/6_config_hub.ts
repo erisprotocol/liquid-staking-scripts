@@ -85,12 +85,13 @@ const templates: Record<string, ExecuteMsg> = {
           // emp_gauges:
           //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
           max_delegation_bps: 2500,
-          min_delegation_bps: 200,
+          min_delegation_bps: 50,
           validator_count: 30,
         },
       },
-      vote_operator:
-        "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j",
+      // vote_operator:
+      //   "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j",
+      // protocol_reward_fee: "0",
     },
   },
   // mainnet: <ExecuteMsg>{},

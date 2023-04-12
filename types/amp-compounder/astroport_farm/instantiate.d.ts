@@ -32,6 +32,7 @@ export interface InstantiateMsg {
    * The controller address to execute compound
    */
   controller: string;
+  deposit_profit_delay_s: number;
   /**
    * The performance fee
    */

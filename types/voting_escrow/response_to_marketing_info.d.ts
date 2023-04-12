@@ -9,10 +9,10 @@
  * This is used to display logo info, provide a link or inform there is one that can be downloaded from the blockchain itself
  */
 export type LogoInfo =
-  | "embedded"
   | {
       url: string;
-    };
+    }
+  | "embedded";
 /**
  * A human readable address.
  *

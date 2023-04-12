@@ -63,6 +63,7 @@ export type ExecuteMsg =
     }
   | {
       update_config: {
+        default_max_spread?: number | null;
         delete_lps?: string[] | null;
         delete_routes?: RouteDelete[] | null;
         factory?: string | null;

@@ -48,12 +48,6 @@ const argv = yargs(process.argv)
 // ts-node 5_migrate.ts --network testnet --key testnet --code-id 4625 --contracts terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0
 
 // mainnet
-// farms
-// ts-node 5_migrate.ts --network mainnet --key ledger --code-id 527 --contracts terra1lv2cscvakmtaahj8a6kw43zaefzemydwaswrf38sn2s2depv0wls6ut57q terra1r0ykpvttzxdx573hypmmdzq4g8e2k5cf5ur0rrjhp6mxrux9rmaq9xw9ff terra1c6vzxwfcfur2fg08n3nhtdlaxpmjd5wk9nztv8fjgfsjgagtghzsfftutt terra1xskgvsew6u6nmfwv2mc58m4hscr77xw884x65fuxup8ewvvvuyysr5k3lj terra1q3q88nyhn7a206djjk40xespszrwg26s8j5fswfgsv6cyu8qlsmsncmppe terra1qv5pklpnqmugqfehsytakk7tj2fsw4kt69xn2gvaq0edsynm9c7qnjecq2 terra1c98f5dg90cyx5uklezsvac46e4c3msq3ghktkmeksyahytsvuh0q438m6c
-// zapper
-// ts-node 5_migrate.ts --network mainnet --key ledger --code-id 528 --contracts terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
-// generator
-// ts-node amp-compounder/5_migrate.ts --network mainnet --key ledger --code-id 1088 --contracts terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

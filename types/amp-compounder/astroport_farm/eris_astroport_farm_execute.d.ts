@@ -22,6 +22,7 @@ export type ExecuteMsg =
          * The controller address
          */
         controller?: string | null;
+        deposit_profit_delay_s?: number | null;
         /**
          * The performance fee
          */

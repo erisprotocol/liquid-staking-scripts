@@ -21,4 +21,10 @@ export type QueryMsg =
       state: {
         addr?: string | null;
       };
+    }
+  | {
+      exchange_rates: {
+        limit?: number | null;
+        start_after?: number | null;
+      };
     };

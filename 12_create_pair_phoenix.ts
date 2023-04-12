@@ -70,17 +70,34 @@ const argv = yargs(process.argv)
       worker.key.accAddress(getPrefix()),
       argv["factory-address"],
       {
+        // create_pair: {
+        //   pair_type: { stable: {} },
+        //   asset_infos: [
+        //     {
+        //       token: {
+        //         contract_addr: argv["token-address"],
+        //       },
+        //     },
+        //     { native_token: { denom: "uluna" } },
+        //   ],
+        //   init_params: "eyJhbXAiOjEwfQ==",
+        // },
         create_pair: {
-          pair_type: { stable: {} },
+          pair_type: { xyk: {} },
           asset_infos: [
             {
               token: {
                 contract_addr: argv["token-address"],
               },
             },
-            { native_token: { denom: "uluna" } },
+            {
+              token: {
+                // solid
+                contract_addr:
+                  "terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst",
+              },
+            },
           ],
-          init_params: "eyJhbXAiOjEwfQ==",
         },
       },
       {}

@@ -35,13 +35,12 @@ const argv = yargs(process.argv)
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
 
+  const address = admin.key.accAddress(getPrefix());
   const { txhash } = await sendTxWithConfirm(
     admin,
 
     [
-      new MsgExecuteContract(admin.key.accAddress(getPrefix()), argv.contract, <
-        ExecuteMsg
-      >{
+      new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
           // astroport: {
           //   generator:
@@ -60,13 +59,25 @@ const argv = yargs(process.argv)
           //     },
           //   ],
           // },
-          zapper:
-            "terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0",
+          // zapper:
+          //   "terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0",
           // fee: {
           //   fee_bps: 100,
           //   operator_bps: 100,
           //   receiver: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
           // },
+          // capapult: {
+          //   market:
+          //     "terra1h4cknjl5k0aysdhv0h4eqcaka620g8h69k8h0pjjccxvf9esfhws3cyqnc",
+          //   overseer:
+          //     "terra10qnsw3wn4uaxs7en2kynhet2dsyy76lmprh2ptcz85d8hu59gkuqcpndnv",
+          //   custody:
+          //     "terra18uxq2k6wpsqythpakz5n6ljnuzyehrt775zkdclrtdtv6da63gmskqn7dq",
+          //   stable_cw:
+          //     "terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst",
+          // },
+          arb_vault:
+            "terra1r9gls56glvuc4jedsvc3uwh6vj95mqm9efc7hnweqxa2nlme5cyqxygy5m",
         },
       }),
     ]

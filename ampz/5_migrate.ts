@@ -55,6 +55,9 @@ const argv = yargs(process.argv)
 // generator
 // ts-node 5_migrate.ts --network mainnet --key ledger --code-id 529 --contracts terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0
 
+// ampz
+// ts-node ampz/5_migrate.ts --network mainnet --key ledger --code-id 1279 --contracts terra1kgqwwdyg0sq05tjl34qh48ewu6ln3q0ds63hl87tjdrp80e5s0yqt6rp48
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);

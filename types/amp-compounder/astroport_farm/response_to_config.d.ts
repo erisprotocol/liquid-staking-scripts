@@ -27,6 +27,7 @@ export interface ConfigResponse {
   base_reward_token: Addr;
   compound_proxy: Addr;
   controller: Addr;
+  deposit_profit_delay_s: number;
   fee: Decimal;
   fee_collector: Addr;
   lp_token: Addr;
