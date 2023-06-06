@@ -43,55 +43,55 @@ const argv = yargs(process.argv)
     [
       new MsgExecuteContract(admin.key.accAddress(getPrefix()), argv.contract, <
         ExecuteMsg
-      >{
-        update_config: {
-          target_list: [
-            {
-              addr: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
-              weight: 1,
-              msg: Buffer.from(JSON.stringify({ donate: {} })).toString(
-                "base64"
-              ),
-              target_type: "weight",
-            },
-            {
-              addr: "terra1rgggsspquaxjp4lmegx7a3q4l9lg44hnu7rjxa",
-              weight: 1,
-              target_type: "weight",
-            },
-            {
-              addr: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "20000000",
-                  min_fill: "15000000",
+        >{
+          update_config: {
+            target_list: [
+              // {
+              //   addr: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+              //   weight: 1,
+              //   msg: Buffer.from(JSON.stringify({ donate: {} })).toString(
+              //     "base64"
+              //   ),
+              //   target_type: "weight",
+              // },
+              {
+                addr: "terra1rgggsspquaxjp4lmegx7a3q4l9lg44hnu7rjxa",
+                weight: 1,
+                target_type: "weight",
+              },
+              {
+                addr: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
+                weight: 0,
+                target_type: {
+                  fill_up_first: {
+                    filled_to: "20000000",
+                    min_fill: "15000000",
+                  },
                 },
               },
-            },
-            {
-              addr: "terra18vuumkf5kfwcuyejwnrmjp3xwd56d38a5szaqtqswgxahkqn5t3s07hgs8",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "5000000",
-                  min_fill: "3000000",
+              {
+                addr: "terra18vuumkf5kfwcuyejwnrmjp3xwd56d38a5szaqtqswgxahkqn5t3s07hgs8",
+                weight: 0,
+                target_type: {
+                  fill_up_first: {
+                    filled_to: "5000000",
+                    min_fill: "3000000",
+                  },
                 },
               },
-            },
-            {
-              addr: "terra1qry8zdwge8ufchefvuhtz4yh70rc9dxlcuvp34",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "5000000",
-                  min_fill: "3000000",
+              {
+                addr: "terra1qry8zdwge8ufchefvuhtz4yh70rc9dxlcuvp34",
+                weight: 0,
+                target_type: {
+                  fill_up_first: {
+                    filled_to: "5000000",
+                    min_fill: "3000000",
+                  },
                 },
               },
-            },
-          ],
-        },
-      }),
+            ],
+          },
+        }),
     ]
   );
   console.log(`Contract added route! Txhash: ${txhash}`);

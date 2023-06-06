@@ -31,6 +31,7 @@ let current_network:
   | "chihuahua"
   | "testnet-migaloo"
   | "testnet-kujira"
+  | "testnet-osmosis"
   | "testnet" = "testnet";
 
 export function getChainId() {
@@ -55,6 +56,8 @@ export function getChainId() {
       return "chihuahua-1";
     case "testnet-kujira":
       return "harpoon-4";
+    case "testnet-osmosis":
+      return "osmo-test-5";
     default: {
     }
   }
@@ -83,6 +86,8 @@ export function getPrefix() {
       return "chihuahua";
     case "testnet-kujira":
       return "kujira";
+    case "testnet-osmosis":
+      return "osmo";
     default: {
     }
   }
@@ -98,62 +103,73 @@ export function createLCDClient(network: string): LCDClient {
   return new LCDClient({
     ...(network === "mainnet" || network === "ledger"
       ? {
-          "phoenix-1": {
-            chainID: "phoenix-1",
-            lcd: "https://phoenix-lcd.terra.dev",
-            // lcd: "https://phoenix-lcd.erisprotocol.com",
-            gasAdjustment: 1.2,
-            prefix: "terra",
-            gasPrices: { uluna: 0.015 },
-          },
-        }
+        "phoenix-1": {
+          chainID: "phoenix-1",
+          lcd: "https://phoenix-lcd.terra.dev",
+          // lcd: "https://phoenix-lcd.erisprotocol.com",
+          gasAdjustment: 1.2,
+          prefix: "terra",
+          gasPrices: { uluna: 0.015 },
+        },
+      }
       : {}),
 
     ...(network === "testnet"
       ? {
-          "pisco-1": {
-            chainID: "pisco-1",
-            // lcd: "https://pisco-lcd.terra.dev",
-            lcd: "https://pisco-lcd.erisprotocol.com",
-            gasAdjustment: 1.5,
-            prefix: "terra",
-            gasPrices: { uluna: 0.015 },
-          },
-        }
+        "pisco-1": {
+          chainID: "pisco-1",
+          // lcd: "https://pisco-lcd.terra.dev",
+          lcd: "https://pisco-lcd.erisprotocol.com",
+          gasAdjustment: 1.5,
+          prefix: "terra",
+          gasPrices: { uluna: 0.015 },
+        },
+      }
       : {}),
 
     ...(network === "testnet-migaloo"
       ? {
-          "narwhal-1": {
-            chainID: "narwhal-1",
-            lcd: "https://whitewhale-testnet-api.polkachu.com",
-            gasAdjustment: 1.5,
-            prefix: "migaloo",
-            gasPrices: { uwhale: 0 },
-          },
-        }
+        "narwhal-1": {
+          chainID: "narwhal-1",
+          lcd: "https://whitewhale-testnet-api.polkachu.com",
+          gasAdjustment: 1.5,
+          prefix: "migaloo",
+          gasPrices: { uwhale: 0 },
+        },
+      }
       : {}),
     ...(network === "migaloo"
       ? {
-          "migaloo-1": {
-            chainID: "migaloo-1",
-            lcd: "https://migaloo-api.polkachu.com",
-            gasAdjustment: 1.5,
-            prefix: "migaloo",
-            gasPrices: { uwhale: 0 },
-          },
-        }
+        "migaloo-1": {
+          chainID: "migaloo-1",
+          lcd: "https://migaloo-api.polkachu.com",
+          gasAdjustment: 1.5,
+          prefix: "migaloo",
+          gasPrices: { uwhale: 0 },
+        },
+      }
+      : {}),
+    ...(network === "testnet-osmosis"
+      ? {
+        "osmo-test-5": {
+          chainID: "osmo-test-5",
+          lcd: "https://lcd.osmotest5.osmosis.zone",
+          gasAdjustment: 1.5,
+          prefix: "osmo",
+          gasPrices: { uosmo: 0 },
+        },
+      }
       : {}),
     ...(network === "chihuahua"
       ? {
-          "chihuahua-1": {
-            chainID: "chihuahua-1",
-            lcd: "https://api.chihuahua.wtf",
-            gasAdjustment: 1.3,
-            prefix: "chihuahua",
-            gasPrices: { uhuahua: "1" },
-          },
-        }
+        "chihuahua-1": {
+          chainID: "chihuahua-1",
+          lcd: "https://api.chihuahua.wtf",
+          gasAdjustment: 1.3,
+          prefix: "chihuahua",
+          gasPrices: { uhuahua: "1" },
+        },
+      }
       : {}),
     // ...(network === "injective"
     //   ? {
@@ -193,28 +209,28 @@ export function createLCDClient(network: string): LCDClient {
     // : {}),
     ...(network === "testnet-kujira"
       ? {
-          "harpoon-4": {
-            chainID: "harpoon-4",
-            lcd: "https://kujira-testnet-api.polkachu.com",
-            gasAdjustment: 1.3,
-            prefix: "kujira",
-            gasPrices: {
-              ukuji: 0.0025,
-            },
+        "harpoon-4": {
+          chainID: "harpoon-4",
+          lcd: "https://kujira-testnet-api.polkachu.com",
+          gasAdjustment: 1.3,
+          prefix: "kujira",
+          gasPrices: {
+            ukuji: 0.0025,
           },
-        }
+        },
+      }
       : {}),
 
     ...(network === "classic"
       ? {
-          "columbus-5": {
-            chainID: "columbus-5",
-            lcd: "https://lcd.terra.dev",
-            gasPrices: { uluna: "28.325" },
-            gasAdjustment: 1.2,
-            prefix: "terra",
-          },
-        }
+        "columbus-5": {
+          chainID: "columbus-5",
+          lcd: "https://lcd.terra.dev",
+          gasPrices: { uluna: "28.325" },
+          gasAdjustment: 1.2,
+          prefix: "terra",
+        },
+      }
       : {}),
 
     "juno-1": {

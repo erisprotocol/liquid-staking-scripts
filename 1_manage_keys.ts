@@ -59,7 +59,9 @@ function removeKey(keyName: string, keyDir: string) {
 // ts-node 1_manage_keys.ts add mainnet-juno --key-dir keys --coin-type 118 --prefix juno
 // ts-node 1_manage_keys.ts add testnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo
 // ts-node 1_manage_keys.ts add mainnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo
+// ts-node 1_manage_keys.ts add testnet-osmosis --key-dir keys --coin-type 118 --prefix osmo
 // ts-node 1_manage_keys.ts add mainnet-chihuahua --key-dir keys --prefix chihuahua
+// ts-node 1_manage_keys.ts add mainnet --key-dir keys --prefix terra
 // ts-node 1_manage_keys.ts add mainnet-injective --key-dir keys --coin-type 60 --prefix inj
 // ts-node 1_manage_keys.ts test
 
