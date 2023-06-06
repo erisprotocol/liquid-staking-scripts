@@ -58,5 +58,4 @@ export interface AssetWithLimit {
    * The amount of tokens to swap
    */
   limit?: Uint128 | null;
-  [k: string]: unknown;
 }

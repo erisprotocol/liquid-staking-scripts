@@ -54,7 +54,6 @@ export interface BalancesResponse {
    * List of asset and balance in the contract
    */
   balances: Description[];
-  [k: string]: unknown;
 }
 /**
  * This enum describes a Terra asset (native or CW20).

@@ -7,18 +7,16 @@
 
 export type RouteTypeResponseItem =
   | {
-      Path: {
+      path: {
         route: string[];
         router: string;
         router_type: RouterType;
-        [k: string]: unknown;
       };
     }
   | {
-      PairProxy: {
+      pair_proxy: {
         asset_infos: string[];
         pair_contract: string;
-        [k: string]: unknown;
       };
     };
 export type RouterType = "astro_swap" | "terra_swap" | "token_swap";
@@ -26,5 +24,4 @@ export type RouterType = "astro_swap" | "terra_swap" | "token_swap";
 export interface RouteResponseItem {
   key: [string, string];
   route_type: RouteTypeResponseItem;
-  [k: string]: unknown;
 }

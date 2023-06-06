@@ -10,41 +10,40 @@
  */
 export type QueryMsg =
   | {
-      config: {
-        [k: string]: unknown;
-      };
+      config: {};
     }
   | {
       compound_simulation: {
         lp_token: string;
         rewards: Description[];
-        [k: string]: unknown;
       };
     }
   | {
       get_lp: {
         lp_addr: string;
-        [k: string]: unknown;
       };
     }
   | {
       get_lp_state: {
         lp_addr: string;
-        [k: string]: unknown;
       };
     }
   | {
       get_lps: {
         limit?: number | null;
         start_after?: string | null;
-        [k: string]: unknown;
       };
     }
   | {
       get_routes: {
         limit?: number | null;
         start_after?: [AssetInfo, AssetInfo] | null;
-        [k: string]: unknown;
+      };
+    }
+  | {
+      supports_swap: {
+        from: AssetInfo;
+        to: AssetInfo;
       };
     };
 /**

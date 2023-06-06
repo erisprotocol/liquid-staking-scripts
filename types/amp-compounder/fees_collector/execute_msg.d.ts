@@ -15,7 +15,6 @@ export type ExecuteMsg =
          * The assets to swap to stablecoin
          */
         assets: AssetWithLimit[];
-        [k: string]: unknown;
       };
     }
   | {
@@ -35,8 +34,7 @@ export type ExecuteMsg =
         /**
          * The list of target address to receive fees in stablecoin
          */
-        target_list?: TargetConfigUnchecked[] | null;
-        [k: string]: unknown;
+        target_list?: TargetConfigFor_String[] | null;
       };
     }
   | {
@@ -49,20 +47,16 @@ export type ExecuteMsg =
          * List of asset to be removed
          */
         remove?: AssetInfo[] | null;
-        [k: string]: unknown;
       };
     }
   | {
       swap_bridge_assets: {
         assets: AssetInfo[];
         depth: number;
-        [k: string]: unknown;
       };
     }
   | {
-      distribute_fees: {
-        [k: string]: unknown;
-      };
+      distribute_fees: {};
     }
   | {
       propose_new_owner: {
@@ -74,18 +68,13 @@ export type ExecuteMsg =
          * The newly proposed owner
          */
         owner: string;
-        [k: string]: unknown;
       };
     }
   | {
-      drop_ownership_proposal: {
-        [k: string]: unknown;
-      };
+      drop_ownership_proposal: {};
     }
   | {
-      claim_ownership: {
-        [k: string]: unknown;
-      };
+      claim_ownership: {};
     };
 /**
  * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("terra...") }; NativeToken { denom: String::from("uluna") }; ```
@@ -136,9 +125,17 @@ export type Decimal = string;
 /**
  * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
  *
- * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>
+ * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
 export type Binary = string;
+export type TargetType =
+  | "weight"
+  | {
+      fill_up_first: {
+        filled_to: Uint128;
+        min_fill?: Uint128 | null;
+      };
+    };
 
 /**
  * This struct holds parameters to help with swapping a specific amount of a fee token to ASTRO.
@@ -152,14 +149,13 @@ export interface AssetWithLimit {
    * The amount of tokens to swap
    */
   limit?: Uint128 | null;
-  [k: string]: unknown;
 }
 /**
  * This struct holds parameters to configure receiving contracts and messages.
  */
-export interface TargetConfigUnchecked {
+export interface TargetConfigFor_String {
   addr: string;
   msg?: Binary | null;
+  target_type?: TargetType & string;
   weight: number;
-  [k: string]: unknown;
 }

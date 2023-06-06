@@ -5,7 +5,12 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import * as keystore from "./keystore";
 
-async function addKey(keyName: string, keyDir: string, coinType: number) {
+async function addKey(
+  keyName: string,
+  keyDir: string,
+  coinType: number,
+  prefix: string
+) {
   if (!fs.existsSync(keyDir)) {
     fs.mkdirSync(keyDir, { recursive: true });
   }
@@ -25,7 +30,8 @@ async function addKey(keyName: string, keyDir: string, coinType: number) {
     keyDir,
     mnemonic,
     coinType,
-    password
+    password,
+    prefix
   );
   console.log("Success! Address:", accAddress);
 }
@@ -50,9 +56,20 @@ function removeKey(keyName: string, keyDir: string) {
   console.log("Success!");
 }
 
-// ts-node 1_manage_keys.ts add mainnet-juno --key-dir keys --coin-type 118
+// ts-node 1_manage_keys.ts add mainnet-juno --key-dir keys --coin-type 118 --prefix juno
+// ts-node 1_manage_keys.ts add testnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo
+// ts-node 1_manage_keys.ts add mainnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo
+// ts-node 1_manage_keys.ts add mainnet-chihuahua --key-dir keys --prefix chihuahua
+// ts-node 1_manage_keys.ts add mainnet-injective --key-dir keys --coin-type 60 --prefix inj
+// ts-node 1_manage_keys.ts test
 
 yargs(hideBin(process.argv))
+  // .command(
+  //   "test",
+  //   "",
+  //   () => ({}),
+  //   () => test()
+  // )
   .command(
     "add <key>",
     "Add a key with the given name",
@@ -76,10 +93,21 @@ yargs(hideBin(process.argv))
             "SLIP-0044 coin type for use in derivation of the private key",
           demandOption: false,
           default: 330, // Terra = 330, Cosmos = 118
+        })
+        .option("prefix", {
+          type: "string",
+          describe: "Prefix for address",
+          demandOption: false,
+          default: "terra", // Terra = 330, Cosmos = 118
         });
     },
     (argv) =>
-      addKey(argv["key"], argv["key-dir"], argv["coin-type"]).catch(console.log)
+      addKey(
+        argv["key"],
+        argv["key-dir"],
+        argv["coin-type"],
+        argv["prefix"]
+      ).catch(console.log)
   )
   .command(
     "rm <key>",

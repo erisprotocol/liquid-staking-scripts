@@ -1,15 +1,17 @@
-import { Wallet } from "@terra-money/terra.js";
+import { Wallet } from "@terra-money/feather.js";
 import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
 } from "./helpers";
 import * as keystore from "./keystore";
+import { InstantiateMsg as InstantiateCw20Msg } from "./types/cw20/hub/instantiate_msg";
 import { InstantiateMsg } from "./types/hub/instantiate_msg";
 
 const argv = yargs(process.argv)
@@ -64,6 +66,44 @@ async function uploadCode(deployer: Wallet, path: string) {
 }
 
 const templates: Record<string, InstantiateMsg> = {
+  "testnet-migaloo": <InstantiateMsg>{
+    name: "Eris Amplified WHALE",
+    symbol: "ampWHALE",
+    cw20_code_id: 0,
+    decimals: 6,
+    // epoch_period: Math.ceil((10 * 60) / 7),
+    // unbond_period: 10 * 60,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "migaloovaloper1rqvctgdpafvc0k9fx4ng8ckt94x723zmp3g0jv",
+      "migaloovaloper1820a86x8e70ecsw486uvh5af6zqk3tq037pqcr",
+      "migaloovaloper18ulrp6juyj0tt0zmkrxn3ex4mkd3kkg6uk7nfx",
+    ],
+    protocol_fee_contract: "migaloo1z3txc4x7scxsypx9tgynyfhu48nw60a5gpmd3y",
+    protocol_reward_fee: "0.05",
+    owner: "",
+  },
+  migaloo: <InstantiateMsg>{
+    name: "Eris Amplified WHALE",
+    symbol: "ampWHALE",
+    denom: "ampWHALE",
+    cw20_code_id: -1,
+    decimals: -1,
+    // epoch_period: Math.ceil((10 * 60) / 7),
+    // unbond_period: 10 * 60,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "migaloovaloper1xesqr8vjvy34jhu027zd70ypl0nnev5eec90ew",
+      "migaloovaloper1670dvuv348eynr9lsmdrhqu3g7vpmzx94s460k",
+      "migaloovaloper1rrv6nnt0susu4altt3m6ud2r85qjkc2cw6ptwz",
+    ],
+    protocol_fee_contract: "migaloo1z3txc4x7scxsypx9tgynyfhu48nw60a5gpmd3y",
+    protocol_reward_fee: "0.05",
+    owner: "",
+    chain_config: {},
+  },
   testnet: <InstantiateMsg>{
     name: "Eris Amplified LUNA",
     symbol: "ampLUNA",
@@ -80,8 +120,8 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "",
   },
   mainnet: <InstantiateMsg>{
-    name: "Eris Amplified LUNA",
-    symbol: "ampLUNA",
+    name: "Test Migration",
+    symbol: "test",
     cw20_code_id: 0,
     decimals: 6,
     epoch_period: 3 * 24 * 60 * 60,
@@ -167,15 +207,53 @@ const templates: Record<string, InstantiateMsg> = {
     protocol_reward_fee: "0.05",
     owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
   },
+  chihuahua: <InstantiateCw20Msg>{
+    name: "Eris Amplified HUAHUA",
+    symbol: "ampHUAHUA",
+    denom: "ampHUAHUA",
+    operator: "",
+    utoken: "uhuahua",
+    delegation_strategy: "uniform",
+    cw20_code_id: 0,
+    decimals: 6,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "chihuahuavaloper149c3xwd6al6nphyvx8gkvnd9363rnc4v3uwcfu",
+      "chihuahuavaloper1vrd6h59f2e95r52t5rj4yt5mpkrxeuluud56z3",
+      "chihuahuavaloper18jlk0pkpr8cnnpjtgu3dqxjvpvlnj6r4e2dtvf",
+      "chihuahuavaloper1670dvuv348eynr9lsmdrhqu3g7vpmzx96h4l2d",
+      "chihuahuavaloper166ks8xvs36m0ggyxwavv7rj4d9nqwthgq5g7s8",
+      "chihuahuavaloper1pzqjgfd25qsyfdtmx9elrqx6zjjvnc9sj52r2y",
+      "chihuahuavaloper1h6vcu4r2hx70x5f0l3du3ey2g98u9ut2tafnnv",
+      "chihuahuavaloper15tnycxe9csn7mkul4vvlyxlkd9jyqlw4q80nmy",
+      "chihuahuavaloper1gp957czryfgyvxwn3tfnyy2f0t9g2p4p40qac2",
+    ],
+    protocol_fee_contract: "chihuahua1dpaaxgw4859qhew094s87l0he8tfea3l8l3v7g",
+    protocol_reward_fee: "0.05",
+    owner: "",
+  },
 };
 
+// TESTNET
 // ts-node 2_deploy_hub.ts --network testnet --key testnet --hub-code-id 169 --token-code-id 125
+
+// TESTMIGRATION: terra1ckthjpaw9w74s409hsr2peracq8akx6e86lxyd0j28e0hw4dd6tqn938pa
+// ts-node 2_deploy_hub.ts --network mainnet --key invest --hub-code-id 167 --token-code-id 12
 
 // ts-node 2_deploy_hub.ts --network classic --key ledger --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 // ts-node 2_deploy_hub.ts --network classic-testnet --key invest --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 
 // ts-node 2_deploy_hub.ts --network juno --key mainnet-juno --hub-code-id 1016 --token-code-id 1017 --hub-binary "../contracts-juno/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-juno/artifacts/eris_staking_token.wasm"
 // Hub-Code 1016 , you need to edit bech32 and pubkey of terrajs node_modules
+
+// MIGALOO TESTNET
+// ts-node 2_deploy_hub.ts --network testnet-migaloo --key testnet-migaloo --hub-binary "../contracts-whitewhale/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-whitewhale/artifacts/eris_staking_token.wasm"
+
+// CHIHUAHUA
+// ts-node 2_deploy_hub.ts --network chihuahua --key mainnet-chihuahua --hub-code-id 280 --token-code-id 281 --hub-binary "../contracts-cw20/artifacts/eris_staking_hub_cw20.wasm" --token-binary "../contracts-cw20/artifacts/eris_staking_token.wasm"
+// chihuahua12c7cn87udfg9uktk0kdaressme7s7ae5nxg0yqsawxf3q8exsr7sq9ueyh
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -194,14 +272,15 @@ const templates: Record<string, InstantiateMsg> = {
     msg = templates[argv["network"]];
   }
   msg["cw20_code_id"] = tokenCodeId;
-  msg["owner"] = msg["owner"] || deployer.key.accAddress;
+  msg["owner"] = msg["owner"] || deployer.key.accAddress(getPrefix());
+  msg["operator"] = msg["operator"] || deployer.key.accAddress(getPrefix());
 
   console.log("\n" + JSON.stringify(msg).replace(/\\/g, "") + "\n");
 
   await waitForConfirm("Proceed to deploy contracts?");
   const result = await instantiateWithConfirm(
     deployer,
-    argv["admin"] ? argv["admin"] : deployer.key.accAddress,
+    argv["admin"] ? argv["admin"] : deployer.key.accAddress(getPrefix()),
     hubCodeId,
     msg
   );

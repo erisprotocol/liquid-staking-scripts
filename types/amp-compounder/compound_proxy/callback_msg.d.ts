@@ -12,7 +12,6 @@ export type CallbackMsg =
   | {
       optimal_swap: {
         lp_token: string;
-        [k: string]: unknown;
       };
     }
   | {
@@ -21,7 +20,12 @@ export type CallbackMsg =
         prev_balances: Description[];
         receiver: string;
         slippage_tolerance?: Decimal | null;
-        [k: string]: unknown;
+      };
+    }
+  | {
+      send_swap_result: {
+        receiver: string;
+        token: AssetInfo;
       };
     };
 /**

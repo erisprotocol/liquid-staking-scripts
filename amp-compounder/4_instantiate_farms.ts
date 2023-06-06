@@ -1,12 +1,13 @@
-import { TxLog } from "@terra-money/terra.js";
+import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateMultipleWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
-import { InstantiateMsg } from "../types/amp-compounder/astroport_farm/instantiate_msg";
+import { InstantiateMsg } from "../types/amp-compounder/astroport_farm/eris_astroport_farm_instantiate";
 
 const argv = yargs(process.argv)
   .options({
@@ -30,8 +31,10 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ts-node 4_instantiate_farms.ts --network testnet --key testnet --contract-code-id 4547
-// ts-node 4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 512
+// ts-node 4_instantiate_farms.ts --network testnet --key testnet --contract-code-id 4813
+// ts-node amp-compounder/4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 1170
+
+//
 
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
@@ -74,46 +77,64 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     staking_contract:
       "terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0",
+    deposit_profit_delay_s: 24 * 60 * 60,
   },
 };
 
 const lps: Record<string, { lp: string }[]> = {
   testnet: [
-    {
-      lp: "terra15npavsvzqsnphnda67v5jpr2md4fp7gyexeffnv08wp8tlxn88xsjvxkgx",
-    },
-    {
-      lp: "terra1886vn036tc9e7ejx8pe4nkhts3gwpdfegwc4n3u77n0q76fjdthqarl8uc",
-    },
-    {
-      lp: "terra1hwwzt7sv386me5t7hy9ujafy6mfnyjl0h8cn92lnqd58jjmeksqstja4ng",
-    },
-    {
-      lp: "terra1wfl4rrghs2glm874dnzfknl62j2uw6n62mdzcyplg5hfwegyhkzqgkec9z",
-    },
+    { lp: "terra1n7pgzxhunusffja0mfqls7tntj604s2ywvu2ufuxxqk2spzmttwqc45qh0" }, // ampLUNA-LUNA terra16j2hg99dkln8y0yjhp2zqvvn2xcj5jlmgqdhx3a3sfjjhvnpf4kqp42w62
+    // {
+    //   lp: "terra15npavsvzqsnphnda67v5jpr2md4fp7gyexeffnv08wp8tlxn88xsjvxkgx",
+    // },
+    // {
+    //   lp: "terra1886vn036tc9e7ejx8pe4nkhts3gwpdfegwc4n3u77n0q76fjdthqarl8uc",
+    // },
+    // {
+    //   lp: "terra1hwwzt7sv386me5t7hy9ujafy6mfnyjl0h8cn92lnqd58jjmeksqstja4ng",
+    // },
+    // {
+    //   lp: "terra1wfl4rrghs2glm874dnzfknl62j2uw6n62mdzcyplg5hfwegyhkzqgkec9z",
+    // },
   ],
 
   mainnet: [
+    // {
+    //   lp: "terra16esjk7qqlgh8w7p2a58yxhgkfk4ykv72p7ha056zul58adzjm6msvc674t", x
+    // },
+    // {
+    //   lp: "terra18mcmlf4v23ehukkh7qxgpf5tznzg6893fxmf9ffmdt9phgf365zqvmlug6", x
+    // },
+    // {
+    //   lp: "terra1ces6k6jp7qzkjpwsl6xg4f7zfwre0u23cglg69hhj3g20fhygtpsu24dsy",
+    // },
+    // {
+    //   lp: "terra1ckmsqdhlky9jxcmtyj64crgzjxad9pvsd58k8zsxsnv4vzvwdt7qke04hl", x
+    // },
+    // {
+    //   lp: "terra1cq22eugxwgp0x34cqfrxmd9jkyy43gas93yqjhmwrm7j0h5ecrqq5j7dgp",
+    // },
+    // {
+    //   lp: "terra1kggfd6z0ad2k9q8v24f7ftxyqush8fp9xku9nyrjcs2wv0e4kypszfrfd0",
+    // },
+    // {
+    //   lp: "terra1khsxwfnzuxqcyza2sraxf2ngkr3dwy9f7rm0uts0xpkeshs96ccsqtu6nv",
+    // },
+    // // boneLuna-Luna LP
+    // {
+    //   lp: "terra1h3z2zv6aw94fx5263dy6tgz6699kxmewlx3vrcu4jjrudg6xmtyqk6vt0u",
+    // },
+    // RED
+    // {
+    //   lp: "terra1ua7uk7xvx89dg8tnr8k8smk5vermlaer50zsglmpx8plttaxvvtsem5fgy",
+    // },
+    // // SAYVE
+    // {
+    //   lp: "terra1zqthrqndchxp5ye443zdulhhh2938uak78q4ztthfrnkfltpgrpsu3c5xd",
+    // },
+    // stLUNA-LUNA
     {
-      lp: "terra16esjk7qqlgh8w7p2a58yxhgkfk4ykv72p7ha056zul58adzjm6msvc674t",
-    },
-    {
-      lp: "terra18mcmlf4v23ehukkh7qxgpf5tznzg6893fxmf9ffmdt9phgf365zqvmlug6",
-    },
-    {
-      lp: "terra1ces6k6jp7qzkjpwsl6xg4f7zfwre0u23cglg69hhj3g20fhygtpsu24dsy",
-    },
-    {
-      lp: "terra1ckmsqdhlky9jxcmtyj64crgzjxad9pvsd58k8zsxsnv4vzvwdt7qke04hl",
-    },
-    {
-      lp: "terra1cq22eugxwgp0x34cqfrxmd9jkyy43gas93yqjhmwrm7j0h5ecrqq5j7dgp",
-    },
-    {
-      lp: "terra1kggfd6z0ad2k9q8v24f7ftxyqush8fp9xku9nyrjcs2wv0e4kypszfrfd0",
-    },
-    {
-      lp: "terra1khsxwfnzuxqcyza2sraxf2ngkr3dwy9f7rm0uts0xpkeshs96ccsqtu6nv",
+      lp: "terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc",
     },
   ],
 };
@@ -148,7 +169,7 @@ const lps: Record<string, { lp: string }[]> = {
 
   const result = await instantiateMultipleWithConfirm(
     deployer,
-    deployer.key.accAddress,
+    deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
     msgs
   );

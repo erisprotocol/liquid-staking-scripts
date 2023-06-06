@@ -10,20 +10,15 @@
  */
 export type QueryMsg =
   | {
-      config: {
-        [k: string]: unknown;
-      };
+      config: {};
     }
   | {
       balances: {
         assets: AssetInfo[];
-        [k: string]: unknown;
       };
     }
   | {
-      bridges: {
-        [k: string]: unknown;
-      };
+      bridges: {};
     };
 /**
  * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("terra...") }; NativeToken { denom: String::from("uluna") }; ```

@@ -72,7 +72,6 @@ export interface LpConfig {
    * Token used for providing liquidity
    */
   wanted_token: AssetInfo;
-  [k: string]: unknown;
 }
 /**
  * This structure stores the main parameters for an Astroport pair

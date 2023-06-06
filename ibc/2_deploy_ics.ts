@@ -1,10 +1,11 @@
-import { Wallet } from "@terra-money/terra.js";
+import { Wallet } from "@terra-money/feather.js";
 import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
   storeCodeWithConfirm,
   waitForConfirm,
@@ -46,7 +47,7 @@ const argv = yargs(process.argv)
       type: "string",
       demandOption: false,
       // default: "./../../cw-plus/artifacts/cw20_ics20.wasm",
-      default: "cw20_ics20_090.wasm",
+      default: "cw20_ics20.wasm",
     },
   })
   .parseSync();
@@ -86,6 +87,16 @@ const templates: Record<string, InitCw20> = {
     default_timeout: 900,
     gov_contract: "",
   },
+  testnet: <InitCw20>{
+    allowlist: [
+      {
+        contract:
+          "terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88",
+      },
+    ],
+    default_timeout: 900,
+    gov_contract: "",
+  },
   classic: {
     allowlist: [
       {
@@ -97,6 +108,11 @@ const templates: Record<string, InitCw20> = {
   },
 };
 
+// TESTNET
+// ts-node 2_deploy_ics.ts --network testnet --key testnet --key-upload testnet
+// terra14uyr0q6kt5fy67h9tq7jra2g9y60859vty0wvpj0p3l75qqh6v8qzd8rpx
+
+// MAINNET
 // ts-node 2_deploy_ics.ts --network mainnet --key ledger --key-upload invest --code-id 441
 // mainnet code 441
 // mainnet contract terra1e0mrzy8077druuu42vs0hu7ugguade0cj65dgtauyaw4gsl4kv0qtdf2au
@@ -125,14 +141,15 @@ const templates: Record<string, InitCw20> = {
   } else {
     msg = templates[argv["network"]];
   }
-  msg["gov_contract"] = msg["gov_contract"] || deployer.key.accAddress;
+  msg["gov_contract"] =
+    msg["gov_contract"] || deployer.key.accAddress(getPrefix());
 
   console.log("\n" + JSON.stringify(msg).replace(/\\/g, "") + "\n");
 
   await waitForConfirm("Proceed to deploy contracts?");
   const result = await instantiateWithConfirm(
     deployer,
-    argv["admin"] ? argv["admin"] : deployer.key.accAddress,
+    argv["admin"] ? argv["admin"] : deployer.key.accAddress(getPrefix()),
     hubCodeId,
     msg,
     "Eris ICS20"

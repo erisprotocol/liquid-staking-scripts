@@ -32,6 +32,7 @@ export interface InstantiateMsg {
    * The controller address to execute compound
    */
   controller: string;
+  deposit_profit_delay_s: number;
   /**
    * The performance fee
    */
@@ -52,7 +53,6 @@ export interface InstantiateMsg {
    * The LP staking generator contract address
    */
   staking_contract: string;
-  [k: string]: unknown;
 }
 export interface TokenInit {
   /**
@@ -71,5 +71,4 @@ export interface TokenInit {
    * Symbol of the liquid staking token
    */
   symbol: string;
-  [k: string]: unknown;
 }
