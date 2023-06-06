@@ -56,6 +56,7 @@ function removeKey(keyName: string, keyDir: string) {
   console.log("Success!");
 }
 
+// export NODE_OPTIONS=--openssl-legacy-provider
 // ts-node 1_manage_keys.ts add mainnet-juno --key-dir keys --coin-type 118 --prefix juno
 // ts-node 1_manage_keys.ts add testnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo
 // ts-node 1_manage_keys.ts add mainnet-migaloo --key-dir keys --coin-type 118 --prefix migaloo

@@ -156,7 +156,7 @@ export function createLCDClient(network: string): LCDClient {
           lcd: "https://lcd.osmotest5.osmosis.zone",
           gasAdjustment: 1.5,
           prefix: "osmo",
-          gasPrices: { uosmo: 0 },
+          gasPrices: { uosmo: 0.01 },
         },
       }
       : {}),
