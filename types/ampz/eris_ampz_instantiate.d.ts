@@ -63,6 +63,7 @@ export interface InstantiateMsg {
    * Contract owner
    */
   owner: string;
+  whitewhale: WhiteWhaleConfigFor_String;
   zapper: string;
 }
 export interface AstroportConfigFor_String {
@@ -79,4 +80,8 @@ export interface FeeConfigFor_String {
   fee_bps: BasicPoints;
   operator_bps: BasicPoints;
   receiver: string;
+}
+export interface WhiteWhaleConfigFor_String {
+  coins: AssetInfo[];
+  fee_distributor: string;
 }

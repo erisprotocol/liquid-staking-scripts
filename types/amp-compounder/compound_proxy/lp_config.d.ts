@@ -31,22 +31,21 @@ export type AssetInfo =
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-/**
- * This enum describes available pair types. ## Available pool types ``` # use astroport::factory::PairType::{Custom, Stable, Xyk}; Xyk {}; Stable {}; Custom(String::from("Custom")); ```
- */
 export type PairType =
   | {
-      xyk: {
-        [k: string]: unknown;
-      };
+      xyk: {};
     }
   | {
-      stable: {
-        [k: string]: unknown;
-      };
+      stable: {};
     }
   | {
       custom: string;
+    }
+  | {
+      stable_white_whale: {};
+    }
+  | {
+      xyk_white_whale: {};
     };
 /**
  * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
@@ -93,5 +92,4 @@ export interface PairInfo {
    * The pool type (xyk, stableswap etc) available in [`PairType`]
    */
   pair_type: PairType;
-  [k: string]: unknown;
 }

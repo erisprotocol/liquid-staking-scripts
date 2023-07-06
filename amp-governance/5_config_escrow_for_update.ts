@@ -1,6 +1,7 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -40,7 +41,16 @@ const argv = yargs(process.argv)
 // Mainnet
 // ts-node amp-governance/5_config_escrow_for_update.ts --network mainnet --key mainnet --contract terra1ep7exp42jjtwgjly36y4vgylz82fplnjwpkz95wljzwfald8zwwqggsdzz
 
-const templates: Record<string, ExecuteMsg> = {
+// MIGALOO
+// ts-node amp-governance/5_config_escrow_for_update.ts --network migaloo --key mainnet-migaloo --contract migaloo1hntfu45etpkdf8prq6p6la9tsnk3u3muf5378kds73c7xd4qdzysuv567q
+
+// KUJIRA
+// ts-node amp-governance/5_config_escrow_for_update.ts --network kujira --key mainnet-kujira --contract kujira1mxzfcxpn6cjx4u9zln6ttxuc6fuw6g0cettd6nes74vrt2f22h4q3j5cdz
+
+// ts-node amp-governance/5_config_escrow_for_update.ts --network archwaytest --key mainnet-archway --contract archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324
+// ts-node amp-governance/5_config_escrow_for_update.ts --network archway --key mainnet-archway --contract archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
+
+const templates: Partial<Record<Chains, ExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
   //   update_config: {
   //     push_update_contracts: [
@@ -65,20 +75,60 @@ const templates: Record<string, ExecuteMsg> = {
       ],
     },
   },
+  migaloo: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "migaloo14haqsatfqxh3jgzn6u7ggnece4vhv0nt8a8ml4rg29mln9hdjfdqpz474l", // amp gauge
+        "migaloo1j2x4vsm2a5qefkvgr7gl30gf2puvsa504plzwgdhwl3wvm5lxayquvvsfq", // prop gauge
+      ],
+    },
+  },
+  kujira: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4", // amp gauge
+        "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9", // prop gauge
+      ],
+    },
+  },
+  // injective: <ExecuteMsg>{
+  //   update_config: {
+  //     push_update_contracts: [
+  //       "inj17w7hjaqf6qc3zp3r68q3sq3jezsg4tr3g7e0n2", // amp gauge
+  //       "inj1qjewg2xd0vc7q9wzrt35vy54uxlz0t6w0xn3hz", // prop gauge
+  //     ],
+  //   },
+  // },
+  archwaytest: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "archway1ntne4eyrydxd2a80qnnggv6cj5aag60azfc2d52reytj6f8js4ns4rcwea", // amp gauge
+        "archway16rnpysnujmp58qtd4xquxpqs3ht3h0290za7hjtztn0p7llseups8dug8q", // prop gauge
+      ],
+    },
+  },
+  archway: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3", // amp gauge
+        "archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at", // prop gauge
+      ],
+    },
+  },
 };
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
   console.log("msg", msg);
 
   const { txhash } = await sendTxWithConfirm(deployer, [
     new MsgExecuteContract(
       deployer.key.accAddress(getPrefix()),
       argv.contract,
-      msg
+      msg!
     ),
   ]);
   console.log(`Contract added route! Txhash: ${txhash}`);

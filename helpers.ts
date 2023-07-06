@@ -3,6 +3,7 @@ import {
   Coins,
   isTxError,
   LCDClient,
+  LCDClientConfig,
   Msg,
   MsgInstantiateContract,
   MsgStoreCode,
@@ -21,72 +22,114 @@ const DEFAULT_GAS_SETTINGS = {
   // gasAdjustment: 1.2,
 };
 
-let current_network:
-  | "juno"
-  | "classic"
-  | "ledger"
-  | "ledger-juno"
-  | "mainnet"
-  | "migaloo"
-  | "chihuahua"
-  | "testnet-migaloo"
-  | "testnet-kujira"
-  | "testnet" = "testnet";
+// interface LCDExtension {}
+
+const phoenix: LCDClientConfig = {
+  chainID: "phoenix-1",
+  lcd: "https://phoenix-lcd.terra.dev",
+  // lcd: "https://phoenix-lcd.erisprotocol.com",
+  gasAdjustment: 1.2,
+  prefix: "terra",
+  gasPrices: { uluna: 0.015 },
+};
+const columbus: LCDClientConfig = {
+  chainID: "columbus-5",
+  lcd: "https://lcd.terra.dev",
+  gasPrices: { uluna: "28.325" },
+  gasAdjustment: 1.2,
+  prefix: "terra",
+};
+
+const networks = {
+  mainnet: phoenix,
+  ledger: phoenix,
+  classic: columbus,
+  ["classic-testnet"]: columbus,
+  ["ledger-classic"]: columbus,
+  testnet: {
+    chainID: "pisco-1",
+    // lcd: "https://pisco-lcd.terra.dev",
+    lcd: "https://pisco-lcd.erisprotocol.com",
+    gasAdjustment: 1.5,
+    prefix: "terra",
+    gasPrices: { uluna: 0.015 },
+  },
+  ["testnet-kujira"]: {
+    chainID: "harpoon-4",
+    lcd: "https://kujira-testnet-api.polkachu.com",
+    gasAdjustment: 1.3,
+    prefix: "kujira",
+    gasPrices: {
+      ukuji: 0.0025,
+    },
+  },
+  kujira: {
+    chainID: "kaiyo-1",
+    lcd: "https://kujira-api.polkachu.com",
+    gasAdjustment: 1.3,
+    prefix: "kujira",
+    gasPrices: {
+      ukuji: 0.0025,
+    },
+  },
+  ["testnet-migaloo"]: {
+    chainID: "narwhal-1",
+    lcd: "https://whitewhale-testnet-api.polkachu.com",
+    gasAdjustment: 1.5,
+    prefix: "migaloo",
+    gasPrices: { uwhale: 0 },
+  },
+  migaloo: {
+    chainID: "migaloo-1",
+    lcd: "https://migaloo-lcd.erisprotocol.com",
+    gasAdjustment: 1.3,
+    prefix: "migaloo",
+    gasPrices: { uwhale: 0.25 },
+  },
+  ["archwaytest"]: {
+    chainID: "constantine-3",
+    lcd: "https://api.constantine.archway.tech",
+    gasAdjustment: 1.3,
+    prefix: "archway",
+    gasPrices: { aconst: 900000000000 },
+  },
+  ["archway"]: {
+    chainID: "archway-1",
+    lcd: "https://api.mainnet.archway.io",
+    gasAdjustment: 1.3,
+    prefix: "archway",
+    gasPrices: { aarch: 900000500000 },
+  },
+  chihuahua: {
+    chainID: "chihuahua-1",
+    lcd: "https://api.chihuahua.wtf",
+    gasAdjustment: 1.3,
+    prefix: "chihuahua",
+    gasPrices: { uhuahua: "1" },
+  },
+  juno: <LCDClientConfig>{
+    chainID: "juno-1",
+    lcd: "https://juno-api.polkachu.com",
+    gasPrices: {
+      ujuno: "0.0025",
+    },
+    gasAdjustment: 1.3,
+    prefix: "juno",
+  },
+};
+
+export type Chains = keyof typeof networks;
+
+let current_network: Chains = "testnet";
 
 export function getChainId() {
-  switch (current_network) {
-    case "juno":
-      return "juno-1";
-    case "ledger":
-      return "phoenix-1";
-    case "mainnet":
-      return "phoenix-1";
-    case "testnet":
-      return "pisco-1";
-    case "classic":
-      return "columbus-5";
-    case "ledger-juno":
-      return "juno-1";
-    case "testnet-migaloo":
-      return "narwhal-1";
-    case "migaloo":
-      return "migaloo-1";
-    case "chihuahua":
-      return "chihuahua-1";
-    case "testnet-kujira":
-      return "harpoon-4";
-    default: {
-    }
-  }
-  throw new Error("unknown network");
+  const result = networks[current_network];
+  return result.chainID;
 }
 
 export function getPrefix() {
-  switch (current_network) {
-    case "juno":
-      return "juno";
-    case "ledger":
-      return "terra";
-    case "mainnet":
-      return "terra";
-    case "testnet":
-      return "terra";
-    case "classic":
-      return "terra";
-    case "ledger-juno":
-      return "juno";
-    case "testnet-migaloo":
-      return "migaloo";
-    case "migaloo":
-      return "migaloo";
-    case "chihuahua":
-      return "chihuahua";
-    case "testnet-kujira":
-      return "kujira";
-    default: {
-    }
-  }
-  throw new Error("unknown network");
+  const result = networks[current_network];
+  return result.prefix;
 }
 
 /**
@@ -94,138 +137,9 @@ export function getPrefix() {
  */
 export function createLCDClient(network: string): LCDClient {
   current_network = network as any;
-
+  const config = networks[current_network];
   return new LCDClient({
-    ...(network === "mainnet" || network === "ledger"
-      ? {
-          "phoenix-1": {
-            chainID: "phoenix-1",
-            lcd: "https://phoenix-lcd.terra.dev",
-            // lcd: "https://phoenix-lcd.erisprotocol.com",
-            gasAdjustment: 1.2,
-            prefix: "terra",
-            gasPrices: { uluna: 0.015 },
-          },
-        }
-      : {}),
-
-    ...(network === "testnet"
-      ? {
-          "pisco-1": {
-            chainID: "pisco-1",
-            // lcd: "https://pisco-lcd.terra.dev",
-            lcd: "https://pisco-lcd.erisprotocol.com",
-            gasAdjustment: 1.5,
-            prefix: "terra",
-            gasPrices: { uluna: 0.015 },
-          },
-        }
-      : {}),
-
-    ...(network === "testnet-migaloo"
-      ? {
-          "narwhal-1": {
-            chainID: "narwhal-1",
-            lcd: "https://whitewhale-testnet-api.polkachu.com",
-            gasAdjustment: 1.5,
-            prefix: "migaloo",
-            gasPrices: { uwhale: 0 },
-          },
-        }
-      : {}),
-    ...(network === "migaloo"
-      ? {
-          "migaloo-1": {
-            chainID: "migaloo-1",
-            lcd: "https://migaloo-api.polkachu.com",
-            gasAdjustment: 1.5,
-            prefix: "migaloo",
-            gasPrices: { uwhale: 0 },
-          },
-        }
-      : {}),
-    ...(network === "chihuahua"
-      ? {
-          "chihuahua-1": {
-            chainID: "chihuahua-1",
-            lcd: "https://api.chihuahua.wtf",
-            gasAdjustment: 1.3,
-            prefix: "chihuahua",
-            gasPrices: { uhuahua: "1" },
-          },
-        }
-      : {}),
-    // ...(network === "injective"
-    //   ? {
-    //       "injective-1": {
-    //         chainID: "injective-1",
-    //         lcd: "https://k8s.global.mainnet.lcd.injective.network:443",
-    //         gasAdjustment: 1.3,
-    //         prefix: "inj",
-    //         gasPrices: { inj: "500000000" },
-    //       },
-    //     }
-    //   : {}),
-    // ...(network === "testnet-injective"
-    //   ? {
-    //       "injective-888": {
-    //         chainID: "injective-888",
-    //         lcd: "	https://k8s.testnet.lcd.injective.network",
-    //         gasAdjustment: 1.3,
-    //         prefix: "inj",
-    //         gasPrices: { inj: "500000000" },
-    //       },
-    //     }
-    //   : {}),
-
-    // ...(network === "testnet-kujira"
-    // ? {
-    //     "harpoon-4": {
-    //       chainID: "harpoon-4",
-    //       lcd: "https://lcd.harpoon.kujira.setten.io",
-    //       gasAdjustment: 1.3,
-    //       prefix: "kujira",
-    //       gasPrices: {
-    //         ukuji: 0.0025,
-    //       },
-    //     },
-    //   }
-    // : {}),
-    ...(network === "testnet-kujira"
-      ? {
-          "harpoon-4": {
-            chainID: "harpoon-4",
-            lcd: "https://kujira-testnet-api.polkachu.com",
-            gasAdjustment: 1.3,
-            prefix: "kujira",
-            gasPrices: {
-              ukuji: 0.0025,
-            },
-          },
-        }
-      : {}),
-
-    ...(network === "classic"
-      ? {
-          "columbus-5": {
-            chainID: "columbus-5",
-            lcd: "https://lcd.terra.dev",
-            gasPrices: { uluna: "28.325" },
-            gasAdjustment: 1.2,
-            prefix: "terra",
-          },
-        }
-      : {}),
-
-    "juno-1": {
-      chainID: "juno-1",
-      lcd: "https://juno-api.polkachu.com",
-      gasPrices: {
-        ujuno: "0.0025",
-      },
-      gasAdjustment: 1.3,
-      prefix: "juno",
-    },
+    [config.chainID]: config,
   });
 }
 
@@ -238,6 +152,12 @@ export async function createWallet(
   keyDir: string
 ): Promise<Wallet> {
   if (keyName === "ledger") {
+    const lk = await LedgerKey.create({
+      transport: await TransportNodeHid.create(60 * 1000),
+    });
+    return terra.wallet(lk);
+  }
+  if (keyName === "ledger-classic") {
     const lk = await LedgerKey.create({
       transport: await TransportNodeHid.create(60 * 1000),
     });
@@ -263,6 +183,20 @@ export async function createWallet(
   );
   const key = keystore.load(keyName, keyDir, password);
   return terra.wallet(key);
+}
+
+/**
+ * @notice Create a `Wallet` instance by loading the private key stored in the keystore
+ */
+export async function getMnemonic(
+  keyName: string,
+  keyDir: string
+): Promise<string> {
+  const password = await promptly.password(
+    "Enter password to decrypt the key:"
+  );
+  const key = keystore.loadKey(keyName, keyDir, password);
+  return key;
 }
 
 /**
@@ -432,4 +366,8 @@ export const delayPromise = (delayMs: number): Promise<any> => {
       resolve(delayMs);
     }, delayMs);
   });
+};
+
+export const toBase64 = (obj: any): string => {
+  return Buffer.from(JSON.stringify(obj)).toString("base64");
 };

@@ -73,6 +73,9 @@ const argv = yargs(process.argv)
 // eris_compound_proxy:  1171
 // eris_generator_proxy: 1172
 
+// TEST
+//ts-node amp-compounder/5_migrate.ts --network mainnet --key mainnet --code-id 1631 --contracts terra1898s9slxrqs7cem5w0nehjmn4pvfsxv9ekaaxz7r5gu8w7x8yrrqjv46gy
+
 async function uploadCode(deployer: Wallet, path: string) {
   await waitForConfirm(`Upload code ${path}?`);
   const codeId = await storeCodeWithConfirm(deployer, path, false);

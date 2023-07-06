@@ -1,0 +1,14 @@
+{
+  "update_config": {
+    "delegation_strategy": {
+      "gauges": {
+        "amp_factor_bps": 10000,
+        "amp_gauges": "inj17w7hjaqf6qc3zp3r68q3sq3jezsg4tr3g7e0n2",
+        "max_delegation_bps": 2500,
+        "min_delegation_bps": 50,
+        "validator_count": 30
+      }
+    },
+    "vote_operator": "inj1qjewg2xd0vc7q9wzrt35vy54uxlz0t6w0xn3hz"
+  }
+}

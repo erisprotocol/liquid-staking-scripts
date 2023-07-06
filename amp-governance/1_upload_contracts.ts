@@ -113,6 +113,17 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/1_upload_contracts.ts --network testnet-migaloo --key testnet-migaloo --folder contracts-whitewhale --contracts eris_staking_hub
 // ts-node 3_migrate.ts --network testnet-migaloo --key testnet-migaloo --key-migrate testnet-migaloo --code-id 13 --contract-address migaloo1r0krq4hfttfuyd4tvcqnjk887xqeq0xae3u4qtya35qsfqy2trlqxavmra
 
+// MIGALOO
+// eris_gov_voting_escrow.wasm: 14, migaloo1hntfu45etpkdf8prq6p6la9tsnk3u3muf5378kds73c7xd4qdzysuv567q
+// eris_gov_amp_gauges.wasm: 15, migaloo14haqsatfqxh3jgzn6u7ggnece4vhv0nt8a8ml4rg29mln9hdjfdqpz474l
+// eris_gov_prop_gauges.wasm: 16 migaloo1j2x4vsm2a5qefkvgr7gl30gf2puvsa504plzwgdhwl3wvm5lxayquvvsfq
+
+// ARCHWAY TESTNET
+// ts-node amp-governance/1_upload_contracts.ts --network archwaytest --key mainnet-archway --contracts eris_gov_voting_escrow eris_gov_amp_gauges eris_gov_prop_gauges
+// 'eris_gov_voting_escrow: 199', archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324
+// 'eris_gov_amp_gauges: 200', archway1ntne4eyrydxd2a80qnnggv6cj5aag60azfc2d52reytj6f8js4ns4rcwea
+// 'eris_gov_prop_gauges: 201', archway16rnpysnujmp58qtd4xquxpqs3ht3h0290za7hjtztn0p7llseups8dug8q
+
 async function uploadCode(deployer: Wallet, path: string) {
   await waitForConfirm(`Upload code ${path}?`);
   const codeId = await storeCodeWithConfirm(deployer, path, false);

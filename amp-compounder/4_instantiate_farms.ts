@@ -77,7 +77,7 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     staking_contract:
       "terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0",
-    deposit_profit_delay_s: 24 * 60 * 60,
+    deposit_profit_delay_s: 12 * 60 * 60,
   },
 };
 
@@ -133,8 +133,16 @@ const lps: Record<string, { lp: string }[]> = {
     //   lp: "terra1zqthrqndchxp5ye443zdulhhh2938uak78q4ztthfrnkfltpgrpsu3c5xd",
     // },
     // stLUNA-LUNA
+    // {
+    //   lp: "terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc",
+    // },
+    // // ROAR-LUNA
+    // {
+    //   lp: "terra1qmr5wagmeej33hsnqdmqyvkq6rg3sfkvflmu6gd6drhtjfpx4y5sew88s4",
+    // },
+    // SOLID-USDC
     {
-      lp: "terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc",
+      lp: "terra1rdjm94n3r4uvhfh23s98tfcgzedkuvjwvkcjqa503amef9afya7sddv098",
     },
   ],
 };

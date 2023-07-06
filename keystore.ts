@@ -96,6 +96,18 @@ export async function save(
   //   signer;
   // }
 
+  if (keyName.startsWith("key-")) {
+    const cipherText = encrypt(mnemonic, password);
+
+    const entity: Entity = {
+      name: keyName,
+      address: "",
+      cipherText,
+    };
+    fs.writeFileSync(filePath, JSON.stringify(entity, null, 2));
+    return null;
+  }
+
   const mnemonicKey = new MnemonicKey({ mnemonic, coinType });
   const privateKey = mnemonicKey.privateKey.toString("hex");
   const cipherText = encrypt(privateKey, password);
@@ -123,9 +135,25 @@ export function load(
 
   const entity: Entity = JSON.parse(fs.readFileSync(filePath, "utf8"));
   const privateKey = decrypt(entity.cipherText, password);
+
   const rawKey = new RawKey(Buffer.from(privateKey, "hex"));
 
   return rawKey;
+}
+
+export function loadKey(
+  keyName: string,
+  keyDir: string,
+  password: string
+): string {
+  const filePath = path.join(keyDir, `${keyName}.json`);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`file ${filePath} does not exist!`);
+  }
+
+  const entity: Entity = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const privateKey = decrypt(entity.cipherText, password);
+  return privateKey;
 }
 
 export function remove(keyName: string, keyDir: string) {

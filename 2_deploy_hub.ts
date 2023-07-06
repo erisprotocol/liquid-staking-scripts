@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -65,7 +66,7 @@ async function uploadCode(deployer: Wallet, path: string) {
   return codeId;
 }
 
-const templates: Record<string, InstantiateMsg> = {
+const templates: Partial<Record<Chains, InstantiateMsg>> = {
   "testnet-migaloo": <InstantiateMsg>{
     name: "Eris Amplified WHALE",
     symbol: "ampWHALE",
@@ -233,6 +234,44 @@ const templates: Record<string, InstantiateMsg> = {
     protocol_reward_fee: "0.05",
     owner: "",
   },
+  archwaytest: <InstantiateMsg>{
+    name: "Eris Amplified CONST",
+    symbol: "ampCONST",
+    cw20_code_id: 0,
+    decimals: 18,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "archwayvaloper122fv2m9j8ule47dczer8grmzwwzg9p4hey6v75", // kjnodes
+      "archwayvaloper1wcynzzk7fj2fsgz2dmk3qr0hk0msezxs48jhcd", // pronodes
+      "archwayvaloper1etx55kw7tkmnjqz0k0mups4ewxlr324tq6qfec", // node stake
+      "archwayvaloper1nc0j54aj2xc8dars072rg62550h2ywgradddjs", // Kiiltech
+      "archwayvaloper1dng6m8q6wel8dxd7aykhy54445exqgjfk06hp4", // Takeshi
+      "archwayvaloper1q422p5m0gej7gp43385thsfpmjuwql72d7fzkk", // A41
+    ],
+    protocol_fee_contract: "archway1z3txc4x7scxsypx9tgynyfhu48nw60a5s7wnwa",
+    protocol_reward_fee: "0.05",
+    owner: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
+  },
+  archway: <InstantiateMsg>{
+    name: "Eris Amplified ARCH",
+    symbol: "ampARCH",
+    cw20_code_id: 0,
+    decimals: 18,
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "archwayvaloper1cz6unq70w0sdm2gwghv8m4uqmhwxz5x4adam88", // smart stake
+      "archwayvaloper1k8wmx9texf0velkysk69wkse0gxv7ahtdayy2s", // kjnodes
+      "archwayvaloper1n3fjzmr2kd9jy8rd2k9c9j30w5zrf3w4s3clvd", // Golden Ratio
+      "archwayvaloper1jrgjvtv0p5yu3fulz24wfhav577p68fcxgxnw7", // Coinhall
+      "archwayvaloper1jdm7fprjl8p94fygap772jpqhq4fekppc6upv4", // SCV
+      "archwayvaloper1v8er9uqsx0hd6tav2pltqplu2zgj0a3reaaamt", // Cros Nest
+    ],
+    protocol_fee_contract: "archway1z3txc4x7scxsypx9tgynyfhu48nw60a5s7wnwa",
+    protocol_reward_fee: "0.05",
+    owner: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
+  },
 };
 
 // TESTNET
@@ -254,6 +293,19 @@ const templates: Record<string, InstantiateMsg> = {
 // ts-node 2_deploy_hub.ts --network chihuahua --key mainnet-chihuahua --hub-code-id 280 --token-code-id 281 --hub-binary "../contracts-cw20/artifacts/eris_staking_hub_cw20.wasm" --token-binary "../contracts-cw20/artifacts/eris_staking_token.wasm"
 // chihuahua12c7cn87udfg9uktk0kdaressme7s7ae5nxg0yqsawxf3q8exsr7sq9ueyh
 
+// ARCHWAY TEST
+// ts-node 2_deploy_hub.ts --network archwaytest --key mainnet-archway --hub-binary "../contracts-terra/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-terra/artifacts/eris_staking_token.wasm"
+// 197, 198 (token)
+// archway102t7f76edspqrpvqq7xe93uk5q7uhknqccrxa73va0knjyupd2ksexhhky
+
+// ARCHWAY
+// ts-node 2_deploy_hub.ts --network archway --key mainnet-archway --hub-code-id 37 --token-code-id 38
+// hub 37 archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
+// token 38 archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5
+// eris_gov_voting_escrow.wasm: 39, archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
+// eris_gov_amp_gauges.wasm: 40 archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3,
+// eris_gov_prop_gauges.wasm: 41 archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -269,7 +321,7 @@ const templates: Record<string, InstantiateMsg> = {
   if (argv["msg"]) {
     msg = JSON.parse(fs.readFileSync(path.resolve(argv["msg"]), "utf8"));
   } else {
-    msg = templates[argv["network"]];
+    msg = templates[argv["network"] as Chains];
   }
   msg["cw20_code_id"] = tokenCodeId;
   msg["owner"] = msg["owner"] || deployer.key.accAddress(getPrefix());

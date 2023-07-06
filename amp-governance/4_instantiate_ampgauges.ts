@@ -1,6 +1,7 @@
 import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -42,8 +43,14 @@ const argv = yargs(process.argv)
 // Mainnet
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network mainnet --key ledger --contract-code-id 1163  --label "vAMP ampLUNA Gauge"
 // terra1aumv9uyv2ltf8upsf88338ctf922q439a0v2tpss5s2j9g0j8zzsrtq9t2
-//
-const templates: Record<string, InstantiateMsg> = {
+
+// MIGALOO
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network migaloo --key mainnet-migaloo --contract-code-id 15  --label "vAMP Gauge"
+
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network archwaytest --key mainnet-archway --contract-code-id 200  --label "vAMP Gauge"
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network archway --key mainnet-archway --contract-code-id 40  --label "vAMP Gauge"
+
+const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // testnet: <InstantiateMsg>{
   //   hub_addr:
   //     "terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88",
@@ -70,20 +77,56 @@ const templates: Record<string, InstantiateMsg> = {
     escrow_addr:
       "terra1ep7exp42jjtwgjly36y4vgylz82fplnjwpkz95wljzwfald8zwwqggsdzz",
   },
+  migaloo: <InstantiateMsg>{
+    hub_addr:
+      "migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4",
+    owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+    validators_limit: 30,
+    // ampLUNA Escrow
+    escrow_addr:
+      "migaloo1hntfu45etpkdf8prq6p6la9tsnk3u3muf5378kds73c7xd4qdzysuv567q",
+  },
+  // inj17w7hjaqf6qc3zp3r68q3sq3jezsg4tr3g7e0n2
+  // injective: <InstantiateMsg>{
+  //   hub_addr: "inj1cdwt8g7nxgtg2k4fn8sj363mh9ahkw2qt0vrnc",
+  //   owner: "inj1rnh5c7emgt2g9s2ezg6km7lylyxyddq5jjnjav",
+  //   validators_limit: 30,
+  //   escrow_addr: "inj1yp0lgxq460ked0egtzyj2nck3mdhr8smfmteh5",
+  // },
+
+  archwaytest: {
+    hub_addr:
+      "archway102t7f76edspqrpvqq7xe93uk5q7uhknqccrxa73va0knjyupd2ksexhhky",
+    owner: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
+    validators_limit: 30,
+    escrow_addr:
+      "archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324",
+  },
+
+  // ampTOKEN archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5
+  // hub archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
+  archway: {
+    hub_addr:
+      "archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj",
+    owner: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
+    validators_limit: 30,
+    escrow_addr:
+      "archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu",
+  },
 };
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
   console.log("🚀 ~ file: 2_instantiate_fee_collector.ts ~ line 89 ~ msg", msg);
 
   const result = await instantiateWithConfirm(
     deployer,
     deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
-    msg,
+    msg!,
     argv.label
   );
 

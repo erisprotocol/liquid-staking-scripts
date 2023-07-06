@@ -52,16 +52,16 @@ const argv = yargs(process.argv)
           //     },
           //   },
           // },
-          insert_lsd: {
-            name: "boneLUNA",
-            disabled: false,
-            lsd_type: {
-              backbone: {
-                addr: "terra1l2nd99yze5fszmhl5svyh5fky9wm4nz4etlgnztfu4e8809gd52q04n3ea",
-                cw20: "terra17aj4ty4sz4yhgm08na8drc0v03v2jwr3waxcqrwhajj729zhl7zqnpc0ml",
-              },
-            },
-          },
+          // insert_lsd: {
+          //   name: "boneLUNA",
+          //   disabled: false,
+          //   lsd_type: {
+          //     backbone: {
+          //       addr: "terra1l2nd99yze5fszmhl5svyh5fky9wm4nz4etlgnztfu4e8809gd52q04n3ea",
+          //       cw20: "terra17aj4ty4sz4yhgm08na8drc0v03v2jwr3waxcqrwhajj729zhl7zqnpc0ml",
+          //     },
+          //   },
+          // },
           // insert_lsd: {
           //   disabled: false,
           //   lsd_type: {
@@ -75,12 +75,24 @@ const argv = yargs(process.argv)
 
           // force_remove_lsd: "boneLUNA",
 
+          utilization_method: {
+            steps: [
+              ["0.01", "0.2"],
+              ["0.02", "0.75"],
+              ["0.03", "0.9"],
+              ["0.05", "1.0"],
+            ],
+          },
+
           // set_whitelist: [
           //   "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
           //   "terra187r4dlnw8negcvupryhtgc88vcy0w7j3e7n69e",
           //   "terra1m8hqwvajj5ehnm3qt5yam6ufrg8se5fdvj5gyu",
           //   "terra1zu6wprm7dzasrrj692cynvgsf3skentxldplr3",
           //   "terra1ypg6ky6akzu57940sk203jhz2lt3udc9cvzryp",
+          //   "terra138tlx5dlkclka5lc8xkxxswrry2upras3y54e5",
+          //   "terra10ggjkjwzt3jcfng00w5mny26p04erczms5j3yu",
+          //   "terra18ukmp3pqdpx0dv2q476h400e2dawy0jdef926j",
           // ],
         },
       }),

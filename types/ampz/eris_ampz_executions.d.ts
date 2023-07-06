@@ -87,7 +87,17 @@ export type RepayMarket = "capapult";
 export type Source =
   | "claim"
   | {
+      claim_contract: {
+        claim_type: ClaimType;
+      };
+    }
+  | {
       astro_rewards: {
+        lps: string[];
+      };
+    }
+  | {
+      white_whale_rewards: {
         lps: string[];
       };
     }
@@ -97,6 +107,7 @@ export type Source =
         over: Description;
       };
     };
+export type ClaimType = "white_whale_rewards";
 
 export interface ExecutionsResponse {
   executions: [Uint128, Execution][];

@@ -6,6 +6,18 @@ export const tokens = {
         "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
     },
   },
+  whale: {
+    native_token: {
+      denom:
+        "ibc/36A02FFC4E74DF4F64305130C3DFA1B06BEAC775648927AA44467C76A77AB8DB",
+    },
+  },
+  ampwhale: {
+    native_token: {
+      denom:
+        "ibc/B3F639855EE7478750CC8F82072307ED6E131A8EFF20345E1D136B50C4E5EC36",
+    },
+  },
   red: {
     token: {
       contract_addr:

@@ -73,7 +73,17 @@ export type RepayMarket = "capapult";
 export type Source =
   | "claim"
   | {
+      claim_contract: {
+        claim_type: ClaimType;
+      };
+    }
+  | {
       astro_rewards: {
+        lps: string[];
+      };
+    }
+  | {
+      white_whale_rewards: {
         lps: string[];
       };
     }
@@ -83,6 +93,7 @@ export type Source =
         over: Description;
       };
     };
+export type ClaimType = "white_whale_rewards";
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *

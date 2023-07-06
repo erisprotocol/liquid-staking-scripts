@@ -36,14 +36,13 @@ const argv = yargs(process.argv)
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
+  const address = admin.key.accAddress(getPrefix());
 
   const { txhash } = await sendTxWithConfirm(
     admin,
 
     [
-      new MsgExecuteContract(admin.key.accAddress(getPrefix()), argv.contract, <
-        ExecuteMsg
-      >{
+      new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
           target_list: [
             {
@@ -86,6 +85,46 @@ const argv = yargs(process.argv)
                 fill_up_first: {
                   filled_to: "5000000",
                   min_fill: "3000000",
+                },
+              },
+            },
+            {
+              addr: "terra187r4dlnw8negcvupryhtgc88vcy0w7j3e7n69e",
+              weight: 0,
+              target_type: {
+                fill_up_first: {
+                  filled_to: "20000000",
+                  min_fill: "10000000",
+                },
+              },
+            },
+            {
+              addr: "terra1m8hqwvajj5ehnm3qt5yam6ufrg8se5fdvj5gyu",
+              weight: 0,
+              target_type: {
+                fill_up_first: {
+                  filled_to: "20000000",
+                  min_fill: "10000000",
+                },
+              },
+            },
+            {
+              addr: "terra1zu6wprm7dzasrrj692cynvgsf3skentxldplr3",
+              weight: 0,
+              target_type: {
+                fill_up_first: {
+                  filled_to: "20000000",
+                  min_fill: "10000000",
+                },
+              },
+            },
+            {
+              addr: "terra1ypg6ky6akzu57940sk203jhz2lt3udc9cvzryp",
+              weight: 0,
+              target_type: {
+                fill_up_first: {
+                  filled_to: "20000000",
+                  min_fill: "10000000",
                 },
               },
             },

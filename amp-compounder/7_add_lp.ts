@@ -56,15 +56,42 @@ const argv = yargs(process.argv)
           //     },
           //   },
           // },
+          // {
+          //   commission_bps: 5,
+          //   pair_contract:
+          //     // LUNA-stLUNA
+          //     "terra1re0yj0j6e9v2szg7kp02ut6u8jjea586t6pnpq6628wl36fphtpqwt6l7p",
+          //   slippage_tolerance: "0.01",
+          //   wanted_token: {
+          //     native_token: {
+          //       denom: "uluna",
+          //     },
+          //   },
+          // },
+          // {
+          //   commission_bps: 30,
+          //   pair_contract:
+          //     // LUNA-ROAR
+          //     "terra1c7g9pmz2xxe66g8ujpe5tlmj3pawjp290f57cl43j6vswkdtrvwqkgme9q",
+          //   slippage_tolerance: "0.01",
+          //   wanted_token: {
+          //     native_token: {
+          //       denom: "uluna",
+          //     },
+          //   },
+          // },
           {
             commission_bps: 5,
             pair_contract:
-              // LUNA-stLUNA
-              "terra1re0yj0j6e9v2szg7kp02ut6u8jjea586t6pnpq6628wl36fphtpqwt6l7p",
+              // SOLID-USDC
+              "terra1jd04eztujfgt4z0uyw7lkm0gujs0gpxs6pd5gv8ltt5xccmq3v8sppm7wg",
+            // LP terra1rdjm94n3r4uvhfh23s98tfcgzedkuvjwvkcjqa503amef9afya7sddv098
+            // farm terra1yfmpzj79n8g356kp6xz0rkjehegwqw7zhus8jzreqvec5ay9a7kqs7a6hc
             slippage_tolerance: "0.01",
             wanted_token: {
               native_token: {
-                denom: "uluna",
+                denom:
+                  "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
               },
             },
           },

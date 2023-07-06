@@ -73,6 +73,26 @@ const templates: Record<string, InstantiateMsg> = {
     utoken: "uwhale",
     delegation_strategy: "uniform",
   },
+  injective: <InstantiateMsg>{
+    chain_config: {},
+    denom: "ampINJ",
+    owner: "inj1rnh5c7emgt2g9s2ezg6km7lylyxyddq5jjnjav",
+    operator: "inj1hpay25j5c8ufgdxcyfpfkfghp6j80pzmcnjgvf",
+    protocol_reward_fee: "0.05",
+    protocol_fee_contract: "inj1gna5fqgt0qqzpekw6c2cdwaxd3hd0xe6emah82",
+    utoken: "inj",
+    delegation_strategy: "uniform",
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "injvaloper19a77dzm2lrxt2gehqca3nyzq077kq7qsgvmrp4",
+      "injvaloper1r3lgsyq49zvl36cnevjx3q6u2ep897rws9hauk",
+      "injvaloper1agu7gu9ay39jkaccsfnt0ykjce6daycjuzyg2a",
+      "injvaloper1ltu4jgw850x7kg9kl7g8hjtuzatvzfpy0svplt",
+      "injvaloper1esud09zs5754g5nlkmrgxsfdj276xm64cgmd3w",
+      "injvaloper16gdnrnl224ylje5z9vd0vn0msym7p58f00qauj",
+    ],
+  },
 };
 
 // MIGALOO

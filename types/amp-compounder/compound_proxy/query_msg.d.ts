@@ -41,6 +41,12 @@ export type QueryMsg =
       };
     }
   | {
+      get_route: {
+        from: AssetInfo;
+        to: AssetInfo;
+      };
+    }
+  | {
       supports_swap: {
         from: AssetInfo;
         to: AssetInfo;

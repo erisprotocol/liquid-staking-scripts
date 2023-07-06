@@ -5,6 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type LpType = "astroport" | "white_whale";
 /**
  * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
  *
@@ -54,7 +55,14 @@ export type RouteInit =
         single_direction_from?: AssetInfo | null;
       };
     };
-export type RouterType = "astro_swap" | "terra_swap" | "token_swap";
+export type RouterType =
+  | ("astro_swap" | "terra_swap" | "token_swap")
+  | {
+      t_f_m: {
+        route: [string, Addr][];
+        [k: string]: unknown;
+      };
+    };
 
 /**
  * This structure describes the basic settings for creating a contract.
@@ -70,6 +78,7 @@ export interface LpInit {
    * The swap commission
    */
   commission_bps: number;
+  lp_type?: LpType | null;
   /**
    * The pair info
    */

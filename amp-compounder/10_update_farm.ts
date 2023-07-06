@@ -31,7 +31,7 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ts-node amp-compounder/10_update_farm.ts --network mainnet --key mainnet --contract terra1l4phwrfqyg9l0vzlqcxn0vmnjd45rp5gx620zc2updpc9peazteqfk3y2p
+// ts-node amp-compounder/10_update_farm.ts --network mainnet --key mainnet --contract terra1yfmpzj79n8g356kp6xz0rkjehegwqw7zhus8jzreqvec5ay9a7kqs7a6hc
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -45,7 +45,7 @@ const argv = yargs(process.argv)
         ExecuteMsg
       >{
         update_config: {
-          deposit_profit_delay_s: 1 * 10 * 60,
+          deposit_profit_delay_s: 1 * 60 * 60,
         },
       }),
     ]

@@ -92,6 +92,10 @@ export interface LockInfoResponse {
    */
   end: number;
   /**
+   * End time for the vAMP position decay in unix seconds
+   */
+  end_s: number;
+  /**
    * fixed sockel
    */
   fixed_amount: Uint128;

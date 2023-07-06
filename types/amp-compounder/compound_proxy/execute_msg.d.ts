@@ -144,7 +144,15 @@ export type RouteInit =
         single_direction_from?: AssetInfo | null;
       };
     };
-export type RouterType = "astro_swap" | "terra_swap" | "token_swap";
+export type RouterType =
+  | ("astro_swap" | "terra_swap" | "token_swap")
+  | {
+      t_f_m: {
+        route: [string, Addr][];
+        [k: string]: unknown;
+      };
+    };
+export type LpType = "astroport" | "white_whale";
 /**
  * This structure describes the callback messages of the contract.
  */
@@ -193,6 +201,7 @@ export interface LpInit {
    * The swap commission
    */
   commission_bps: number;
+  lp_type?: LpType | null;
   /**
    * The pair info
    */

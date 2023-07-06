@@ -1,6 +1,11 @@
-import { MsgExecuteContract } from "@terra-money/terra.js";
+import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import { createLCDClient, createWallet, sendTxWithConfirm } from "./helpers";
+import {
+  createLCDClient,
+  createWallet,
+  getPrefix,
+  sendTxWithConfirm,
+} from "./helpers";
 import * as keystore from "./keystore";
 import { ExecuteMsg } from "./types/hub/execute_msg";
 
@@ -36,18 +41,20 @@ const argv = yargs(process.argv)
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
 
   const { txhash } = await sendTxWithConfirm(worker, [
-    new MsgExecuteContract(worker.key.accAddress, argv["hub-address"], <
-      ExecuteMsg
-    >{
-      update_config: {
-        swap_config: [
-          {
-            denom: "uusd",
-            contract: "terra1m6ywlgn6wrjuagcmmezzz2a029gtldhey5k552",
-          },
-        ],
-      },
-    }),
+    new MsgExecuteContract(
+      worker.key.accAddress(getPrefix()),
+      argv["hub-address"],
+      <ExecuteMsg>{
+        update_config: {
+          swap_config: [
+            // {
+            //   denom: "uusd",
+            //   contract: "terra1m6ywlgn6wrjuagcmmezzz2a029gtldhey5k552",
+            // },
+          ],
+        },
+      }
+    ),
   ]);
   console.log(`Success! Txhash: ${txhash}`);
 })();

@@ -42,7 +42,8 @@ export type ExecuteMsg =
     }
   | {
       harvest: {
-        stages?: [StageType, Denom, Decimal | null][][] | null;
+        stages?: [StageType, Denom, Decimal | null, Uint128 | null][][] | null;
+        validators?: string[] | null;
         withdrawals?: [WithdrawType, Denom][] | null;
       };
     }
@@ -108,7 +109,7 @@ export type ExecuteMsg =
         /**
          * Sets the stages preset
          */
-        stages_preset?: [StageType, Denom, Decimal | null][][] | null;
+        stages_preset?: [StageType, Denom, Decimal | null, Uint128 | null][][] | null;
         /**
          * Update the vote_operator
          */
@@ -151,17 +152,6 @@ export type Denom = string;
  * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
  */
 export type Decimal = string;
-export type WithdrawType =
-  | {
-      black_whale: {
-        addr: Addr;
-      };
-    }
-  | {
-      bow: {
-        addr: Addr;
-      };
-    };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -176,6 +166,17 @@ export type WithdrawType =
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
+export type WithdrawType =
+  | {
+      black_whale: {
+        addr: Addr;
+      };
+    }
+  | {
+      bow: {
+        addr: Addr;
+      };
+    };
 export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export type CallbackMsg =
   | {
@@ -185,7 +186,7 @@ export type CallbackMsg =
     }
   | {
       single_stage_swap: {
-        stage: [StageType, Denom, Decimal | null][];
+        stage: [StageType, Denom, Decimal | null, Uint128 | null][];
       };
     }
   | {
