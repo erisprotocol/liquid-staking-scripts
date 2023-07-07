@@ -32,7 +32,7 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // MAINNET
-// ts-node 7_add_route.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
+// ts-node amp-compounder/7_change_slippage.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
 
 // TESTNET
 // ts-node amp-compounder/7_change_slippage.ts --network testnet --key testnet --contract terra1pk3hj8k0nasnru5p0pfrsrhkfpqdway8ef8rqzn204r0ykvz8srqvyf4x0

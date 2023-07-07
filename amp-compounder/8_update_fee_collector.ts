@@ -45,14 +45,14 @@ const argv = yargs(process.argv)
       new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
           target_list: [
-            {
-              addr: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
-              weight: 1,
-              msg: Buffer.from(JSON.stringify({ donate: {} })).toString(
-                "base64"
-              ),
-              target_type: "weight",
-            },
+            // {
+            //   addr: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+            //   weight: 1,
+            //   msg: Buffer.from(JSON.stringify({ donate: {} })).toString(
+            //     "base64"
+            //   ),
+            //   target_type: "weight",
+            // },
             {
               addr: "terra1rgggsspquaxjp4lmegx7a3q4l9lg44hnu7rjxa",
               weight: 1,

@@ -116,6 +116,13 @@ const networks = {
     gasAdjustment: 1.3,
     prefix: "juno",
   },
+  "testnet-osmosis": {
+    chainID: "osmo-test-5",
+    lcd: "https://lcd.osmotest5.osmosis.zone",
+    gasAdjustment: 1.5,
+    prefix: "osmo",
+    gasPrices: { uosmo: 0.01 },
+  },
 };
 
 export type Chains = keyof typeof networks;

@@ -93,11 +93,32 @@ const templates: Record<string, InstantiateMsg> = {
       "injvaloper16gdnrnl224ylje5z9vd0vn0msym7p58f00qauj",
     ],
   },
+  ["testnet-osmosis"]: <InstantiateMsg>{
+    denom: "ampOSMO",
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "osmovaloper1hh0g5xf23e5zekg45cmerc97hs4n2004dy2t26",
+      "osmovaloper1vaq0tneq0vmnkk48jxrqlaaefdx8kl2tx06eg9",
+    ],
+    protocol_fee_contract: "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+    protocol_reward_fee: "0.05",
+    owner: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
+    chain_config: {},
+    operator: "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+    utoken: "uosmo",
+    delegation_strategy: "uniform",
+  },
 };
 
 // MIGALOO
 // ts-node 2_deploy_hub_tokenfactory.ts --network migaloo --key mainnet-migaloo --hub-code-id 5 --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory.wasm"
 
+// OSMOSIS
+// ts-node 2_deploy_hub_tokenfactory.ts --network testnet-osmosis --key testnet-osmosis --hub-code-id 684 --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_osmosis.wasm"
+// ts-node 3_migrate.ts --network testnet-osmosis --key testnet-osmosis --key-migrate testnet-osmosis --contract-address osmo1e6rfztv9q3w6534ux34gzxp3ljhcsugvf9p5r4pfdatr23hzzxus7ktvh8  --binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_osmosis.wasm"
+
+// 683
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -126,7 +147,7 @@ const templates: Record<string, InstantiateMsg> = {
     msg,
     undefined,
     {
-      uwhale: "50000000",
+      uosmo: "10000000",
     }
   );
   const address =
