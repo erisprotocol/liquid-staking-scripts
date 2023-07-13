@@ -49,6 +49,7 @@ const argv = yargs(process.argv)
 
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network archwaytest --key mainnet-archway --contract-code-id 200  --label "vAMP Gauge"
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network archway --key mainnet-archway --contract-code-id 40  --label "vAMP Gauge"
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network osmosis --key mainnet-osmosis --contract-code-id 106  --label "vAMP Gauge"
 
 const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // testnet: <InstantiateMsg>{
@@ -85,6 +86,13 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     // ampLUNA Escrow
     escrow_addr:
       "migaloo1hntfu45etpkdf8prq6p6la9tsnk3u3muf5378kds73c7xd4qdzysuv567q",
+  },
+  osmosis: <InstantiateMsg>{
+    hub_addr: "osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9",
+    owner: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
+    validators_limit: 30,
+    escrow_addr:
+      "osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a",
   },
   // inj17w7hjaqf6qc3zp3r68q3sq3jezsg4tr3g7e0n2
   // injective: <InstantiateMsg>{

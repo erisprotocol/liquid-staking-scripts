@@ -116,6 +116,13 @@ const networks = {
     gasAdjustment: 1.3,
     prefix: "juno",
   },
+  osmosis: {
+    chainID: "osmosis-1",
+    lcd: "https://osmosis-api.polkachu.com/",
+    gasAdjustment: 1.3,
+    prefix: "osmo",
+    gasPrices: { uosmo: 0.0025 },
+  },
   "testnet-osmosis": {
     chainID: "osmo-test-5",
     lcd: "https://lcd.osmotest5.osmosis.zone",

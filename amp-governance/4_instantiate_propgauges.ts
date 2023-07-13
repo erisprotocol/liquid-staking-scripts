@@ -47,6 +47,7 @@ const argv = yargs(process.argv)
 
 // ts-node amp-governance/4_instantiate_propgauges.ts --network archwaytest --key mainnet-archway --contract-code-id 201 --label "Prop Gauge"
 // ts-node amp-governance/4_instantiate_propgauges.ts --network archway --key mainnet-archway --contract-code-id 41 --label "Prop Gauge"
+// ts-node amp-governance/4_instantiate_propgauges.ts --network osmosis --key mainnet-osmosis --contract-code-id 107 --label "Prop Gauge"
 
 const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // testnet: <InstantiateMsg>{
@@ -87,6 +88,14 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     // ampLUNA Escrow
     escrow_addr:
       "migaloo1hntfu45etpkdf8prq6p6la9tsnk3u3muf5378kds73c7xd4qdzysuv567q",
+    quorum_bps: 1000,
+    use_weighted_vote: true,
+  },
+  osmosis: <InstantiateMsg>{
+    hub_addr: "osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9",
+    owner: "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+    escrow_addr:
+      "osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a",
     quorum_bps: 1000,
     use_weighted_vote: true,
   },

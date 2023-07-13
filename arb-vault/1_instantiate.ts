@@ -1,6 +1,7 @@
-import { TxLog } from "@terra-money/feather.js";
+import { Coin, TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -8,6 +9,7 @@ import {
 } from "../helpers";
 import * as keystore from "../keystore";
 import { InstantiateMsg } from "../types/arb-vault/eris_arb_vault_instantiate";
+import { InstantiateMsg as TfInstantiateMsg } from "../types/tokenfactory/arb-vault/eris_arb_vault_instantiate";
 
 const argv = yargs(process.argv)
   .options({
@@ -52,7 +54,12 @@ const argv = yargs(process.argv)
 // TEST ts-node arb-vault/10_update_config.ts --network mainnet --key mainnet --contract terra1uz7x69xkekc2gqqzfymqxye3nklkt63r4q8jzta8khjdp7nj95wqmcl7d7
 // TEST ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --contracts eris_arb_vault --migrates terra1uz7x69xkekc2gqqzfymqxye3nklkt63r4q8jzta8khjdp7nj95wqmcl7d7
 
-const templates: Record<string, InstantiateMsg> = {
+// MIGALOO
+// ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_arb_vault_whitewhale --folder contracts-tokenfactory
+// eris_arb_vault_whitewhale: 60
+// ts-node arb-vault/1_instantiate.ts --network migaloo --key mainnet-migaloo --contract-code-id 60 --label "Eris Arbitrage Vault"
+
+const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
   testnet: <InstantiateMsg>{
     cw20_code_id: 125,
     decimals: 6,
@@ -135,13 +142,68 @@ const templates: Record<string, InstantiateMsg> = {
       },
     ],
   },
+  migaloo: <TfInstantiateMsg>{
+    owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+    unbond_time_s: (21 + 4) * 24 * 60 * 60,
+    denom: "arbWHALE",
+    utoken: "uwhale",
+    whitelist: [
+      "migaloo1l4x3hd7rwj26nqw2dhhdm4t9vtv0lqx3v54hzg",
+      "migaloo1eetvnrgndvc9atgqxykmhl9xp34l66hsy2u27u",
+      "migaloo187llpg2lgvvnltqg50vfqaap54xnqejvhnslte",
+      "migaloo1v6cfsslgx04arl8qx5nmx4qggfxlg6t2wkrfc7",
+      "migaloo1a854faa6dm0jgp63u9wx48m2y4kl2283n0kmcm",
+      "migaloo146m835sckyqhsm9jmjvjky99lzyvy2kkfql0a9",
+      "migaloo1zm4eevxcmv0lh67x5slaxn87szt3c36m4rmmk3",
+    ],
+    utilization_method: {
+      steps: [
+        ["0.01", "0.4"],
+        ["0.02", "0.7"],
+        ["0.03", "0.9"],
+        ["0.05", "1.0"],
+      ],
+    },
+    fee_config: {
+      immediate_withdraw_fee: "0.05",
+      protocol_withdraw_fee: "0.0069",
+      protocol_fee_contract:
+        "migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v",
+      protocol_performance_fee: "0.13",
+    },
+    lsds: [
+      {
+        disabled: false,
+        lsd_type: {
+          eris: {
+            addr: "migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4",
+            denom:
+              "factory/migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4/ampWHALE",
+          },
+        },
+        name: "ampWHALE",
+      },
+      {
+        disabled: false,
+        lsd_type: {
+          backbone: {
+            addr: "migaloo1mf6ptkssddfmxvhdx0ech0k03ktp6kf9yk59renau2gvht3nq2gqdhts4u",
+            denom:
+              "factory/migaloo1mf6ptkssddfmxvhdx0ech0k03ktp6kf9yk59renau2gvht3nq2gqdhts4u/boneWhale",
+          },
+        },
+        name: "boneWHALE",
+      },
+    ],
+  },
 };
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
+  if (!msg) throw new Error("no message");
 
   const addr = deployer.key.accAddress(getPrefix());
 
@@ -154,7 +216,8 @@ const templates: Record<string, InstantiateMsg> = {
     addr,
     argv.contractCodeId,
     msg,
-    argv.label
+    argv.label,
+    [new Coin("uwhale", 50000000)]
   );
 
   const addresses = result.logs.map(

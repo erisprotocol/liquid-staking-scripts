@@ -49,6 +49,7 @@ const argv = yargs(process.argv)
 
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archwaytest --key mainnet-archway --contract archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archway --key mainnet-archway --contract archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
+// ts-node amp-governance/5_config_escrow_for_update.ts --network osmosis --key mainnet-osmosis --contract osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a
 
 const templates: Partial<Record<Chains, ExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
@@ -112,6 +113,14 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
       push_update_contracts: [
         "archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3", // amp gauge
         "archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at", // prop gauge
+      ],
+    },
+  },
+  osmosis: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "osmo1sx8wrjfh5dvv4s9njhcrau2c6x80t85wnlhh0lm24uu3ppgpunqs74cqk6", // amp gauge
+        "osmo1mr8dr22sc0r3yxu6rhu9kc8nq7096kw3rlh5kzc7eggk32lyc8hqdwatz3", // prop gauge
       ],
     },
   },

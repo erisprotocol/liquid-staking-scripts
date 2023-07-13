@@ -6,14 +6,6 @@
  */
 
 /**
- * This is used to display logo info, provide a link or inform there is one that can be downloaded from the blockchain itself
- */
-export type LogoInfo =
-  | {
-      url: string;
-    }
-  | "embedded";
-/**
  * A human readable address.
  *
  * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
@@ -24,22 +16,8 @@ export type LogoInfo =
  */
 export type Addr = string;
 
-export interface MarketingInfoResponse {
-  /**
-   * A longer description of the token and it's utility. Designed for tooltips or such
-   */
-  description?: string | null;
-  /**
-   * A link to the logo, or a comment there is an on-chain logo stored
-   */
-  logo?: LogoInfo | null;
-  /**
-   * The address (if any) who can update this data structure
-   */
-  marketing?: Addr | null;
-  /**
-   * A URL pointing to the project behind this token.
-   */
-  project?: string | null;
-  [k: string]: unknown;
+export interface Config {
+  hub: Addr;
+  pool_id: number;
+  scale_first: boolean;
 }

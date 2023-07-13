@@ -31,6 +31,7 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
+// ts-node arb-vault/10_update_config.ts --network mainnet --key mainnet --contract terra1r9gls56glvuc4jedsvc3uwh6vj95mqm9efc7hnweqxa2nlme5cyqxygy5m
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -42,6 +43,14 @@ const argv = yargs(process.argv)
     [
       new MsgExecuteContract(account, argv.contract, <ExecuteMsg>{
         update_config: {
+          utilization_method: {
+            steps: [
+              ["0.01", "0.4"],
+              ["0.02", "0.7"],
+              ["0.03", "0.9"],
+              ["0.05", "1.0"],
+            ],
+          },
           // insert_lsd: {
           //   name: "LunaX",
           //   disabled: false,
@@ -74,15 +83,6 @@ const argv = yargs(process.argv)
           // },
 
           // force_remove_lsd: "boneLUNA",
-
-          utilization_method: {
-            steps: [
-              ["0.01", "0.2"],
-              ["0.02", "0.75"],
-              ["0.03", "0.9"],
-              ["0.05", "1.0"],
-            ],
-          },
 
           // set_whitelist: [
           //   "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",

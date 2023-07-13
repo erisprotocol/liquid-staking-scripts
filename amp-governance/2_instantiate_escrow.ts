@@ -51,6 +51,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/2_instantiate_escrow.ts --network archwaytest --key mainnet-archway --contract-code-id 199 --label "Vote-escrow ampCONST"
 
 // ts-node amp-governance/2_instantiate_escrow.ts --network archway --key mainnet-archway --contract-code-id 39 --label "Vote-escrow ampARCH"
+// ts-node amp-governance/2_instantiate_escrow.ts --network osmosis --key mainnet-osmosis --contract-code-id 108 --label "Vote-escrow ampOSMO"
 
 const templates: Partial<Record<Chains, any>> = {
   testnet: <InstantiateMsg>{
@@ -98,6 +99,13 @@ const templates: Partial<Record<Chains, any>> = {
     ],
     owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
     guardian_addr: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+  },
+  osmosis: <TfInstantiateMsg>{
+    deposit_denom:
+      "factory/osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9/ampOSMO",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
+    owner: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
+    guardian_addr: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
   },
   // inj1yp0lgxq460ked0egtzyj2nck3mdhr8smfmteh5
   // injective: <TfInstantiateMsg>{

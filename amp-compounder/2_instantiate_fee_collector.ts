@@ -1,8 +1,9 @@
-import { TxLog } from "@terra-money/terra.js";
+import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
@@ -33,6 +34,9 @@ const argv = yargs(process.argv)
 // ts-node 2_instantiate_fee_collector.ts --network testnet --key testnet --contract-code-id 4549
 
 // ts-node 2_instantiate_fee_collector.ts --network mainnet --key ledger --contract-code-id 514
+
+// ts-node amp-compounder/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_fees_collector
+// ts-node amp-compounder/2_instantiate_fee_collector.ts --network migaloo --key mainnet-migaloo --contract-code-id 50
 
 const templates: Record<string, InstantiateMsg> = {
   testnet: <InstantiateMsg>{
@@ -79,6 +83,36 @@ const templates: Record<string, InstantiateMsg> = {
       },
     ],
   },
+  migaloo: <InstantiateMsg>{
+    // astroport factory
+    factory_contract:
+      "migaloo1z89funaazn4ka8vrmmw4q27csdykz63hep4ay8q2dmlspc6wtdgq92u369",
+    max_spread: "0.01",
+    operator: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
+    owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+    stablecoin: { native_token: { denom: "uwhale" } },
+    target_list: [
+      {
+        addr: "migaloo1z3txc4x7scxsypx9tgynyfhu48nw60a5gpmd3y",
+        weight: 7,
+      },
+      {
+        addr: "migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup",
+        weight: 3,
+        msg: Buffer.from(JSON.stringify({ burn: {} })).toString("base64"),
+      },
+      {
+        addr: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
+        weight: 0,
+        target_type: {
+          fill_up_first: {
+            filled_to: "10000000",
+            min_fill: "5000000",
+          },
+        },
+      },
+    ],
+  },
 };
 
 (async function () {
@@ -90,7 +124,7 @@ const templates: Record<string, InstantiateMsg> = {
 
   const result = await instantiateWithConfirm(
     deployer,
-    deployer.key.accAddress,
+    deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
     msg,
     "Eris Fee Collector"

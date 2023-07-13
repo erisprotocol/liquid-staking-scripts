@@ -109,6 +109,26 @@ const templates: Record<string, InstantiateMsg> = {
     utoken: "uosmo",
     delegation_strategy: "uniform",
   },
+  ["osmosis"]: <InstantiateMsg>{
+    denom: "ampOSMO",
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "osmovaloper1pxphtfhqnx9ny27d53z4052e3r76e7qq495ehm",
+      "osmovaloper1s29zkm444lr8u4jjfkrycl9wh8gttwfze230hj",
+      "osmovaloper16n0t7lmy4wnhjytzkncjdkxrsu9yfjm3ex7hxr",
+      "osmovaloper16q8xd335y38xk2ul67mjg27vdnrcnklt4wx6kt",
+      "osmovaloper1t48236ajss9wswamwll4nj7up2gqdns52gvyaa",
+      "osmovaloper1u5v0m74mql5nzfx2yh43s2tke4mvzghr6m2n5t",
+    ],
+    protocol_fee_contract: "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+    protocol_reward_fee: "0.05",
+    owner: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
+    chain_config: {},
+    operator: "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+    utoken: "uosmo",
+    delegation_strategy: "uniform",
+  },
 };
 
 // MIGALOO
@@ -119,6 +139,14 @@ const templates: Record<string, InstantiateMsg> = {
 // ts-node 3_migrate.ts --network testnet-osmosis --key testnet-osmosis --key-migrate testnet-osmosis --contract-address osmo1e6rfztv9q3w6534ux34gzxp3ljhcsugvf9p5r4pfdatr23hzzxus7ktvh8  --binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_osmosis.wasm"
 
 // 683
+
+// ts-node 2_deploy_hub_tokenfactory.ts --network osmosis --key mainnet-osmosis --hub-code-id 105
+// eris_staking_hub_tokenfactory_osmosis.wasm: 105 -> osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9
+// factory/osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9/ampOSMO
+// eris_gov_voting_escrow.wasm: 108 osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a
+// eris_gov_amp_gauges.wasm: 106, osmo1sx8wrjfh5dvv4s9njhcrau2c6x80t85wnlhh0lm24uu3ppgpunqs74cqk6
+// eris_gov_prop_gauges.wasm: 107, osmo1mr8dr22sc0r3yxu6rhu9kc8nq7096kw3rlh5kzc7eggk32lyc8hqdwatz3
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);

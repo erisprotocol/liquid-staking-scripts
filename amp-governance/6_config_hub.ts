@@ -46,6 +46,7 @@ const argv = yargs(process.argv)
 
 // ts-node amp-governance/6_config_hub.ts --network archwaytest --key mainnet-archway --contract archway102t7f76edspqrpvqq7xe93uk5q7uhknqccrxa73va0knjyupd2ksexhhky
 // ts-node amp-governance/6_config_hub.ts --network archway --key mainnet-archway --contract archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
+// ts-node amp-governance/6_config_hub.ts --network osmosis --key mainnet-osmosis --contract osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9
 
 const templates: Partial<Record<Chains, ExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
@@ -193,6 +194,28 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
       },
       vote_operator:
         "archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at",
+    },
+  },
+  // osmosis: <ExecuteMsg>{
+  //   update_config: {
+  //     delegation_strategy: {
+  //       gauges: {
+  //         amp_factor_bps: 10000,
+  //         amp_gauges:
+  //           "osmo1sx8wrjfh5dvv4s9njhcrau2c6x80t85wnlhh0lm24uu3ppgpunqs74cqk6",
+  //         max_delegation_bps: 2500,
+  //         min_delegation_bps: 50,
+  //         validator_count: 30,
+  //       },
+  //     },
+  //     vote_operator:
+  //       "osmo1mr8dr22sc0r3yxu6rhu9kc8nq7096kw3rlh5kzc7eggk32lyc8hqdwatz3",
+  //   },
+  // },
+  osmosis: <ExecuteMsg>{
+    update_config: {
+      epoch_period: 2 * 24 * 60 * 60,
+      unbond_period: 14 * 24 * 60 * 60,
     },
   },
 };
