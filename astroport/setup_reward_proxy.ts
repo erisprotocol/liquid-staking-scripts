@@ -37,6 +37,7 @@ const argv = yargs(process.argv)
 
 // MAINNET
 // ts-node astroport/setup_reward_proxy.ts --network mainnet --key mainnet --pair roar_luna
+// ts-node astroport/setup_reward_proxy.ts --network mainnet --key mainnet --pair roar_luna_cl
 // ts-node astroport/setup_reward_proxy.ts --network mainnet --key mainnet --pair solid_ampluna
 // ts-node astroport/setup_reward_proxy.ts --network mainnet --key mainnet --pair solid_usdc
 // ts-node astroport/setup_reward_proxy.ts --network mainnet --key mainnet --pair luna_capa
@@ -81,6 +82,15 @@ const templates: Record<
           "terra1ffeg5l5wnggpzw6k8wlmcsgsv47v0n4mqu60xwq32cm4jmq47sqq8ksnyk",
         proxy_generator:
           "terra1chdtp8z4wcu3g3g2qqdame8a5jjt0jvnajgux54h5udgp3gx6dqs5ylcxh",
+      },
+      roar_luna_cl: {
+        name: "Lion DAO CL",
+        pair: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+        reward_token: tokens.roar.token.contract_addr,
+        lp_staking:
+          "terra1zhul64nwhldj756gtu7qmp5fdu6f2l0p5rmh4pquxhldw800e8fsqjrle7",
+        proxy_generator:
+          "terra1zxwam5gmqvkxrj4j5s8ct92mxyd90x8snv4m7m46j685kf8d3krs4k76pq",
       },
       solid_ampluna: {
         name: "Capapult ampLUNA-SOLID",

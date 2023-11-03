@@ -16,9 +16,6 @@ export type QueryMsg =
       balances: {
         assets: AssetInfo[];
       };
-    }
-  | {
-      bridges: {};
     };
 /**
  * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("terra...") }; NativeToken { denom: String::from("uluna") }; ```

@@ -52,6 +52,7 @@ const argv = yargs(process.argv)
 
 // ts-node amp-governance/2_instantiate_escrow.ts --network archway --key mainnet-archway --contract-code-id 39 --label "Vote-escrow ampARCH"
 // ts-node amp-governance/2_instantiate_escrow.ts --network osmosis --key mainnet-osmosis --contract-code-id 108 --label "Vote-escrow ampOSMO"
+// ts-node amp-governance/2_instantiate_escrow.ts --network juno --key key-mainnet --contract-code-id 3397 --label "Vote-escrow ampJUNO"
 
 const templates: Partial<Record<Chains, any>> = {
   testnet: <InstantiateMsg>{
@@ -77,15 +78,23 @@ const templates: Partial<Record<Chains, any>> = {
   //   owner: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
   //   guardian_addr: "terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr",
   // },
-  mainnet: <InstantiateMsg>{
-    // ampLUNA
-    deposit_token_addr:
-      "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
-    logo_urls_whitelist: [
-      "https://dev.erisprotocol.com/",
-      "https://erisprotocol.com/",
-      "https://www.erisprotocol.com/",
-    ],
+  // mainnet: <InstantiateMsg>{
+  //   // ampLUNA
+  //   deposit_token_addr:
+  //     "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
+  //   logo_urls_whitelist: [
+  //     "https://dev.erisprotocol.com/",
+  //     "https://erisprotocol.com/",
+  //     "https://www.erisprotocol.com/",
+  //   ],
+  //   owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+  //   guardian_addr: "terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew",
+  // },
+
+  mainnet: <TfInstantiateMsg>{
+    deposit_denom:
+      "factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     guardian_addr: "terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew",
   },
@@ -132,6 +141,29 @@ const templates: Partial<Record<Chains, any>> = {
     logo_urls_whitelist: ["https://www.erisprotocol.com/"],
     owner: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
     guardian_addr: "archway1dpaaxgw4859qhew094s87l0he8tfea3l3pqx4a",
+  },
+  juno: <InstantiateMsg>{
+    // ampTOKEN archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5
+    // hub archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
+    deposit_token_addr:
+      "juno1a0khag6cfzu5lrwazmyndjgvlsuk7g4vn9jd8ceym8f4jf6v2l9q6d348a",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
+    owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
+    guardian_addr: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
+  },
+  sei: <TfInstantiateMsg>{
+    deposit_denom:
+      "factory/sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k/ampSEI",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
+    owner: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+    guardian_addr: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+  },
+  "testnet-kujira": <TfInstantiateMsg>{
+    deposit_denom:
+      "factory/kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj/ampMNTA",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
+    owner: "kujira1dpaaxgw4859qhew094s87l0he8tfea3l4z76jq",
+    guardian_addr: "kujira1dpaaxgw4859qhew094s87l0he8tfea3l4z76jq",
   },
 };
 

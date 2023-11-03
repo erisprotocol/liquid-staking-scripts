@@ -53,6 +53,10 @@ const argv = yargs(process.argv)
 
 // ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra1chdtp8z4wcu3g3g2qqdame8a5jjt0jvnajgux54h5udgp3gx6dqs5ylcxh --new-admin terra1k9j8rcyk87v5jvfla2m9wp200azegjz0eshl7n2pwv852a7ssceqsnn7pq
 
+// ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --new-admin terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew
+
+// ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra1zxwam5gmqvkxrj4j5s8ct92mxyd90x8snv4m7m46j685kf8d3krs4k76pq --new-admin terra1k9j8rcyk87v5jvfla2m9wp200azegjz0eshl7n2pwv852a7ssceqsnn7pq
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);

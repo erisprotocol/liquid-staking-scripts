@@ -50,6 +50,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network archwaytest --key mainnet-archway --contract-code-id 200  --label "vAMP Gauge"
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network archway --key mainnet-archway --contract-code-id 40  --label "vAMP Gauge"
 // ts-node amp-governance/4_instantiate_ampgauges.ts --network osmosis --key mainnet-osmosis --contract-code-id 106  --label "vAMP Gauge"
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network juno --key key-mainnet --contract-code-id 3398  --label "vAMP Gauge"
 
 const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // testnet: <InstantiateMsg>{
@@ -120,6 +121,20 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     validators_limit: 30,
     escrow_addr:
       "archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu",
+  },
+  juno: {
+    hub_addr: "juno17cya4sw72h4886zsm2lk3udxaw5m8ssgpsl6nd6xl6a4ukepdgkqeuv99x",
+    owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
+    validators_limit: 30,
+    escrow_addr:
+      "juno1s74s5wssxamuh37nqu3gus9m6l77mvh2d9urq9slmxfh3nh5seyqpze8w5",
+  },
+  sei: <InstantiateMsg>{
+    hub_addr: "sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k",
+    owner: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+    validators_limit: 30,
+    escrow_addr:
+      "sei1jkntjf038jtwzs7zefuyt35v6esv2ht986p4m8rrcfm9xtafphqq8gtw8w",
   },
 };
 

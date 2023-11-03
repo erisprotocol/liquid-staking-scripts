@@ -11,6 +11,7 @@ export type ExecuteMsg =
     }
   | {
       update_config: {
+        decimals?: number | null;
         hub?: string | null;
         pool_id?: number | null;
         scale_first?: boolean | null;

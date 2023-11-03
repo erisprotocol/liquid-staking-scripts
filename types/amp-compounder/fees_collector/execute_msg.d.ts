@@ -34,25 +34,8 @@ export type ExecuteMsg =
         /**
          * The list of target address to receive fees in stablecoin
          */
-        target_list?: TargetConfigFor_String[] | null;
-      };
-    }
-  | {
-      update_bridges: {
-        /**
-         * List of bridge assets to be added
-         */
-        add?: [AssetInfo, AssetInfo][] | null;
-        /**
-         * List of asset to be removed
-         */
-        remove?: AssetInfo[] | null;
-      };
-    }
-  | {
-      swap_bridge_assets: {
-        assets: AssetInfo[];
-        depth: number;
+        target_list?: TargetConfig[] | null;
+        zapper?: string | null;
       };
     }
   | {
@@ -135,6 +118,12 @@ export type TargetType =
         filled_to: Uint128;
         min_fill?: Uint128 | null;
       };
+    }
+  | {
+      ibc: {
+        channel_id: string;
+        ics20?: string | null;
+      };
     };
 
 /**
@@ -149,12 +138,20 @@ export interface AssetWithLimit {
    * The amount of tokens to swap
    */
   limit?: Uint128 | null;
+  /**
+   * if the compound proxy should be used
+   */
+  use_compound_proxy?: boolean | null;
 }
 /**
  * This struct holds parameters to configure receiving contracts and messages.
  */
-export interface TargetConfigFor_String {
+export interface TargetConfig {
   addr: string;
+  /**
+   * If provided, it will ignore the output asset and just send the override asset to the target without swapping it to the "stablecoin"
+   */
+  asset_override?: AssetInfo | null;
   msg?: Binary | null;
   target_type?: TargetType & string;
   weight: number;

@@ -17,6 +17,7 @@
 export type Addr = string;
 
 export interface Config {
+  decimals?: number | null;
   hub: Addr;
   pool_id: number;
   scale_first: boolean;

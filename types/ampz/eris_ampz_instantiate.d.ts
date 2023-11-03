@@ -84,4 +84,6 @@ export interface FeeConfigFor_String {
 export interface WhiteWhaleConfigFor_String {
   coins: AssetInfo[];
   fee_distributor: string;
+  incentive_factory_addr: string;
+  lp_tokens: string[];
 }

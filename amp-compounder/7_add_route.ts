@@ -60,51 +60,49 @@ function getToken(a: AssetInfo) {
 (async function () {
   const terra = createLCDClient(argv["network"]);
 
-  // const getRoutes = (start_after: [AssetInfo, AssetInfo] | null) => {
-  //   return terra.wasm.contractQuery<
-  //     {
-  //       key: [string, string];
-  //     }[]
-  //   >(argv.contract, {
-  //     get_routes: { limit: 30, start_after },
-  //   });
-  // };
+  const getRoutes = (start_after: [AssetInfo, AssetInfo] | null) => {
+    return terra.wasm.contractQuery<
+      {
+        key: [string, string];
+      }[]
+    >(argv.contract, {
+      get_routes: { limit: 30, start_after },
+    });
+  };
 
-  // let start_with: null | [AssetInfo, AssetInfo] = null;
-  // let length = 30;
+  let start_with: null | [AssetInfo, AssetInfo] = null;
+  let length = 30;
 
-  // while (length === 30) {
-  //   const existingRoutes = await getRoutes(start_with);
+  while (length === 30) {
+    const existingRoutes = await getRoutes(start_with);
 
-  //   const used: [string, string][] = existingRoutes.map(
-  //     (a) => a.key.map((b) => contractToToken.get(b)!) as [string, string]
-  //   );
-  //   length = existingRoutes.length;
+    const used: [string, string][] = existingRoutes.map(
+      (a) => a.key.map((b) => contractToToken.get(b)!) as [string, string]
+    );
+    length = existingRoutes.length;
 
-  //   const last = used[used.length - 1];
+    const last = used[used.length - 1];
 
-  //   console.log(used, existingRoutes.length);
-  //   start_with = [tokensUntyped[last[0]], tokensUntyped[last[1]]];
-  // }
+    console.log(used, existingRoutes.length);
+    start_with = [tokensUntyped[last[0]], tokensUntyped[last[1]]];
+  }
 
-  // return;
+  return;
 
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
   const address = admin.key.accAddress(getPrefix());
 
   const routes = [
-    // [tokens.red, tokens.luna, tokens.capa],
+    // [tokens.red, tokens.luna, tokens.whale],
     // [tokens.sayve, tokens.luna, tokens.capa],
     // [tokens.tpt, tokens.luna, tokens.capa],
     // [tokens.ampluna, tokens.luna, tokens.capa],
     // [tokens.roar, tokens.luna, tokens.capa],
-    [tokens.usdc, tokens.luna, tokens.capa],
+    // [tokens.usdc, tokens.luna, tokens.capa],
     // [tokens.capa, tokens.luna, tokens.capa],
-
     // [tokens.solid, tokens.usdc, tokens.luna, tokens.capa],
     // [tokens.astro, tokens.usdc, tokens.luna, tokens.capa],
     // [tokens.vkr, tokens.usdc, tokens.luna, tokens.capa],
-
     // [tokens.xastro, tokens.astro, tokens.usdc, tokens.luna, tokens.capa],
   ];
 

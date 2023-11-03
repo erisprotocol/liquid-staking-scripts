@@ -1,6 +1,7 @@
 import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -8,6 +9,8 @@ import {
 } from "../helpers";
 import * as keystore from "../keystore";
 import { InstantiateMsg } from "../types/amp-compounder/astroport_farm/eris_astroport_farm_instantiate";
+import { InstantiateMsg as TfInstantiateMsg } from "../types/tokenfactory/amp-compounder/astroport_farm/eris_astroport_farm_neutron_instantiate";
+import { tokens_neutron } from "./tokens";
 
 const argv = yargs(process.argv)
   .options({
@@ -36,7 +39,7 @@ const argv = yargs(process.argv)
 
 //
 
-const templates: Record<string, InstantiateMsg> = {
+const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
   testnet: <InstantiateMsg>{
     amp_lp: {
       cw20_code_id: 125,
@@ -77,11 +80,31 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     staking_contract:
       "terra1m42utlz6uvnlzn82f58pfkkuxw8j9vf24hf00t54qfn4k23fhj3q70vqd0",
-    deposit_profit_delay_s: 12 * 60 * 60,
+    deposit_profit_delay_s: 3 * 60 * 60,
+  },
+  neutron: <TfInstantiateMsg>{
+    base_reward_token: tokens_neutron.astro,
+    compound_proxy:
+      "neutron14eyjgeutlqlp6g9ka027waj04j68hpcsxqw09jrl5rncgdsst6qqlh2qvf",
+    controller: "neutron1c023jxq099et7a44ledfwuu3sdkfq8cadk9hul",
+    fee: "0.05",
+    fee_collector:
+      "neutron17j39j5xw6ukphvkct6zkjzwavgdkujhf2xpruwgggpwf0jh2whls3mlda5",
+    liquidity_token: "",
+    owner: "neutron1dpaaxgw4859qhew094s87l0he8tfea3lq44q9d",
+    staking_contract:
+      "neutron1xm0pgsu436sht7t39gu44z8q4emtsy8nujxz2yg2jmkdv930up9q26mkd2",
+    deposit_profit_delay_s: 3 * 60 * 60,
+    amp_lp: {
+      cw20_code_id: 97,
+      decimals: 6,
+      name: "",
+      symbol: "",
+    },
   },
 };
 
-const lps: Record<string, { lp: string }[]> = {
+const lps: Record<string, { lp?: string; name?: string; pair?: string }[]> = {
   testnet: [
     { lp: "terra1n7pgzxhunusffja0mfqls7tntj604s2ywvu2ufuxxqk2spzmttwqc45qh0" }, // ampLUNA-LUNA terra16j2hg99dkln8y0yjhp2zqvvn2xcj5jlmgqdhx3a3sfjjhvnpf4kqp42w62
     // {
@@ -141,8 +164,60 @@ const lps: Record<string, { lp: string }[]> = {
     //   lp: "terra1qmr5wagmeej33hsnqdmqyvkq6rg3sfkvflmu6gd6drhtjfpx4y5sew88s4",
     // },
     // SOLID-USDC
+    // {
+    //   lp: "terra1rdjm94n3r4uvhfh23s98tfcgzedkuvjwvkcjqa503amef9afya7sddv098",
+    // },
+    // {
+    //   name: "CAP-SOL-aLP",
+    //   pair: "terra1g6z93vtttdrwfdtj06ha2nwc6qdxsfy8appge5l5g7wenfzg5mjq8s3r9n",
+    // },
+    // {
+    //   name: "AST-USD-aLP",
+    //   pair: "terra1tm20pwpzwyyvyadu4v488hrg59nhu9v2l8v7k67nhccam4aagczsg0pzzr",
+    // },
+    // {
+    //   name: "LUN-USD-aLP",
+    //   pair: "terra13cw46g72kwtgln0540j9cqa79ham5k86jlx34e2pqukww6v0v3yseakged",
+    // },
+    // {
+    //   name: "LUN-ROA-aLP",
+    //   pair: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+    // },
+    // {
+    //   name: "LUN-TPT-aLP",
+    //   pair: "terra1mc0t6hw8rwqd77jgzyl28er2vpkg205dumvvzh0lry4xxxk2d5lsjmp27h",
+    // },
     {
-      lp: "terra1rdjm94n3r4uvhfh23s98tfcgzedkuvjwvkcjqa503amef9afya7sddv098",
+      name: "LUN-ROA-aLP",
+      pair: "terra1c7g9pmz2xxe66g8ujpe5tlmj3pawjp290f57cl43j6vswkdtrvwqkgme9q",
+    },
+  ],
+
+  neutron: [
+    // ASTRO-USDC
+    // {
+    //   name: "AST-USD-aLP",
+    //   lp: "neutron1vw93hy8tm3xekpz9286428gesmmc8dqxmw8cujsh3fcu3rt0hvdqvlyrrl",
+    // },
+    // ASTRO-USDC
+    // {
+    //   name: "NTR-ATO-aLP",
+    //   pair: "neutron1e22zh5p8meddxjclevuhjmfj69jxfsa8uu3jvht72rv9d8lkhves6t8veq",
+    // },
+    // ASTRO-USDC
+    // {
+    //   name: "NTR-USD-aLP",
+    //   pair: "neutron1l3gtxnwjuy65rzk63k352d52ad0f2sh89kgrqwczgt56jc8nmc3qh5kag3",
+    // },
+    // ASTRO-USDC
+    // {
+    //   name: "USD-USDT-aLP",
+    //   pair: "neutron1adk7gupr0thjr3e6wcnlxr7ugclcg4cukv2np8la29dz38zuzymqjcv5s4",
+    // },
+    // ASTRO-USDC
+    {
+      name: "wst-axl-aLP",
+      pair: "neutron1wzsewgysr8ttdlw96lp7u2j55z3sg7rtuvfjmd70ajavvpr3308s3zekqu",
     },
   ],
 };
@@ -151,23 +226,46 @@ const lps: Record<string, { lp: string }[]> = {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
+  if (!msg) {
+    throw new Error("not supported network");
+  }
   const init_lps = lps[argv["network"]];
 
   const msgs: { label: string; msg: any }[] = [];
 
   for (const init of init_lps) {
-    const clone: InstantiateMsg = JSON.parse(JSON.stringify(msg));
+    const clone: InstantiateMsg | TfInstantiateMsg = JSON.parse(
+      JSON.stringify(msg)
+    );
+
+    if (init.pair) {
+      const lp = await deployer.lcd.wasm.contractQuery<{
+        liquidity_token: string;
+      }>(init.pair, { pair: {} });
+      init.lp = lp.liquidity_token;
+    }
+
+    if (!init.lp) {
+      throw new Error("LP needs to be set");
+    }
     const liquidity_token = init.lp;
     const token_info = await deployer.lcd.wasm.contractQuery<{
       name: string;
       symbol: string;
     }>(liquidity_token, { token_info: {} });
 
-    clone.amp_lp.name = "amp-" + token_info.name;
-    clone.amp_lp.symbol = "ampLP";
+    if ("amp_lp" in clone) {
+      if (clone.amp_lp) {
+        clone.amp_lp.name = "amp-" + token_info.name;
+        clone.amp_lp.symbol = init.name ?? "ampLP";
+        console.log("ampLP", clone.amp_lp);
+      }
+    } else {
+      clone.amp_lp_denom = init.name ?? "ampLP";
+    }
+
     clone.liquidity_token = liquidity_token;
-    console.log("ampLP", clone.amp_lp);
     msgs.push({
       msg: clone,
       label: "Eris Farm " + token_info.name,

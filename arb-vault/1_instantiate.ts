@@ -58,6 +58,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_arb_vault_whitewhale --folder contracts-tokenfactory
 // eris_arb_vault_whitewhale: 60
 // ts-node arb-vault/1_instantiate.ts --network migaloo --key mainnet-migaloo --contract-code-id 60 --label "Eris Arbitrage Vault"
+// migaloo1ey4sn2mkmhew4pdrzk90l9acluvas25qlhuvsfgssw42ugz8yjlqx92j9l
 
 const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
   testnet: <InstantiateMsg>{

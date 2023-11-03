@@ -50,6 +50,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archwaytest --key mainnet-archway --contract archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archway --key mainnet-archway --contract archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
 // ts-node amp-governance/5_config_escrow_for_update.ts --network osmosis --key mainnet-osmosis --contract osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a
+// ts-node amp-governance/5_config_escrow_for_update.ts --network juno --key key-mainnet --contract juno1s74s5wssxamuh37nqu3gus9m6l77mvh2d9urq9slmxfh3nh5seyqpze8w5
 
 const templates: Partial<Record<Chains, ExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
@@ -68,11 +69,18 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
       ],
     },
   },
+  // mainnet: <ExecuteMsg>{
+  //   update_config: {
+  //     push_update_contracts: [
+  //       "terra1aumv9uyv2ltf8upsf88338ctf922q439a0v2tpss5s2j9g0j8zzsrtq9t2", // amp gauge
+  //       "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j", // prop gauge
+  //     ],
+  //   },
+  // },
   mainnet: <ExecuteMsg>{
     update_config: {
       push_update_contracts: [
-        "terra1aumv9uyv2ltf8upsf88338ctf922q439a0v2tpss5s2j9g0j8zzsrtq9t2", // amp gauge
-        "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j", // prop gauge
+        "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d", // prop gauge
       ],
     },
   },
@@ -121,6 +129,30 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
       push_update_contracts: [
         "osmo1sx8wrjfh5dvv4s9njhcrau2c6x80t85wnlhh0lm24uu3ppgpunqs74cqk6", // amp gauge
         "osmo1mr8dr22sc0r3yxu6rhu9kc8nq7096kw3rlh5kzc7eggk32lyc8hqdwatz3", // prop gauge
+      ],
+    },
+  },
+  juno: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "juno1c4npgrxu9d9rrxrkd2xtgl8jhz3zsetq0y2mwvxhfvyggrmmvk8qkvw09e", // amp gauge
+        "juno1l548zam9r7j89agyptrhnn9q9f92w0a7ja5c76vkmx9sreqfz69qq688rl", // prop gauge
+      ],
+    },
+  },
+  sei: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35", // amp gauge
+        "sei1qwzdnwzdka4yc5z2v5rlathef44flmvh66uahsmraatcyvfyxc6sze0ec8", // prop gauge
+      ],
+    },
+  },
+  "testnet-kujira": <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        // "sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35", // amp gauge
+        "kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk", // prop gauge
       ],
     },
   },

@@ -48,6 +48,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/4_instantiate_propgauges.ts --network archwaytest --key mainnet-archway --contract-code-id 201 --label "Prop Gauge"
 // ts-node amp-governance/4_instantiate_propgauges.ts --network archway --key mainnet-archway --contract-code-id 41 --label "Prop Gauge"
 // ts-node amp-governance/4_instantiate_propgauges.ts --network osmosis --key mainnet-osmosis --contract-code-id 107 --label "Prop Gauge"
+// ts-node amp-governance/4_instantiate_propgauges.ts --network juno --key key-mainnet --contract-code-id 3399 --label "Prop Gauge"
 
 const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // testnet: <InstantiateMsg>{
@@ -71,15 +72,24 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     quorum_bps: 1000,
     use_weighted_vote: true,
   },
+  // mainnet: <InstantiateMsg>{
+  //   hub_addr:
+  //     "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+  //   owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+  //   // ampLUNA Escrow
+  //   escrow_addr:
+  //     "terra1ep7exp42jjtwgjly36y4vgylz82fplnjwpkz95wljzwfald8zwwqggsdzz",
+  //   quorum_bps: 1000,
+  //   use_weighted_vote: true,
+  // },
   mainnet: <InstantiateMsg>{
     hub_addr:
-      "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+      "terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy",
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     // ampLUNA Escrow
     escrow_addr:
-      "terra1ep7exp42jjtwgjly36y4vgylz82fplnjwpkz95wljzwfald8zwwqggsdzz",
+      "terra1q33xvxt03ds6rsrk9p7dzaz4540s5q995gmt8dp3u47smaw292jqrmpxgd",
     quorum_bps: 1000,
-    use_weighted_vote: true,
   },
   migaloo: <InstantiateMsg>{
     hub_addr:
@@ -127,6 +137,31 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
       "archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu",
     quorum_bps: 1000,
     use_weighted_vote: true,
+  },
+  juno: <InstantiateMsg>{
+    hub_addr: "juno17cya4sw72h4886zsm2lk3udxaw5m8ssgpsl6nd6xl6a4ukepdgkqeuv99x",
+    owner: "juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck",
+    // ampLUNA Escrow
+    escrow_addr:
+      "juno1s74s5wssxamuh37nqu3gus9m6l77mvh2d9urq9slmxfh3nh5seyqpze8w5",
+    quorum_bps: 1000,
+    use_weighted_vote: true,
+  },
+  sei: <InstantiateMsg>{
+    hub_addr: "sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k",
+    owner: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+    escrow_addr:
+      "sei1jkntjf038jtwzs7zefuyt35v6esv2ht986p4m8rrcfm9xtafphqq8gtw8w",
+    quorum_bps: 1000,
+    use_weighted_vote: true,
+  },
+  "testnet-kujira": <InstantiateMsg>{
+    hub_addr:
+      "kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj",
+    owner: "kujira1dpaaxgw4859qhew094s87l0he8tfea3l4z76jq",
+    escrow_addr:
+      "kujira1mgn3ft0vsfsfgjt8tcjn3pjh3zecsmanay7ummnyef6cvgg2xa2qtj7v63",
+    quorum_bps: 1000,
   },
 };
 

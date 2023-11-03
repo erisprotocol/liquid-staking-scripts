@@ -44,9 +44,8 @@ const argv = yargs(process.argv)
 // mainnet router: terra1j8hayvehh3yy02c2vtw5fdhz9f4drhtee8p5n5rguvg3nyd6m83qd2y90a
 // testnet router: terra1na348k6rvwxje9jj6ftpsapfeyaejxjeq6tuzdmzysps20l6z23smnlv64
 
-// ts-node amp-compounder/7_add_route_tfm.ts --network mainnet --key mainnet --contract terra1898s9slxrqs7cem5w0nehjmn4pvfsxv9ekaaxz7r5gu8w7x8yrrqjv46gy
-// mainnet test zapper: terra1898s9slxrqs7cem5w0nehjmn4pvfsxv9ekaaxz7r5gu8w7x8yrrqjv46gy
-// tfm router: terra19hz374h6ruwtzrnm8ytkae782uv79h9yt9tuytgvt94t26c4793qnfg7vn
+// 1298 -> 1631
+
 const tokensUntyped: Record<string, AssetInfo> = tokens;
 
 const contractToToken = new Map(
@@ -106,45 +105,59 @@ export class RouteBuilder {
     return this;
   }
 
+  pair(asset: AssetInfo, pair: string) {
+    const assets = [this.current!, asset];
+    this.create(asset);
+    this.routes.push({
+      assets: assets,
+      pair,
+      type: "whitewhale",
+    });
+    return this;
+  }
+
   async preparePairs(cache: Record<string, string>, client: LCDClient) {
     for (const route of this.routes) {
       const tokens = route.assets.map((a) => getToken(a));
       tokens.sort();
 
       const key = `${route.type}:${tokens.join("-")}`;
-      if (cache[key]) {
-        route.pair = cache[key];
-      } else {
-        let pair = "";
-        if (route.type === "astroport") {
-          const factory =
-            "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r";
-          const response = await client.wasm.contractQuery<{
-            contract_addr: string;
-          }>(factory, {
-            pair: {
-              asset_infos: route.assets,
-            },
-          });
 
-          pair = response.contract_addr;
+      if (!route.pair) {
+        if (cache[key]) {
+          route.pair = cache[key];
         } else {
-          const factory =
-            "terra1f4cr4sr5eulp3f2us8unu6qv8a5rhjltqsg7ujjx6f2mrlqh923sljwhn3";
-          const response = await client.wasm.contractQuery<{
-            contract_addr: string;
-          }>(factory, {
-            pair: {
-              asset_infos: route.assets,
-            },
-          });
+          let pair = "";
+          if (route.type === "astroport") {
+            const factory =
+              "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r";
+            const response = await client.wasm.contractQuery<{
+              contract_addr: string;
+            }>(factory, {
+              pair: {
+                asset_infos: route.assets,
+              },
+            });
 
-          pair = response.contract_addr;
+            pair = response.contract_addr;
+          } else {
+            const factory =
+              "terra1f4cr4sr5eulp3f2us8unu6qv8a5rhjltqsg7ujjx6f2mrlqh923sljwhn3";
+            const response = await client.wasm.contractQuery<{
+              contract_addr: string;
+            }>(factory, {
+              pair: {
+                asset_infos: route.assets,
+              },
+            });
+
+            pair = response.contract_addr;
+          }
+
+          cache[key] = pair;
+          route.pair = pair;
+          console.log(`['${key}']: '${pair}',`);
         }
-
-        cache[key] = pair;
-        route.pair = pair;
-        console.log(`['${key}']: '${pair}',`);
       }
     }
   }
@@ -186,6 +199,8 @@ export class RouteBuilder {
   const address = admin.key.accAddress(getPrefix());
 
   const routes = [
+    // RouteBuilder.start(tokens.luna).astro(tokens.usdc).whale(tokens.whale),
+
     // RouteBuilder.start(tokens.red)
     //   .astro(tokens.luna)
     //   .astro(tokens.usdc)
@@ -217,49 +232,97 @@ export class RouteBuilder {
     //   .astro(tokens.usdc)
     //   .whale(tokens.whale),
 
-    RouteBuilder.start(tokens.red)
-      .astro(tokens.luna)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
+    // // ampwhale
 
-    RouteBuilder.start(tokens.sayve)
-      .astro(tokens.luna)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
+    // RouteBuilder.start(tokens.luna).whale(tokens.whale).whale(tokens.ampwhale),
 
-    RouteBuilder.start(tokens.tpt)
-      .astro(tokens.luna)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
-
-    RouteBuilder.start(tokens.ampluna)
-      .astro(tokens.luna)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
-
-    RouteBuilder.start(tokens.roar).whale(tokens.whale).whale(tokens.ampwhale),
-    // RouteBuilder.start(tokens.ampwhale)
+    // RouteBuilder.start(tokens.red)
+    //   .astro(tokens.luna)
     //   .whale(tokens.whale)
     //   .whale(tokens.ampwhale),
-    RouteBuilder.start(tokens.usdc).whale(tokens.whale).whale(tokens.ampwhale),
 
-    RouteBuilder.start(tokens.vkr)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
-    RouteBuilder.start(tokens.astro)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
-    RouteBuilder.start(tokens.xastro)
-      .astro(tokens.astro)
-      .astro(tokens.usdc)
-      .whale(tokens.whale)
-      .whale(tokens.ampwhale),
+    // RouteBuilder.start(tokens.sayve)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
+
+    // RouteBuilder.start(tokens.tpt)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
+
+    // RouteBuilder.start(tokens.ampluna)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
+
+    // RouteBuilder.start(tokens.luna).whale(tokens.whale).whale(tokens.bonewhale),
+
+    // ==================
+    // RouteBuilder.start(tokens.red)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.bonewhale),
+
+    // RouteBuilder.start(tokens.sayve)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.bonewhale),
+
+    // RouteBuilder.start(tokens.tpt)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.bonewhale),
+
+    // RouteBuilder.start(tokens.ampluna)
+    //   .astro(tokens.luna)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.bonewhale),
+
+    // RouteBuilder.start(tokens.whale).whale(tokens.bonewhale),
+    // ==================
+
+    // RouteBuilder.start(tokens.ampwhalet).pair(
+    //   tokens.ampwhale,
+    //   getContractFromTokenFactory(tokens.ampwhalet)
+    // ),
+    // RouteBuilder.start(tokens.bonewhalet).pair(
+    //   tokens.bonewhale,
+    //   getContractFromTokenFactory(tokens.bonewhalet)
+    // ),
+    // RouteBuilder.start(tokens.ampwhalet)
+    //   .pair(tokens.ampwhale, getContractFromTokenFactory(tokens.ampwhalet))
+    //   .whale(tokens.whale),
+    // RouteBuilder.start(tokens.bonewhalet)
+    //   .pair(tokens.bonewhale, getContractFromTokenFactory(tokens.bonewhalet))
+    //   .whale(tokens.whale),
+
+    // ==================
+
+    RouteBuilder.start(tokens.amproar).whale(tokens.roar).whale(tokens.whale),
+
+    // RouteBuilder.start(tokens.whale).whale(tokens.ampwhale),
+
+    // RouteBuilder.start(tokens.roar).whale(tokens.whale).whale(tokens.ampwhale),
+
+    // // RouteBuilder.start(tokens.ampwhale)
+    // //   .whale(tokens.whale)
+    // //   .whale(tokens.ampwhale),
+    // RouteBuilder.start(tokens.usdc).whale(tokens.whale).whale(tokens.ampwhale),
+
+    // RouteBuilder.start(tokens.vkr)
+    //   .astro(tokens.usdc)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
+    // RouteBuilder.start(tokens.astro)
+    //   .astro(tokens.usdc)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
+    // RouteBuilder.start(tokens.xastro)
+    //   .astro(tokens.astro)
+    //   .astro(tokens.usdc)
+    //   .whale(tokens.whale)
+    //   .whale(tokens.ampwhale),
   ];
 
   const cache: Record<string, string> = {
@@ -332,11 +395,11 @@ export class RouteBuilder {
     );
   }
 
-  // const todelete = [astro, red, ampluna, sayve, tpt, vkr, xastro].map(
+  // const todelete = routes.map(
   //   (route) =>
   //     <RouteDelete>{
-  //       from: route,
-  //       to: resulttoken,
+  //       from: route.assets[0],
+  //       to: route.assets[route.assets.length - 1],
   //       both: true,
   //     }
   // );
@@ -347,24 +410,7 @@ export class RouteBuilder {
     [
       new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
-          // delete_routes: [
-          //   // ...todelete,
-          //   // {
-          //   //   both: true,
-          //   //   from: {
-          //   //     token: {
-          //   //       contract_addr:
-          //   //         "terra167dsqkh2alurx997wmycw9ydkyu54gyswe3ygmrs4lwume3vmwks8ruqnv",
-          //   //     },
-          //   //   },
-          //   //   to: {
-          //   //     token: {
-          //   //       contract_addr:
-          //   //         "terra1s50rr0vz05xmmkz5wnc2kqkjq5ldwjrdv4sqzf983pzfxuj7jgsq4ehcu2",
-          //   //     },
-          //   //   },
-          //   // },
-          // ],
+          // delete_routes: todelete,
           insert_routes: insert_routes,
         },
       }),

@@ -58,4 +58,8 @@ export interface AssetWithLimit {
    * The amount of tokens to swap
    */
   limit?: Uint128 | null;
+  /**
+   * if the compound proxy should be used
+   */
+  use_compound_proxy?: boolean | null;
 }

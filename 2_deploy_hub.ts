@@ -306,6 +306,14 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // eris_gov_amp_gauges.wasm: 40 archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3,
 // eris_gov_prop_gauges.wasm: 41 archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at
 
+// SEI
+// ts-node 2_deploy_hub.ts --network archway --key mainnet-archway --hub-code-id 37 --token-code-id 38
+// hub 37 archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
+// token 38 archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5
+// eris_gov_voting_escrow.wasm: 39, archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
+// eris_gov_amp_gauges.wasm: 40 archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3,
+// eris_gov_prop_gauges.wasm: 41 archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);

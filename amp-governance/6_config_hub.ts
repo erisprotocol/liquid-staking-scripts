@@ -47,6 +47,10 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/6_config_hub.ts --network archwaytest --key mainnet-archway --contract archway102t7f76edspqrpvqq7xe93uk5q7uhknqccrxa73va0knjyupd2ksexhhky
 // ts-node amp-governance/6_config_hub.ts --network archway --key mainnet-archway --contract archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj
 // ts-node amp-governance/6_config_hub.ts --network osmosis --key mainnet-osmosis --contract osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9
+// ts-node amp-governance/6_config_hub.ts --network juno --key key-mainnet --contract juno17cya4sw72h4886zsm2lk3udxaw5m8ssgpsl6nd6xl6a4ukepdgkqeuv99x
+
+// ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira1n3fr5f56r2ce0s37wdvwrk98yhhq3unnxgcqus8nzsfxvllk0yxquurqty
+// ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira175yatpvkpgw07w0chhzuks3zrrae9z9g2y6r7u5pzqesyau4x9eqqyv0rr
 
 const templates: Partial<Record<Chains, ExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
@@ -85,24 +89,31 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
         "terra1ut233rtsdjkdf775xq866tdvjkuazmgsyrh5n9l8ac9qpuj6sd3sr8a0q7",
     },
   },
+  // mainnet: <ExecuteMsg>{
+  //   update_config: {
+  //     // delegation_strategy: "uniform",
+  //     delegation_strategy: {
+  //       gauges: {
+  //         amp_factor_bps: 10000,
+  //         amp_gauges:
+  //           "terra1aumv9uyv2ltf8upsf88338ctf922q439a0v2tpss5s2j9g0j8zzsrtq9t2",
+  //         // emp_gauges:
+  //         //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
+  //         max_delegation_bps: 2500,
+  //         min_delegation_bps: 50,
+  //         validator_count: 30,
+  //       },
+  //     },
+  //     // vote_operator:
+  //     //   "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j",
+  //     // protocol_reward_fee: "0",
+  //   },
+  // },
+
   mainnet: <ExecuteMsg>{
     update_config: {
-      // delegation_strategy: "uniform",
-      delegation_strategy: {
-        gauges: {
-          amp_factor_bps: 10000,
-          amp_gauges:
-            "terra1aumv9uyv2ltf8upsf88338ctf922q439a0v2tpss5s2j9g0j8zzsrtq9t2",
-          // emp_gauges:
-          //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
-          max_delegation_bps: 2500,
-          min_delegation_bps: 50,
-          validator_count: 30,
-        },
-      },
-      // vote_operator:
-      //   "terra1z0cxlq62a9dsjhz7g7hhgpuplcl32c0qeckhm9jyggln0rxq6z8syesq8j",
-      // protocol_reward_fee: "0",
+      vote_operator:
+        "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d",
     },
   },
 
@@ -128,22 +139,23 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
   },
   kujira: <ExecuteMsg>{
     update_config: {
-      // delegation_strategy: "uniform",
-      delegation_strategy: {
-        gauges: {
-          amp_factor_bps: 10000,
-          amp_gauges:
-            "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4",
-          // emp_gauges:
-          //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
-          max_delegation_bps: 2500,
-          min_delegation_bps: 50,
-          validator_count: 30,
-        },
-      },
-      vote_operator:
-        "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9",
-      // protocol_reward_fee: "0",
+      // // delegation_strategy: "uniform",
+      // delegation_strategy: {
+      //   gauges: {
+      //     amp_factor_bps: 10000,
+      //     amp_gauges:
+      //       "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4",
+      //     // emp_gauges:
+      //     //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
+      //     max_delegation_bps: 2500,
+      //     min_delegation_bps: 50,
+      //     validator_count: 30,
+      //   },
+      // },
+      // vote_operator:
+      //   "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9",
+      // protocol_reward_fee: "0.05",
+      vote_operator: "kujira1c023jxq099et7a44ledfwuu3sdkfq8cacpwdtj",
     },
   },
   // injective: <ExecuteMsg>{
@@ -216,6 +228,44 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
     update_config: {
       epoch_period: 2 * 24 * 60 * 60,
       unbond_period: 14 * 24 * 60 * 60,
+    },
+  },
+  juno: <ExecuteMsg>{
+    update_config: {
+      delegation_strategy: {
+        gauges: {
+          amp_factor_bps: 10000,
+          amp_gauges:
+            "juno1c4npgrxu9d9rrxrkd2xtgl8jhz3zsetq0y2mwvxhfvyggrmmvk8qkvw09e",
+          max_delegation_bps: 2500,
+          min_delegation_bps: 50,
+          validator_count: 30,
+        },
+      },
+      vote_operator:
+        "juno1l548zam9r7j89agyptrhnn9q9f92w0a7ja5c76vkmx9sreqfz69qq688rl",
+    },
+  },
+  sei: <ExecuteMsg>{
+    update_config: {
+      delegation_strategy: {
+        gauges: {
+          amp_factor_bps: 10000,
+          amp_gauges:
+            "sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35",
+          max_delegation_bps: 2500,
+          min_delegation_bps: 50,
+          validator_count: 30,
+        },
+      },
+      vote_operator:
+        "sei1qwzdnwzdka4yc5z2v5rlathef44flmvh66uahsmraatcyvfyxc6sze0ec8",
+    },
+  },
+  "testnet-kujira": <ExecuteMsg>{
+    update_config: {
+      vote_operator:
+        "kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk",
     },
   },
 };

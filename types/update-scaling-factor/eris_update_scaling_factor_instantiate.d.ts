@@ -6,6 +6,7 @@
  */
 
 export interface InstantiateMsg {
+  decimals: number;
   hub: string;
   owner: string;
   pool_id: number;

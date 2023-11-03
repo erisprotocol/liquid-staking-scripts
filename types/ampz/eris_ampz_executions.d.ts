@@ -26,6 +26,12 @@ export type DestinationState =
       };
     }
   | {
+      deposit_t_amplifier: {
+        asset_info: AssetInfo;
+        receiver?: Addr | null;
+      };
+    }
+  | {
       deposit_arb_vault: {
         receiver?: Addr | null;
       };
@@ -50,6 +56,12 @@ export type DestinationState =
   | {
       repay: {
         market: RepayMarket;
+      };
+    }
+  | {
+      deposit_liquidity: {
+        dex: DepositLiquidity;
+        lp_token: string;
       };
     };
 /**
@@ -84,6 +96,11 @@ export type DepositMarket = {
   };
 };
 export type RepayMarket = "capapult";
+export type DepositLiquidity = {
+  white_whale: {
+    lock_up?: number | null;
+  };
+};
 export type Source =
   | "claim"
   | {
@@ -107,7 +124,7 @@ export type Source =
         over: Description;
       };
     };
-export type ClaimType = "white_whale_rewards";
+export type ClaimType = "white_whale_rewards" | "alliance_rewards";
 
 export interface ExecutionsResponse {
   executions: [Uint128, Execution][];

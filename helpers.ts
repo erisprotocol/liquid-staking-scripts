@@ -4,6 +4,7 @@ import {
   isTxError,
   LCDClient,
   LCDClientConfig,
+  MnemonicKey,
   Msg,
   MsgInstantiateContract,
   MsgStoreCode,
@@ -16,6 +17,7 @@ import { SignMode } from "@terra-money/terra.proto/cosmos/tx/signing/v1beta1/sig
 import * as fs from "fs";
 import * as promptly from "promptly";
 import * as keystore from "./keystore";
+import { AssetInfo } from "./types/ampz/eris_ampz_execute";
 
 const DEFAULT_GAS_SETTINGS = {
   // gasPrices: "5.665uluna",
@@ -105,13 +107,13 @@ const networks = {
     lcd: "https://api.chihuahua.wtf",
     gasAdjustment: 1.3,
     prefix: "chihuahua",
-    gasPrices: { uhuahua: "1" },
+    gasPrices: { uhuahua: "500" },
   },
   juno: <LCDClientConfig>{
     chainID: "juno-1",
     lcd: "https://juno-api.polkachu.com",
     gasPrices: {
-      ujuno: "0.0025",
+      ujuno: "0.075",
     },
     gasAdjustment: 1.3,
     prefix: "juno",
@@ -129,6 +131,20 @@ const networks = {
     gasAdjustment: 1.5,
     prefix: "osmo",
     gasPrices: { uosmo: 0.01 },
+  },
+  neutron: {
+    chainID: "neutron-1",
+    lcd: "https://rest-kralum.neutron-1.neutron.org/",
+    gasAdjustment: 1.2,
+    prefix: "neutron",
+    gasPrices: { untrn: 0.01 },
+  },
+  sei: {
+    chainID: "pacific-1",
+    lcd: "https://sei-api.polkachu.com/",
+    gasAdjustment: 1.1,
+    prefix: "sei",
+    gasPrices: { usei: 0.1 },
   },
 };
 
@@ -195,6 +211,13 @@ export async function createWallet(
   const password = await promptly.password(
     "Enter password to decrypt the key:"
   );
+
+  if (keyName.startsWith("key-")) {
+    const words = keystore.loadKey(keyName, keyDir, password);
+    const mnemonic = new MnemonicKey({ mnemonic: words, coinType: 118 });
+    return terra.wallet(mnemonic);
+  }
+
   const key = keystore.load(keyName, keyDir, password);
   return terra.wallet(key);
 }
@@ -384,4 +407,14 @@ export const delayPromise = (delayMs: number): Promise<any> => {
 
 export const toBase64 = (obj: any): string => {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
+};
+
+export const getToken = (asset: AssetInfo | string) => {
+  if (typeof asset === "string") {
+    return asset;
+  } else if ("token" in asset) {
+    return asset.token.contract_addr;
+  } else {
+    return asset.native_token.denom;
+  }
 };

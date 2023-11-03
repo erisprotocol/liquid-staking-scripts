@@ -47,6 +47,7 @@ export type ExecuteMsg =
   | {
       update_config: {
         add_farms?: string[] | null;
+        alliance?: AllianceConfigFor_String | null;
         arb_vault?: string | null;
         astroport?: AstroportConfigFor_String | null;
         capapult?: CapapultConfigFor_String | null;
@@ -54,6 +55,7 @@ export type ExecuteMsg =
         fee?: FeeConfigFor_String | null;
         hub?: string | null;
         remove_farms?: string[] | null;
+        whitewhale?: WhiteWhaleConfigFor_String | null;
         zapper?: string | null;
       };
     };
@@ -104,6 +106,12 @@ export type DestinationState =
       };
     }
   | {
+      deposit_t_amplifier: {
+        asset_info: AssetInfo;
+        receiver?: Addr | null;
+      };
+    }
+  | {
       deposit_arb_vault: {
         receiver?: Addr | null;
       };
@@ -129,6 +137,12 @@ export type DestinationState =
       repay: {
         market: RepayMarket;
       };
+    }
+  | {
+      deposit_liquidity: {
+        dex: DepositLiquidity;
+        lp_token: string;
+      };
     };
 export type DepositMarket = {
   capapult: {
@@ -136,6 +150,11 @@ export type DepositMarket = {
   };
 };
 export type RepayMarket = "capapult";
+export type DepositLiquidity = {
+  white_whale: {
+    lock_up?: number | null;
+  };
+};
 export type Source =
   | "claim"
   | {
@@ -159,7 +178,7 @@ export type Source =
         over: Description;
       };
     };
-export type ClaimType = "white_whale_rewards";
+export type ClaimType = "white_whale_rewards" | "alliance_rewards";
 /**
  * This structure describes the callback messages of the contract.
  */
@@ -168,6 +187,12 @@ export type CallbackMsg =
       authz_deposit: {
         max_amount?: Description[] | null;
         user_balance_start: Description[];
+      };
+    }
+  | {
+      authz_lock_ww_lp: {
+        lp_balance: Description;
+        unbonding_duration: number;
       };
     }
   | {
@@ -185,6 +210,12 @@ export type CallbackMsg =
 export type DestinationRuntime =
   | {
       deposit_amplifier: {
+        receiver?: Addr | null;
+      };
+    }
+  | {
+      deposit_t_amplifier: {
+        asset_info: AssetInfo;
         receiver?: Addr | null;
       };
     }
@@ -214,6 +245,13 @@ export type DestinationRuntime =
   | {
       repay: {
         market: RepayMarket;
+      };
+    }
+  | {
+      deposit_liquidity: {
+        asset_infos: AssetInfo[];
+        dex: DepositLiquidity;
+        lp_token: string;
       };
     };
 /**
@@ -250,6 +288,11 @@ export interface CallbackWrapper {
   message: CallbackMsg;
   user: Addr;
 }
+export interface AllianceConfigFor_String {
+  claim_coins: AssetInfo[];
+  contract: string;
+  tamplifiers: [AssetInfo, string][];
+}
 export interface AstroportConfigFor_String {
   coins: AssetInfo[];
   generator: string;
@@ -264,4 +307,10 @@ export interface FeeConfigFor_String {
   fee_bps: BasicPoints;
   operator_bps: BasicPoints;
   receiver: string;
+}
+export interface WhiteWhaleConfigFor_String {
+  coins: AssetInfo[];
+  fee_distributor: string;
+  incentive_factory_addr: string;
+  lp_tokens: string[];
 }

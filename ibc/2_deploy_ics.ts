@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -47,7 +48,7 @@ const argv = yargs(process.argv)
       type: "string",
       demandOption: false,
       // default: "./../../cw-plus/artifacts/cw20_ics20.wasm",
-      default: "ibc/cw20_ics20_101.wasm",
+      default: "ibc/cw20_ics20_111.wasm",
     },
   })
   .parseSync();
@@ -76,7 +77,7 @@ export interface InitCw20 {
   default_gas_limit?: number;
 }
 
-const templates: Record<string, InitCw20> = {
+const templates: Partial<Record<Chains, InitCw20>> = {
   mainnet: <InitCw20>{
     allowlist: [
       {
@@ -116,6 +117,17 @@ const templates: Record<string, InitCw20> = {
     default_gas_limit: 510000,
     gov_contract: "",
   },
+  chihuahua: {
+    allowlist: [
+      {
+        contract:
+          "chihuahua1xu6hgwy3rayh4e8s43nhz5x9js9gd20fsl8zpem67mkynyl5hs6qsxar2d",
+      },
+    ],
+    default_timeout: 900,
+    default_gas_limit: 510000,
+    gov_contract: "",
+  },
 };
 
 // TESTNET
@@ -134,6 +146,9 @@ const templates: Record<string, InitCw20> = {
 // new: 7376 terra1makfuwnehxhyrnr940gmfusn4ch85lx63mar0pd5043pqnudj5aqm32dm9
 // v101-7380: terra1f3pdqht4x3grtnwjc6mhqce6lganwxe0r3n28537tga0c33un76se2rpn5
 
+// Chihuahua
+// ts-node ibc/2_deploy_ics.ts --network chihuahua --key key-mainnet --key-upload key-mainnet
+// 504 -> chihuahua1j64f7gll83q9jv6a88v9mm4te0ug28tfplrpwz58zg8uzg9lq2sq7xtca7
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const uploader = await createWallet(
@@ -151,7 +166,7 @@ const templates: Record<string, InitCw20> = {
   if (argv["msg"]) {
     msg = JSON.parse(fs.readFileSync(path.resolve(argv["msg"]), "utf8"));
   } else {
-    msg = templates[argv["network"]];
+    msg = templates[argv["network"] as Chains];
   }
   msg["gov_contract"] =
     msg["gov_contract"] || deployer.key.accAddress(getPrefix());

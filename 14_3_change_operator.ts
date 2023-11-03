@@ -43,7 +43,7 @@ const argv = yargs(process.argv)
       argv["hub-address"],
       <ExecuteMsg>{
         update_config: {
-          operator: "migaloo1ugmmclpunq08v4uwj2q2knr9e3uveakwrxu0zu",
+          operator: "kujira1c023jxq099et7a44ledfwuu3sdkfq8cacpwdtj",
         },
       }
     ),

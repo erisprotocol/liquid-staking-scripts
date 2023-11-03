@@ -4,6 +4,7 @@ import yargs from "yargs/yargs";
 import {
   createLCDClient,
   createWallet,
+  delayPromise,
   getPrefix,
   sendTxWithConfirm,
   storeCodeWithConfirm,
@@ -21,6 +22,9 @@ const argv = yargs(process.argv)
       type: "string",
       demandOption: true,
     },
+    "key-migrate": {
+      type: "string",
+    },
     "key-dir": {
       type: "string",
       demandOption: false,
@@ -29,6 +33,9 @@ const argv = yargs(process.argv)
     contracts: {
       type: "array",
       demandOption: true,
+    },
+    "code-id": {
+      type: "array",
     },
     migrates: {
       type: "array",
@@ -103,11 +110,6 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-terra --contracts eris_fees_collector
 // ts-node 3_migrate.ts --network mainnet --key mainnet --key-migrate ledger --code-id 1122 --contract-address terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9
 
-// KUJIRA TESTNET
-// ts-node amp-governance/1_upload_contracts.ts --network testnet-kujira --key mainnet-kujira --folder contracts-tokenfactory --contracts eris_staking_hub_tokenfactory
-// ts-node 3_migrate.ts --network testnet-kujira --key mainnet-kujira --key-migrate mainnet-kujira --code-id 1372 --contract-address kujira1hf3898lecj8lawxq8nwqczegrla9denzfkx4asjg0q27cyes44sq68gvc9
-// kujira1hf3898lecj8lawxq8nwqczegrla9denzfkx4asjg0q27cyes44sq68gvc9 -- 1372
-
 // WHITEWHALE TESTNET
 //
 // ts-node amp-governance/1_upload_contracts.ts --network testnet-migaloo --key testnet-migaloo --folder contracts-whitewhale --contracts eris_staking_hub
@@ -124,6 +126,35 @@ const argv = yargs(process.argv)
 // 'eris_gov_amp_gauges: 200', archway1ntne4eyrydxd2a80qnnggv6cj5aag60azfc2d52reytj6f8js4ns4rcwea
 // 'eris_gov_prop_gauges: 201', archway16rnpysnujmp58qtd4xquxpqs3ht3h0290za7hjtztn0p7llseups8dug8q
 
+// JUNO
+// ts-node amp-governance/1_upload_contracts.ts --network juno --key key-mainnet --contracts eris_gov_voting_escrow eris_gov_amp_gauges eris_gov_prop_gauges
+// owner juno1dpaaxgw4859qhew094s87l0he8tfea3ljcleck
+// hub juno17cya4sw72h4886zsm2lk3udxaw5m8ssgpsl6nd6xl6a4ukepdgkqeuv99x
+// token juno1a0khag6cfzu5lrwazmyndjgvlsuk7g4vn9jd8ceym8f4jf6v2l9q6d348a
+// 'eris_gov_voting_escrow: 3397', juno1s74s5wssxamuh37nqu3gus9m6l77mvh2d9urq9slmxfh3nh5seyqpze8w5
+// 'eris_gov_amp_gauges: 3398', juno1c4npgrxu9d9rrxrkd2xtgl8jhz3zsetq0y2mwvxhfvyggrmmvk8qkvw09e
+// 'eris_gov_prop_gauges: 3399' juno1l548zam9r7j89agyptrhnn9q9f92w0a7ja5c76vkmx9sreqfz69qq688rl
+
+// KUJIRA TESTNET
+// ts-node amp-governance/1_upload_contracts.ts --network testnet-kujira --key mainnet-kujira --folder contracts-tokenfactory --contracts eris_staking_hub_tokenfactory
+// ts-node 3_migrate.ts --network testnet-kujira --key mainnet-kujira --key-migrate mainnet-kujira --code-id 1372 --contract-address kujira1hf3898lecj8lawxq8nwqczegrla9denzfkx4asjg0q27cyes44sq68gvc9
+// kujira1hf3898lecj8lawxq8nwqczegrla9denzfkx4asjg0q27cyes44sq68gvc9 -- 1372
+
+// ts-node amp-governance/1_upload_contracts.ts --network testnet-kujira --key mainnet-kujira --folder contracts-dao-lst --contracts eris_dao_lst_kujira eris_gov_voting_escrow eris_gov_prop_gauges
+// ts-node dao-lst/deploy_dao_lst.ts --network testnet-kujira --key key-mainnet --hub-code-id 2489
+// ts-node amp-compounder/1_upload_contracts.ts --network testnet-kujira --key key-mainnet --contracts eris_gov_voting_escrow eris_gov_amp_gauges eris_gov_prop_gauges eris_astroport_farm eris_compound_proxy eris_generator_proxy eris_fees_collector --folder contracts-tokenfactory
+// ts-node amp-governance/2_instantiate_escrow.ts --network testnet-kujira --key key-mainnet --contract-code-id 2487 --label "Vote-escrow ampMNTA"
+// ts-node amp-governance/4_instantiate_propgauges.ts --network testnet-kujira --key key-mainnet --contract-code-id 2488 --label "Prop Gauge"
+// ts-node amp-governance/5_config_escrow_for_update.ts --network testnet-kujira --key key-mainnet --contract kujira1mgn3ft0vsfsfgjt8tcjn3pjh3zecsmanay7ummnyef6cvgg2xa2qtj7v63
+// ts-node amp-governance/6_config_hub.ts --network testnet-kujira --key key-mainnet --contract kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj
+
+// ts-node 3_migrate.ts --network testnet-kujira --key key-mainnet --key-migrate key-mainnet --code-id 2490 --contract-address kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj
+// ts-node amp-governance/1_upload_contracts.ts --network testnet-kujira --key key-mainnet --folder contracts-dao-lst --contracts eris_dao_lst_kujira --migrates kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj
+// ts-node amp-governance/1_upload_contracts.ts --network testnet-kujira --key key-mainnet --folder contracts-dao-lst --contracts eris_gov_prop_gauges --migrates kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk
+// 'eris_dao_lst_kujira: 2491', kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj -> factory/kujira1n8yke2vzsqe3h67h42yh66360q7pe67zwer8rvzjkttr2wqffnes56q9jj/ampMNTA
+// 'eris_gov_voting_escrow: 2487', kujira1mgn3ft0vsfsfgjt8tcjn3pjh3zecsmanay7ummnyef6cvgg2xa2qtj7v63
+// 'eris_gov_prop_gauges: 2492', kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk
+
 async function uploadCode(deployer: Wallet, path: string) {
   await waitForConfirm(`Upload code ${path}?`);
   const codeId = await storeCodeWithConfirm(deployer, path, false);
@@ -133,7 +164,12 @@ async function uploadCode(deployer: Wallet, path: string) {
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
-  const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
+
+  const admin = await createWallet(
+    terra,
+    argv["key-migrate"] || argv.key,
+    argv["key-dir"]
+  );
 
   const ids = [];
 
@@ -146,17 +182,26 @@ async function uploadCode(deployer: Wallet, path: string) {
   }
 
   let index = 0;
+  const upload =
+    argv["key"] === (argv["key-migrate"] ?? argv.key)
+      ? admin
+      : await createWallet(terra, argv["key"], argv["key-dir"]);
   for (const contract of argv.contracts) {
     const fullPath = `../${argv.folder}/artifacts/${contract}.wasm`;
-    const codeId = await uploadCode(deployer, path.resolve(fullPath));
+    console.log("CODEID", argv["code-id"]);
+    const codeId =
+      (argv["code-id"] && +argv["code-id"][index]) ??
+      (await uploadCode(upload, path.resolve(fullPath)));
     ids.push(`${contract}: ${codeId}`);
     console.log(ids);
 
+    await delayPromise(1000);
+
     const migrate = argv.migrates && argv.migrates[index];
     if (migrate && typeof migrate === "string") {
-      const { txhash } = await sendTxWithConfirm(deployer, [
+      const { txhash } = await sendTxWithConfirm(admin, [
         new MsgMigrateContract(
-          deployer.key.accAddress(getPrefix()),
+          admin.key.accAddress(getPrefix()),
           migrate,
           codeId,
           {}

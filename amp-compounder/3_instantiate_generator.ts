@@ -1,12 +1,16 @@
-import { TxLog } from "@terra-money/terra.js";
+import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
+  getPrefix,
   instantiateWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
 import { InstantiateMsg } from "../types/amp-compounder/generator_proxy/instantiate_msg";
+import { InstantiateMsg as TfInstantiateMsg } from "../types/tokenfactory/amp-compounder/generator_proxy/eris_generator_proxy_instantiate";
+import { tokens_neutron } from "./tokens";
 
 const argv = yargs(process.argv)
   .options({
@@ -38,7 +42,7 @@ const argv = yargs(process.argv)
 
 // ts-node 3_instantiate_generator.ts --network mainnet --key ledger --contract-code-id 515 --label "Eris Governance Proxy"
 
-const templates: Record<string, InstantiateMsg> = {
+const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
   testnet: <InstantiateMsg>{
     astro_gov: {
       fee_distributor:
@@ -85,17 +89,40 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl", //
     staker_rate: "0.5",
   },
+  neutron: <TfInstantiateMsg>{
+    astro_gov: {
+      fee_distributor:
+        "neutron1jz58yjay8uq8zkfw95ngyv3m2wfs2zjef9vdz75d9pa46fdtxc5sxtafny", //
+      generator_controller:
+        "neutron1jz58yjay8uq8zkfw95ngyv3m2wfs2zjef9vdz75d9pa46fdtxc5sxtafny", //
+      voting_escrow:
+        "neutron1jz58yjay8uq8zkfw95ngyv3m2wfs2zjef9vdz75d9pa46fdtxc5sxtafny", //
+      xastro_token:
+        "neutron1jz58yjay8uq8zkfw95ngyv3m2wfs2zjef9vdz75d9pa46fdtxc5sxtafny", //
+    },
+    astro_token: tokens_neutron.astro,
+    boost_fee: "0.01",
+    controller: "neutron1c023jxq099et7a44ledfwuu3sdkfq8cadk9hul", //
+    fee_collector:
+      "neutron17j39j5xw6ukphvkct6zkjzwavgdkujhf2xpruwgggpwf0jh2whls3mlda5", //
+    generator:
+      "neutron1jz58yjay8uq8zkfw95ngyv3m2wfs2zjef9vdz75d9pa46fdtxc5sxtafny", //
+    max_quota: "0",
+    owner: "neutron1dpaaxgw4859qhew094s87l0he8tfea3lq44q9d", //
+    staker_rate: "0.5",
+  },
 };
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
+  if (!msg) throw new Error("not supported network");
 
   const result = await instantiateWithConfirm(
     deployer,
-    deployer.key.accAddress,
+    deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
     msg,
     argv.label

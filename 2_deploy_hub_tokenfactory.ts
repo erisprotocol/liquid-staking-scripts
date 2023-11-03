@@ -129,6 +129,26 @@ const templates: Record<string, InstantiateMsg> = {
     utoken: "uosmo",
     delegation_strategy: "uniform",
   },
+  ["sei"]: <InstantiateMsg>{
+    denom: "ampSEI",
+    epoch_period: 3 * 24 * 60 * 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "seivaloper1d4lyuujr4urd7fkdlytccrd0cljqycycjp9xz8", // notional
+      "seivaloper1mm5p6ak2w94cwry0n42px3ssajgytxnwfvd4w8", // cros
+      "seivaloper1ykls6dhh2mjqk9x0d3ee29873stf7wwvedcjmh", // danku
+      "seivaloper1t9fq3qfm7ngau5gr8qgf5dpfzjqg79kf65cu04", // imperator
+      "seivaloper1qe8uuf5x69c526h4nzxwv4ltftr73v7qnkypla", // stakecito
+      "seivaloper140l6y2gp3gxvay6qtn70re7z2s0gn57zl6nups", // lavender
+    ],
+    protocol_fee_contract: "sei1z3txc4x7scxsypx9tgynyfhu48nw60a5gerpzt",
+    protocol_reward_fee: "0.05",
+    owner: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+    chain_config: {},
+    operator: "sei1c023jxq099et7a44ledfwuu3sdkfq8cay9arqe",
+    utoken: "usei",
+    delegation_strategy: "uniform",
+  },
 };
 
 // MIGALOO
@@ -146,6 +166,26 @@ const templates: Record<string, InstantiateMsg> = {
 // eris_gov_voting_escrow.wasm: 108 osmo1vcg9a7zwfeuqwtkya5l34tdgzxnafdzpe22ahphd02uwed43wnfs3wtf8a
 // eris_gov_amp_gauges.wasm: 106, osmo1sx8wrjfh5dvv4s9njhcrau2c6x80t85wnlhh0lm24uu3ppgpunqs74cqk6
 // eris_gov_prop_gauges.wasm: 107, osmo1mr8dr22sc0r3yxu6rhu9kc8nq7096kw3rlh5kzc7eggk32lyc8hqdwatz3
+
+// SEI
+// owner sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et
+// operator sei1c023jxq099et7a44ledfwuu3sdkfq8cay9arqe
+// factory/sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k/ampSEI
+// ts-node 2_deploy_hub_tokenfactory.ts --network sei --key key-mainnet --hub-code-id 206 --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_sei.wasm"
+// eris_staking_hub_tokenfactory_sei.wasm: 206 -> sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k
+// ts-node amp-compounder/1_upload_contracts.ts --network sei --key key-mainnet --contracts eris_gov_voting_escrow eris_gov_amp_gauges eris_gov_prop_gauges eris_astroport_farm eris_compound_proxy eris_generator_proxy eris_fees_collector --folder contracts-tokenfactory
+// ts-node amp-governance/2_instantiate_escrow.ts --network sei --key key-mainnet --contract-code-id 234 --label "Vote-escrow ampSEI"
+// ts-node amp-governance/4_instantiate_ampgauges.ts --network sei --key key-mainnet --contract-code-id 235  --label "vAMP Gauge"
+// ts-node amp-governance/4_instantiate_propgauges.ts --network sei --key key-mainnet --contract-code-id 236 --label "Prop Gauge"
+// ts-node amp-governance/5_config_escrow_for_update.ts --network sei --key key-mainnet --contract sei1jkntjf038jtwzs7zefuyt35v6esv2ht986p4m8rrcfm9xtafphqq8gtw8w
+// TODO ts-node amp-governance/6_config_hub.ts --network sei --key key-mainnet --contract sei1x2fgaaqecvk8kwuqkjqcj27clw5p5g99uawdzy9sc4rku8avumcq3cky4k
+// eris_gov_voting_escrow: 234 sei1jkntjf038jtwzs7zefuyt35v6esv2ht986p4m8rrcfm9xtafphqq8gtw8w
+// eris_gov_amp_gauges: 235 sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35
+// eris_gov_prop_gauges: 236 sei1qwzdnwzdka4yc5z2v5rlathef44flmvh66uahsmraatcyvfyxc6sze0ec8
+// eris_astroport_farm: 237
+// eris_compound_proxy: 238
+// eris_generator_proxy: 239
+// eris_fees_collector: 240
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
@@ -173,10 +213,10 @@ const templates: Record<string, InstantiateMsg> = {
     argv["admin"] ? argv["admin"] : deployer.key.accAddress(getPrefix()),
     hubCodeId,
     msg,
-    undefined,
-    {
-      uosmo: "10000000",
-    }
+    undefined
+    // {
+    //   uosmo: "10000000",
+    // }
   );
   const address =
     result.logs[0].eventsByType["instantiate"]["_contract_address"][0] ??

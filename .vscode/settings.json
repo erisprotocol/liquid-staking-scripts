@@ -17,5 +17,8 @@
   },
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[xml]": {
+    "editor.defaultFormatter": "PrateekMahendrakar.prettyxml"
+  }
 }

@@ -50,6 +50,12 @@ export type TargetType =
         filled_to: Uint128;
         min_fill?: Uint128 | null;
       };
+    }
+  | {
+      ibc: {
+        channel_id: string;
+        ics20?: string | null;
+      };
     };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
@@ -70,6 +76,7 @@ export type Uint128 = string;
  * This structure stores the main parameter for the fees collector contract.
  */
 export interface Config {
+  compound_proxy: Addr;
   /**
    * The factory contract address
    */
@@ -93,14 +100,18 @@ export interface Config {
   /**
    * The list of address and weight to receive fees
    */
-  target_list: TargetConfigFor_Addr[];
+  target_list: TargetConfig[];
   [k: string]: unknown;
 }
 /**
  * This struct holds parameters to configure receiving contracts and messages.
  */
-export interface TargetConfigFor_Addr {
-  addr: Addr;
+export interface TargetConfig {
+  addr: string;
+  /**
+   * If provided, it will ignore the output asset and just send the override asset to the target without swapping it to the "stablecoin"
+   */
+  asset_override?: AssetInfo | null;
   msg?: Binary | null;
   target_type?: TargetType & string;
   weight: number;

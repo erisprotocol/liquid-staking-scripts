@@ -32,8 +32,6 @@ const argv = yargs(process.argv)
   });
   const client = await SigningArchwayClient.connectWithSigner(endpoint, wallet);
 
-  const accounts = await wallet.getAccounts();
-
   const contracts = [
     "archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5",
     "archway1yg4eq68xyll74tdrrcxkr4qpam4j9grknunmp74zzc6km988dadqy0utmj",

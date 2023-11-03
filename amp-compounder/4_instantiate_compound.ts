@@ -1,6 +1,7 @@
 import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -37,10 +38,13 @@ const argv = yargs(process.argv)
 
 // ts-node 4_instantiate_compound.ts --network testnet --key testnet --contract-code-id 4548 --label "Eris Zapper"
 // ts-node amp-compounder/4_instantiate_compound.ts --network mainnet --key mainnet --contract-code-id 1630 --label "Eris Zapper (Test)"
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_compound_proxy --migrates terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
+
+// 1298 -> 1631 -> 1744 -> 1946 -> 2039
 
 // ts-node 4_instantiate_compound.ts --network mainnet --key ledger --contract-code-id 513 --label "Eris Zapper"
 
-const templates: Record<string, InstantiateMsg> = {
+const templates: Partial<Record<Chains, InstantiateMsg>> = {
   testnet: <InstantiateMsg>{
     factory: "terra1z3y69xas85r7egusa0c7m5sam0yk97gsztqmh8f2cc6rr4s4anysudp7k0",
     lps: [
@@ -188,13 +192,28 @@ const templates: Record<string, InstantiateMsg> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     routes: [],
   },
+  neutron: <InstantiateMsg>{
+    factory:
+      "neutron1hptk0k5kng7hjy35vmh009qd5m6l33609nypgf2yc6nqnewduqasxplt4e",
+    lps: [],
+    owner: "neutron1dpaaxgw4859qhew094s87l0he8tfea3lq44q9d",
+    routes: [],
+  },
+  migaloo: <InstantiateMsg>{
+    factory:
+      "migaloo1z89funaazn4ka8vrmmw4q27csdykz63hep4ay8q2dmlspc6wtdgq92u369",
+    lps: [],
+    owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+    routes: [],
+  },
 };
 
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const msg = templates[argv["network"]];
+  const msg = templates[argv["network"] as Chains];
+  if (!msg) throw new Error("not supported network");
 
   const result = await instantiateWithConfirm(
     deployer,
