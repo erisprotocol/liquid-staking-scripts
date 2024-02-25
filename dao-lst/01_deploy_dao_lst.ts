@@ -171,9 +171,9 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // ts-node amp-governance/5_config_escrow_for_update.ts --network mainnet --key mainnet --contract terra1q33xvxt03ds6rsrk9p7dzaz4540s5q995gmt8dp3u47smaw292jqrmpxgd
 // ts-node amp-governance/6_config_hub.ts --network mainnet --key mainnet --contract terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
 // Migrate
-// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-dao-lst --contracts eris_dao_lst_terra --code-ids 1925 --migrates terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-dao-lst --contracts eris_dao_lst_terra --code-ids 2649 --migrates terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
 
-// 'eris_dao_lst_terra: 1917', terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
+// 'eris_dao_lst_terra: 1917'-> 2422 -> 2649 , terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
 // 'eris_gov_voting_escrow: 1918', terra1q33xvxt03ds6rsrk9p7dzaz4540s5q995gmt8dp3u47smaw292jqrmpxgd
 // 'eris_gov_prop_gauges: 1919' terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d
 (async function () {
