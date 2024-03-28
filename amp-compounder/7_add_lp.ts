@@ -8,7 +8,7 @@ import {
 } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg } from "../types/amp-compounder/compound_proxy/execute_msg";
-import { tokens } from "./tokens";
+import { tokens_neutron } from "./tokens";
 
 const argv = yargs(process.argv)
   .options({
@@ -76,13 +76,13 @@ const argv = yargs(process.argv)
           //   slippage_tolerance: "0.01",
           //   wanted_token: tokens.luna,
           // },
-          {
-            commission_bps: 40,
-            pair_contract:
-              "terra1c7g9pmz2xxe66g8ujpe5tlmj3pawjp290f57cl43j6vswkdtrvwqkgme9q",
-            slippage_tolerance: "0.01",
-            wanted_token: tokens.luna,
-          },
+          // {
+          //   commission_bps: 40,
+          //   pair_contract:
+          //     "terra1c7g9pmz2xxe66g8ujpe5tlmj3pawjp290f57cl43j6vswkdtrvwqkgme9q",
+          //   slippage_tolerance: "0.01",
+          //   wanted_token: tokens.luna,
+          // },
 
           // {
           //   commission_bps: 5,
@@ -190,6 +190,21 @@ const argv = yargs(process.argv)
           //   slippage_tolerance: "0.01",
           //   wanted_token: tokens_neutron.wsteth,
           // },
+
+          {
+            commission_bps: 40,
+            pair_contract:
+              "neutron1jh27klc7z8xk3nr32nynvk40qm9f64eypq7nj2w48egtehu35n3q59pkfn",
+            slippage_tolerance: "0.01",
+            wanted_token: tokens_neutron.usdc,
+          },
+          {
+            commission_bps: 40,
+            pair_contract:
+              "neutron1yw0a7nxa8jdgzmdsme4gwxhj76n44z305qgwrzvlfavgna9epcys3k9m2f",
+            slippage_tolerance: "0.01",
+            wanted_token: tokens_neutron.wsteth,
+          },
         ],
       },
     }),

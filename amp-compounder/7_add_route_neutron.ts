@@ -11,6 +11,7 @@ import * as keystore from "../keystore";
 import { AssetInfo } from "../types/ampz/eris_ampz_execute";
 import {
   ExecuteMsg,
+  RouteDelete,
   RouteInit,
 } from "../types/tokenfactory/amp-compounder/compound_proxy/execute_msg";
 import { tokens, tokens_neutron as tokensn } from "./tokens";
@@ -114,6 +115,8 @@ function getToken(a: AssetInfo) {
   //   ...directs,
   // ];
 
+  const remove = true;
+
   const insert_routes = routes.map(
     (route) =>
       <RouteInit>{
@@ -137,6 +140,15 @@ function getToken(a: AssetInfo) {
     });
   }
 
+  const todelete = routes.map(
+    (route) =>
+      <RouteDelete>{
+        from: route.assets[0],
+        to: route.assets[route.assets.length - 1],
+        both: true,
+      }
+  );
+
   // const todelete = [astro, red, ampluna, sayve, tpt, vkr, xastro].map(
   //   (route) =>
   //     <RouteDelete>{
@@ -152,24 +164,7 @@ function getToken(a: AssetInfo) {
     [
       new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
-          // delete_routes: [
-          //   // ...todelete,
-          //   // {
-          //   //   both: true,
-          //   //   from: {
-          //   //     token: {
-          //   //       contract_addr:
-          //   //         "terra167dsqkh2alurx997wmycw9ydkyu54gyswe3ygmrs4lwume3vmwks8ruqnv",
-          //   //     },
-          //   //   },
-          //   //   to: {
-          //   //     token: {
-          //   //       contract_addr:
-          //   //         "terra1s50rr0vz05xmmkz5wnc2kqkjq5ldwjrdv4sqzf983pzfxuj7jgsq4ehcu2",
-          //   //     },
-          //   //   },
-          //   // },
-          // ],
+          delete_routes: remove ? todelete : undefined,
           insert_routes: insert_routes,
         },
       }),

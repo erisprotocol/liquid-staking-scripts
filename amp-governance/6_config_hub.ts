@@ -1,5 +1,6 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
+import { tokens, tokens_migaloo } from "../amp-compounder/tokens";
 import {
   Chains,
   createLCDClient,
@@ -8,7 +9,9 @@ import {
   sendTxWithConfirm,
 } from "../helpers";
 import * as keystore from "../keystore";
+import { ExecuteMsg as AllianceExecuteMsg } from "../types/alliance-hub-lst/execute";
 import { ExecuteMsg } from "../types/hub/execute_msg";
+import { ExecuteMsg as AllianceLstExecuteMsg } from "../types/tokenfactory/alliance-lst/eris_alliance_lst_terra_execute";
 
 const argv = yargs(process.argv)
   .options({
@@ -37,9 +40,13 @@ const argv = yargs(process.argv)
 
 // Mainnet
 // ts-node amp-governance/6_config_hub.ts --network mainnet --key mainnet --contract terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk
+// CAPA ts-node amp-governance/6_config_hub.ts --network mainnet --key mainnet --contract terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y
+// ampROAR ts-node amp-governance/6_config_hub.ts --network mainnet --key mainnet --contract terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
+// MOAR ts-node amp-governance/6_config_hub.ts --network mainnet --key mainnet --contract terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu
 
 // MIGALOO
 // ts-node amp-governance/6_config_hub.ts --network migaloo --key mainnet-migaloo --contract migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4
+// ampBTC: ts-node amp-governance/6_config_hub.ts --network migaloo --key mainnet-migaloo --contract migaloo1pll95yfcnxd5pkkrcsad63l929m4ehk4c46fpqqp3c2d488ca0csc220d0
 
 // KUJIRA
 // ts-node amp-governance/6_config_hub.ts --network kujira --key mainnet-kujira --contract kujira1n3fr5f56r2ce0s37wdvwrk98yhhq3unnxgcqus8nzsfxvllk0yxquurqty
@@ -52,7 +59,9 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira1n3fr5f56r2ce0s37wdvwrk98yhhq3unnxgcqus8nzsfxvllk0yxquurqty
 // ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira175yatpvkpgw07w0chhzuks3zrrae9z9g2y6r7u5pzqesyau4x9eqqyv0rr
 
-const templates: Partial<Record<Chains, ExecuteMsg>> = {
+const templates: Partial<
+  Record<Chains, ExecuteMsg | AllianceExecuteMsg | AllianceLstExecuteMsg>
+> = {
   // testnet: <ExecuteMsg>{
   //   update_config: {
   //     // delegation_strategy: "uniform",
@@ -110,31 +119,126 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
   //   },
   // },
 
-  mainnet: <ExecuteMsg>{
+  // mainnet: <ExecuteMsg>{
+  //   update_config: {
+  //     vote_operator:
+  //       "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d",
+  //   },
+  // },
+
+  mainnet: <AllianceLstExecuteMsg | ExecuteMsg>{
     update_config: {
-      vote_operator:
-        "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d",
+      // stages_preset: [
+      //   [
+      //     [
+      //       {
+      //         dex: {
+      //           addr: "terra1g6z93vtttdrwfdtj06ha2nwc6qdxsfy8appge5l5g7wenfzg5mjq8s3r9n",
+      //         },
+      //       },
+      //       tokens.solid,
+      //       null,
+      //       null,
+      //     ],
+      //   ],
+      // ],
+      // vote_operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
+
+      // ampROAR
+      // stages_preset: [
+      //   [
+      //     [
+      //       {
+      //         dex: {
+      //           addr: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+      //         },
+      //       },
+      //       tokens.luna,
+      //       null,
+      //       null,
+      //     ],
+      //   ],
+      // ],
+
+      // MOAR
+      stages_preset: [
+        [
+          [
+            {
+              dex: {
+                addr: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+              },
+            },
+            tokens.luna,
+            null,
+            null,
+          ],
+        ],
+        // [
+        //   [
+        //     {
+        //       eris: {
+        //         addr: "terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy",
+        //       },
+        //     },
+        //     tokens.roar,
+        //     null,
+        //     null,
+        //   ],
+        // ],
+        [
+          [
+            {
+              dex: {
+                addr: "terra1j0ackj0wru4ndj74e3mhhq6rffe63y8xd0e56spqcjygv2r0cfsqxr36k6",
+              },
+            },
+            tokens.roar,
+            null,
+            null,
+          ],
+        ],
+      ],
+      // protocol_reward_fee: "0.1",
+
+      // protocol_fee_contract:
+      //   "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
     },
   },
 
   migaloo: <ExecuteMsg>{
     update_config: {
       // delegation_strategy: "uniform",
-      delegation_strategy: {
-        gauges: {
-          amp_factor_bps: 10000,
-          amp_gauges:
-            "migaloo14haqsatfqxh3jgzn6u7ggnece4vhv0nt8a8ml4rg29mln9hdjfdqpz474l",
-          // emp_gauges:
-          //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
-          max_delegation_bps: 2500,
-          min_delegation_bps: 50,
-          validator_count: 30,
-        },
-      },
-      vote_operator:
-        "migaloo1j2x4vsm2a5qefkvgr7gl30gf2puvsa504plzwgdhwl3wvm5lxayquvvsfq",
+      // delegation_strategy: {
+      //   gauges: {
+      //     amp_factor_bps: 10000,
+      //     amp_gauges:
+      //       "migaloo14haqsatfqxh3jgzn6u7ggnece4vhv0nt8a8ml4rg29mln9hdjfdqpz474l",
+      //     // emp_gauges:
+      //     //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
+      //     max_delegation_bps: 2500,
+      //     min_delegation_bps: 50,
+      //     validator_count: 30,
+      //   },
+      // },
+      // vote_operator:
+      //   "migaloo1j2x4vsm2a5qefkvgr7gl30gf2puvsa504plzwgdhwl3wvm5lxayquvvsfq",
       // protocol_reward_fee: "0",
+
+      stages_preset: [
+        [
+          [
+            {
+              dex: {
+                addr: "migaloo1axtz4y7jyvdkkrflknv9dcut94xr5k8m6wete4rdrw4fuptk896su44x2z",
+              },
+            },
+            { native: tokens_migaloo.whale.native_token.denom },
+            null,
+            null,
+          ],
+        ],
+      ],
     },
   },
   kujira: <ExecuteMsg>{

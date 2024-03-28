@@ -1,4 +1,4 @@
-import { Coin, TxLog } from "@terra-money/feather.js";
+import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import {
   Chains,
@@ -54,11 +54,17 @@ const argv = yargs(process.argv)
 // TEST ts-node arb-vault/10_update_config.ts --network mainnet --key mainnet --contract terra1uz7x69xkekc2gqqzfymqxye3nklkt63r4q8jzta8khjdp7nj95wqmcl7d7
 // TEST ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --contracts eris_arb_vault --migrates terra1uz7x69xkekc2gqqzfymqxye3nklkt63r4q8jzta8khjdp7nj95wqmcl7d7
 
-// MIGALOO
-// ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_arb_vault_whitewhale --folder contracts-tokenfactory
-// eris_arb_vault_whitewhale: 60
+// MIGALOO (arbWHALE)
+// ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_arb_vault_whitewhale --folder contracts-tokenfactory --migrates migaloo1ey4sn2mkmhew4pdrzk90l9acluvas25qlhuvsfgssw42ugz8yjlqx92j9l
+// eris_arb_vault_whitewhale: 60 -> 508 -> 509 -> 536
 // ts-node arb-vault/1_instantiate.ts --network migaloo --key mainnet-migaloo --contract-code-id 60 --label "Eris Arbitrage Vault"
 // migaloo1ey4sn2mkmhew4pdrzk90l9acluvas25qlhuvsfgssw42ugz8yjlqx92j9l
+
+// OSMOSIS (arbOSMO)
+// ts-node amp-governance/1_upload_contracts.ts --network osmosis --key key-mainnet --contracts eris_arb_vault_osmosis --folder contracts-tokenfactory --migrates osmo1lq8g8jax6wh0dfwfjnyqm69q6zuv08dkppeemllqlwdyhfv06njquhcejr
+// eris_arb_vault_osmosis: 644
+// ts-node arb-vault/1_instantiate.ts --network osmosis --key key-mainnet --contract-code-id 644 --label "Eris Arbitrage Vault"
+// osmo1lq8g8jax6wh0dfwfjnyqm69q6zuv08dkppeemllqlwdyhfv06njquhcejr
 
 const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
   testnet: <InstantiateMsg>{
@@ -72,9 +78,10 @@ const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
     whitelist: ["terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr"],
     utilization_method: {
       steps: [
-        ["0.005", "0.5"],
-        ["0.01", "0.7"],
-        ["0.03", "1.0"],
+        ["0.01", "0.4"],
+        ["0.02", "0.7"],
+        ["0.03", "0.9"],
+        ["0.05", "1.0"],
       ],
     },
     fee_config: {
@@ -107,9 +114,9 @@ const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
     whitelist: ["terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup"],
     utilization_method: {
       steps: [
-        ["0.01", "0.2"],
-        ["0.02", "0.5"],
-        ["0.03", "0.8"],
+        ["0.01", "0.4"],
+        ["0.02", "0.7"],
+        ["0.03", "0.9"],
         ["0.05", "1.0"],
       ],
     },
@@ -197,6 +204,60 @@ const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
       },
     ],
   },
+  osmosis: <TfInstantiateMsg>{
+    owner: "osmo1dpaaxgw4859qhew094s87l0he8tfea3lv30jfc",
+    unbond_time_s: (21 + 4) * 24 * 60 * 60,
+    denom: "arbOSMO",
+    utoken: "uosmo",
+    whitelist: [
+      "osmo1ugmmclpunq08v4uwj2q2knr9e3uveakwxfx9pq",
+      "osmo1l4x3hd7rwj26nqw2dhhdm4t9vtv0lqx3fm0ap5",
+      "osmo1eetvnrgndvc9atgqxykmhl9xp34l66hsp9xqaq",
+      "osmo187llpg2lgvvnltqg50vfqaap54xnqejvju24g9",
+      "osmo1v6cfsslgx04arl8qx5nmx4qggfxlg6t2teermz",
+      "osmo1a854faa6dm0jgp63u9wx48m2y4kl2283kqv3m8",
+      "osmo146m835sckyqhsm9jmjvjky99lzyvy2kkv0997e",
+      "osmo1zm4eevxcmv0lh67x5slaxn87szt3c36msvp34d",
+    ],
+    utilization_method: {
+      steps: [
+        ["0.01", "0.4"],
+        ["0.02", "0.7"],
+        ["0.03", "0.9"],
+        ["0.05", "1.0"],
+      ],
+    },
+    fee_config: {
+      immediate_withdraw_fee: "0.05",
+      protocol_withdraw_fee: "0.0069",
+      protocol_fee_contract: "osmo1z3txc4x7scxsypx9tgynyfhu48nw60a5dwp8jc",
+      protocol_performance_fee: "0.13",
+    },
+    lsds: [
+      {
+        disabled: false,
+        lsd_type: {
+          eris: {
+            addr: "osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9",
+            denom:
+              "factory/osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9/ampOSMO",
+          },
+        },
+        name: "ampOSMO",
+      },
+      {
+        disabled: false,
+        lsd_type: {
+          backbone: {
+            addr: "osmo1s3l0lcqc7tu0vpj6wdjz9wqpxv8nk6eraevje4fuwkyjnwuy82qsx3lduv",
+            denom:
+              "factory/osmo1s3l0lcqc7tu0vpj6wdjz9wqpxv8nk6eraevje4fuwkyjnwuy82qsx3lduv/boneOsmo",
+          },
+        },
+        name: "boneOSMO",
+      },
+    ],
+  },
 };
 
 (async function () {
@@ -218,7 +279,9 @@ const templates: Partial<Record<Chains, InstantiateMsg | TfInstantiateMsg>> = {
     argv.contractCodeId,
     msg,
     argv.label,
-    [new Coin("uwhale", 50000000)]
+    // [new Coin("uwhale", 50000000)]
+    // [new Coin("uosmo", 0)]
+    []
   );
 
   const addresses = result.logs.map(

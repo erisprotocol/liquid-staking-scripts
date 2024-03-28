@@ -17,4 +17,7 @@ export type QueryMsg =
         limit?: number | null;
         start_after?: number | null;
       };
+    }
+  | {
+      pair: {};
     };

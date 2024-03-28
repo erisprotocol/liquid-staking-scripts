@@ -11,6 +11,7 @@ import {
 import * as keystore from "../keystore";
 import {
   ExecuteMsg,
+  RouteDelete,
   RouteInit,
 } from "../types/amp-compounder/compound_proxy/execute_msg";
 import { AssetInfo } from "../types/ampz/eris_ampz_execute";
@@ -299,7 +300,10 @@ export class RouteBuilder {
 
     // ==================
 
-    RouteBuilder.start(tokens.amproar).whale(tokens.roar).whale(tokens.whale),
+    // RouteBuilder.start(tokens.amproar).whale(tokens.roar).whale(tokens.whale),
+
+    // RouteBuilder.start(tokens.boneluna).whale(tokens.luna).whale(tokens.whale),
+    RouteBuilder.start(tokens.ampluna).astro(tokens.luna).whale(tokens.whale),
 
     // RouteBuilder.start(tokens.whale).whale(tokens.ampwhale),
 
@@ -324,6 +328,8 @@ export class RouteBuilder {
     //   .whale(tokens.whale)
     //   .whale(tokens.ampwhale),
   ];
+
+  const remove = true;
 
   const cache: Record<string, string> = {
     ["astroport:terra1xe8umegahlqphtpvjsuwfzfvyjfvag5h8rffsx6ezm0el4xzsf8s7uzezk-uluna"]:
@@ -395,14 +401,14 @@ export class RouteBuilder {
     );
   }
 
-  // const todelete = routes.map(
-  //   (route) =>
-  //     <RouteDelete>{
-  //       from: route.assets[0],
-  //       to: route.assets[route.assets.length - 1],
-  //       both: true,
-  //     }
-  // );
+  const todelete = routes.map(
+    (route) =>
+      <RouteDelete>{
+        from: route.assets[0],
+        to: route.assets[route.assets.length - 1],
+        both: true,
+      }
+  );
 
   const { txhash } = await sendTxWithConfirm(
     admin,
@@ -410,7 +416,7 @@ export class RouteBuilder {
     [
       new MsgExecuteContract(address, argv.contract, <ExecuteMsg>{
         update_config: {
-          // delete_routes: todelete,
+          delete_routes: remove ? todelete : undefined,
           insert_routes: insert_routes,
         },
       }),

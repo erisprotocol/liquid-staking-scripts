@@ -283,8 +283,14 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // ts-node 2_deploy_hub.ts --network classic --key ledger --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 // ts-node 2_deploy_hub.ts --network classic-testnet --key invest --hub-code-id 6009 --token-code-id 6010 --hub-binary "../contracts-terra-classic/artifacts/eris_staking_hub_classic.wasm" --token-binary "../contracts-terra-classic/artifacts/eris_stake_token_classic.wasm"
 
+// TERRA
+// ts-node 2_deploy_hub.ts --network mainnet --key mainnet --hub-binary "../contracts-terra/artifacts/eris_staking_hub.wasm"
+
+// JUNO
 // ts-node 2_deploy_hub.ts --network juno --key mainnet-juno --hub-code-id 1016 --token-code-id 1017 --hub-binary "../contracts-juno/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-juno/artifacts/eris_staking_token.wasm"
-// Hub-Code 1016 , you need to edit bech32 and pubkey of terrajs node_modules
+// ts-node amp-governance/1_upload_contracts.ts --network juno --key mainnet-juno --contracts eris_staking_hub_juno --folder contracts-terra
+// Hub-Code 1016 -> 3995, you need to edit bech32 and pubkey of terrajs node_modules, or use erisprotocol.com
+// -> 3993
 
 // MIGALOO TESTNET
 // ts-node 2_deploy_hub.ts --network testnet-migaloo --key testnet-migaloo --hub-binary "../contracts-whitewhale/artifacts/eris_staking_hub.wasm" --token-binary "../contracts-whitewhale/artifacts/eris_staking_token.wasm"

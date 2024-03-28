@@ -48,7 +48,7 @@ const argv = yargs(process.argv)
       type: "string",
       demandOption: false,
       // default: "./../../cw-plus/artifacts/cw20_ics20.wasm",
-      default: "ibc/cw20_ics20_111.wasm",
+      default: "ibc/cw20_ics20_112.wasm",
     },
   })
   .parseSync();
@@ -138,6 +138,9 @@ const templates: Partial<Record<Chains, InitCw20>> = {
 // ts-node 2_deploy_ics.ts --network mainnet --key ledger --key-upload invest --code-id 441
 // mainnet code 441
 // mainnet contract terra1e0mrzy8077druuu42vs0hu7ugguade0cj65dgtauyaw4gsl4kv0qtdf2au
+
+// ts-node ibc/2_deploy_ics.ts --network mainnet --key mainnet --key-upload mainnet
+// Version 112 -> Code id 2724
 
 // Classic
 // ts-node ibc/2_deploy_ics.ts --network ledger-classic --key ledger --key-upload invest --code-id 7380

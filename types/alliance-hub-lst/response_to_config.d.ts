@@ -13,6 +13,13 @@ export type DaoInterfaceFor_Addr =
       };
     }
   | {
+      enterprise_v2: {
+        distributor: Addr;
+        gov: Addr;
+        membership: Addr;
+      };
+    }
+  | {
       cw4: {
         addr: Addr;
         fund_distributor: Addr;
@@ -22,6 +29,11 @@ export type DaoInterfaceFor_Addr =
   | {
       alliance: {
         addr: Addr;
+      };
+    }
+  | {
+      capa: {
+        gov: Addr;
       };
     };
 /**

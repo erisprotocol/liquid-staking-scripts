@@ -20,6 +20,7 @@ const argv = yargs(process.argv)
 // ts-node 5_migrate.ts --network testnet --key testnet --code-id 4640 --contracts terra1l2cnn902x6rc2zw28ug9c592f2arxsq29n7mu5w97g8rcq4ekq0qr9szr0 terra1uaz8gyr0lelvcuz8q0ynzpwsj578ads6esgjrtguf2svp2yaf4pqhuexxu terra1l70vrerf6mywfujuq8ldygtpy7gtrzh82uw3gxg5ehnz60w7p8eq40j6zd terra1wuuqc832jazjm0ffe798tzs8gqywnalz4ua4ssn2vv7flncrptvs0l8tw3
 
 // ts-node amp-compounder/6_get_data.ts --network mainnet
+// ts-node amp-compounder/6_get_data.ts --network neutron
 
 const templates: Partial<Record<Chains, string>> = {
   // mainnet:
@@ -29,7 +30,8 @@ const templates: Partial<Record<Chains, string>> = {
   //   "terra1pvn5up4n4ttmdatvpxa8t2klpcy2u5t5nmyclv30yz8xmphjxlrqgqwxv6,terra1a3k77cgja875f6ffdsflxtaft570em82te4suw9nfhx77u6dqh8qykuq6f,terra176e78qnvvclrlrmuyjaqxsy72zp2m3szshljdxakdsmr33zulumqa3hr9d,terra1m64fmenadmpy7afp0675jrkz9vs0cq97mgzzpzg0klgc4ahgylms7gvnt5",
 
   mainnet: "terra1cna9z77qlwnk9kysucde096du7nkzh46jx65dsmr74rcty2vnxdqrqfv9y",
-  neutron: "neutron1kery9q2uhfu874aqrtx2u7peh7ljfsqjq3ka2lfqmdj5lmhx6fwqx9dw5d",
+  neutron:
+    "neutron169wdpzne62cs2su2p3c95wkhawpp4jzlj4mra0uxtcyqpdxadatqyx90ud,neutron1awqzas7v4ckx7nuyfn3tey7n3kdwcch0qjvc8545g3qutunw5txqnck6ld",
 };
 
 export interface AmpCompounderPool {

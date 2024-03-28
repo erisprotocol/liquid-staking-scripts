@@ -68,6 +68,7 @@ function removeKey(keyName: string, keyDir: string) {
 // ts-node 1_manage_keys.ts add mainnet-injective --key-dir keys --coin-type 60 --prefix inj
 // ts-node 1_manage_keys.ts add mainnet-archway --key-dir keys --coin-type 118 --prefix archway
 // ts-node 1_manage_keys.ts add key-mainnet --key-dir keys --coin-type 118 --prefix archway
+// ts-node 1_manage_keys.ts add key-test --key-dir keys --coin-type 118 --prefix cosmos
 // ts-node 1_manage_keys.ts test
 
 yargs(hideBin(process.argv))

@@ -39,8 +39,9 @@ const argv = yargs(process.argv)
 // ts-node 4_instantiate_compound.ts --network testnet --key testnet --contract-code-id 4548 --label "Eris Zapper"
 // ts-node amp-compounder/4_instantiate_compound.ts --network mainnet --key mainnet --contract-code-id 1630 --label "Eris Zapper (Test)"
 // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_compound_proxy --migrates terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_compound_proxy --code-id 2039 --migrates terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
 
-// 1298 -> 1631 -> 1744 -> 1946 -> 2039
+// 1298 -> 1631 -> 1744 -> 1946 -> 2039 -> 2057
 
 // ts-node 4_instantiate_compound.ts --network mainnet --key ledger --contract-code-id 513 --label "Eris Zapper"
 

@@ -1,5 +1,6 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
+import { tokens_migaloo } from "./amp-compounder/tokens";
 import {
   createLCDClient,
   createWallet,
@@ -7,7 +8,8 @@ import {
   sendTxWithConfirm,
 } from "./helpers";
 import * as keystore from "./keystore";
-import { ExecuteMsg } from "./types/alliance-hub-lst/execute";
+import { ExecuteMsg } from "./types/alliance-hub-lst/eris_alliance_hub_lst_terra_execute";
+import { ExecuteMsg as ExecuteMsgWW } from "./types/alliance-hub-lst/eris_alliance_hub_lst_whitewhale_execute";
 
 const argv = yargs(process.argv)
   .options({
@@ -37,6 +39,10 @@ const argv = yargs(process.argv)
 // boneWhale
 // ts-node 14_2_change_swaps_ah.ts --network mainnet --key mainnet --hub-address terra10j3zrymfrkta2pxe0gklc79gu06tqyuy8c3kh6tqdsrrprsjqkrqzfl4df
 
+// Migaloo
+// ampUSDC ts-node 14_2_change_swaps_ah.ts --network migaloo --key key-mainnet --hub-address migaloo1cwk3hg5g0rz32u6us8my045ge7es0jnmtfpwt50rv6nagk5aalasa733pt
+// ampASH ts-node 14_2_change_swaps_ah.ts --network migaloo --key key-mainnet --hub-address migaloo1cmcnld5q4z9nltml664nuxthcrz5r9vpfv0efgadxj4pwl3ry8yq26nk76
+//
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const worker = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -45,11 +51,11 @@ const argv = yargs(process.argv)
     new MsgExecuteContract(
       worker.key.accAddress(getPrefix()),
       argv["hub-address"],
-      <ExecuteMsg>{
+      <ExecuteMsg | ExecuteMsgWW>{
         update_config: {
           // protocol_reward_fee: "0.069",
-          protocol_fee_contract:
-            "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
+          // protocol_fee_contract:
+          //   "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
           //   stages_preset: [
           //     // [
           //     //   [
@@ -89,6 +95,49 @@ const argv = yargs(process.argv)
           //       ],
           //     ],
           //   ],
+
+          // whale -> usdc -> musdc
+          // stages_preset: [
+          //   [
+          //     [
+          //       {
+          //         dex: {
+          //           addr: "migaloo1xv4ql6t6r8zawlqn2tyxqsrvjpmjfm6kvdfvytaueqe3qvcwyr7shtx0hj",
+          //         },
+          //       },
+          //       { native: tokens_migaloo.whale.native_token.denom },
+          //       null,
+          //       null,
+          //     ],
+          //   ],
+          //   [
+          //     [
+          //       {
+          //         dex: {
+          //           addr: "migaloo1y307cryg02zacv43sgxly5gnugj4nva5hfqkcc37yh0gr5q42cmqlrpyw3",
+          //         },
+          //       },
+          //       { native: tokens_migaloo.usdc.native_token.denom },
+          //       null,
+          //       null,
+          //     ],
+          //   ],
+          // ],
+
+          stages_preset: [
+            [
+              [
+                {
+                  dex: {
+                    addr: "migaloo1u4npx7xvprwanpru7utv8haq99rtfmdzzw6p3hpfc38n7zmzm42q8ydga3",
+                  },
+                },
+                { native: tokens_migaloo.whale.native_token.denom },
+                null,
+                null,
+              ],
+            ],
+          ],
         },
       }
     ),

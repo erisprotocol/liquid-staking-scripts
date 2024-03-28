@@ -72,7 +72,7 @@ const argv = yargs(process.argv)
 
 // 1284;
 // eris_astroport_farm:  1170
-// eris_compound_proxy:  1171
+// eris_compound_proxy:  1171 -> 1944 -> 2039
 // eris_generator_proxy: 1172
 
 // TEST
@@ -82,7 +82,8 @@ const argv = yargs(process.argv)
 // 4: ts-node amp-compounder/4_instantiate_farms.ts --network mainnet --key ledger --contract-code-id 1170
 // add lps:  ts-node amp-compounder/7_add_lp.ts --network mainnet --key mainnet --contract terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg
 // opt data: ts-node amp-compounder/6_get_data.ts --network mainnet --farm terra10wsuv79k03gplmcx22j4lxauca4t2a0p4q83fyuv54w88e7ccm0qxkme4l
-// fee collector 1741->1945 ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_fees_collector --migrates terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9
+// fee collector 1741->1945-> 2658
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --code-id 2658 --contracts eris_fees_collector --migrates terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9
 
 // NEUTRON
 // ts-node amp-compounder/1_upload_contracts.ts --network neutron --key key-mainnet --contracts eris_astroport_farm_neutron eris_compound_proxy eris_generator_proxy eris_fees_collector --folder contracts-tokenfactory
@@ -95,7 +96,7 @@ const argv = yargs(process.argv)
 // operator: neutron1c023jxq099et7a44ledfwuu3sdkfq8cadk9hul
 // eris_staking_token           97
 // eris_astroport_farm_neutron: 98 -> neutron1h4ehzx3j92jv4tkgjy3k2qphh5863l68cyep7vaf83fj6k89l4lqjfyh77,neutron1sfmpf84xacu2la88zzsgende2jjlczswdmhzn7jh6tuhn43jl86q6d0vhj,neutron1smam4j5cypw2vp7un3q8w68sg97zq9s2c95ukwsmpsl2jh4xwzdskxm6az
-// eris_compound_proxy:         90 -> neutron14eyjgeutlqlp6g9ka027waj04j68hpcsxqw09jrl5rncgdsst6qqlh2qvf
+// eris_compound_proxy:         90->271->554 -> neutron14eyjgeutlqlp6g9ka027waj04j68hpcsxqw09jrl5rncgdsst6qqlh2qvf
 // eris_generator_proxy:        99 -> neutron1xm0pgsu436sht7t39gu44z8q4emtsy8nujxz2yg2jmkdv930up9q26mkd2
 // eris_fees_collector:         92 -> neutron17j39j5xw6ukphvkct6zkjzwavgdkujhf2xpruwgggpwf0jh2whls3mlda5
 // 1: ts-node amp-compounder/2_instantiate_fee_collector.ts --network neutron --key key-mainnet --contract-code-id 92

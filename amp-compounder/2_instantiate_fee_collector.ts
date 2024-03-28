@@ -61,6 +61,9 @@ const argv = yargs(process.argv)
 // - ts-node amp-compounder/2_instantiate_fee_collector.ts --network mainnet --key mainnet --contract-code-id 2037
 // - (3) Instantiate https://terrasco.pe/mainnet/tx/DD4C2C987B7C52483A9F781D608C80BF99C31F66F71F80374BDEE956AC7698B0
 
+// Terra Fee Collector Cavern:  2037
+// - ts-node amp-compounder/2_instantiate_fee_collector.ts --network mainnet --key mainnet --contract-code-id 2037
+
 // ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_compound_proxy --migrates migaloo10nlt59t9s8fdtv0nt934rg602dmgrmxz33k5ld6vtkx0wkf3pweqad5srw
 // CC52FFF9FCCA66EAADC4919418752597CC548305521400B6E4CA179C2B407F35
 
@@ -110,7 +113,29 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
   //   ],
   // },
 
-  mainnet: (<InstantiateMsg>(<any>{
+  // mainnet: (<InstantiateMsg>(<any>{
+  //   // astroport factory
+  //   factory_contract:
+  //     "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r",
+  //   max_spread: "0.01",
+  //   operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
+  //   owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+  //   zapper: "terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg",
+  //   stablecoin: tokens.whale,
+  //   target_list: [
+  //     {
+  //       addr: "migaloo13uf6cv8htse7dkcuykajr6e25czxcxct8pu2mnhq8zyr2hr0vxkqjwgvhm",
+  //       weight: 1,
+  //       target_type: {
+  //         ibc: {
+  //           channel_id: "channel-86",
+  //         },
+  //       },
+  //     },
+  //   ],
+  // })) as any,
+
+  mainnet: (<InstantiateMsg>{
     // astroport factory
     factory_contract:
       "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r",
@@ -118,19 +143,15 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     zapper: "terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg",
-    stablecoin: tokens.whale,
+    stablecoin: tokens.usdc,
     target_list: [
       {
-        addr: "migaloo13uf6cv8htse7dkcuykajr6e25czxcxct8pu2mnhq8zyr2hr0vxkqjwgvhm",
+        addr: "terra1l6rq7905263uqmayurtulzc09sfcgxdedsfen7m0y6wf28s49tvqdkwau9",
         weight: 1,
-        target_type: {
-          ibc: {
-            channel_id: "channel-86",
-          },
-        },
+        target_type: "weight",
       },
     ],
-  })) as any,
+  }) as any,
 
   // collector ERIS
   // migaloo: <InstantiateMsg>{

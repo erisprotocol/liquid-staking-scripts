@@ -186,6 +186,9 @@ async function uploadCode(deployer: Wallet, path: string) {
     argv["key"] === (argv["key-migrate"] ?? argv.key)
       ? admin
       : await createWallet(terra, argv["key"], argv["key-dir"]);
+
+  console.log(`Account upload: ${admin.key.accAddress(getPrefix())}`);
+  console.log(`Account migrate: ${upload.key.accAddress(getPrefix())}`);
   for (const contract of argv.contracts) {
     const fullPath = `../${argv.folder}/artifacts/${contract}.wasm`;
     console.log("CODEID", argv["code-id"]);

@@ -37,6 +37,7 @@ const argv = yargs(process.argv)
 // testnet
 // ts-node 15_change_admin.ts --network testnet --key ledger --contract-address terra1kye343r8hl7wm6f3uzynyyzl2zmcm2sqmvvzwzj7et2j5jj7rjkqa2ue88 --new-admin terra1l86ytzn2mt0h3t2sw7wks4amxvzfhw7xuv7unr
 // ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk --new-admin terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew
+// ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra1se7rvuerys4kd2snt6vqswh9wugu49vhyzls8ymc02wl37g2p2ms5yz490 --new-admin terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew
 
 // mainnet
 // TESTMIGRATION
@@ -61,17 +62,39 @@ const argv = yargs(process.argv)
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
 
+  const contracts = [
+    "terra1dy5c2fqh00t6ptv7tplj43mkkl5smtrxzg0q0kz7mljlaun3939qsynf2g",
+    "terra1flxt6akuldavdu4q0kcassvql5ju2ljyhwujezyslk0lj29h8yrqk7hfm5",
+    "terra1zd2rkvzcm7m2aearymr9lv53cqwxjlujjcujtkyfphur7azqwahsrftnm8",
+    "terra138l5l4djy7kkn4xelw806k9389mmd22txrqpn773x4y4p5f0kljszt5683",
+    "terra1e5vchf97lakl6sulztkn54aapekzfzsa6amdt88exvwmu25s3z0sg6hplq",
+    "terra1nrzw3c28h5sq9q7pw9umc0882607exz8he5uj9yx2yw22m3mhrmsxw2lql",
+    "terra1m9fvkwjpwd4ddgkxd5ddvc2jst9wtv33u7kj89tq2wr0tjm34j8qyfmpwm",
+    "terra1as76h247wvey3aqmw22mlkq8g6vj8zj7qw4wywwn388s2mjt0rtqpp570z",
+    "terra1ymwcpz20lcaue5kkawj3t2fe7et4xd7xkxtuxzc43at0dvcywrsqcuunk2",
+    "terra1kle8kd6gwx9fwpav6spj8zg25uhftsm87gdss4ssmej4pnee2rtshhyct4",
+    "terra1cgtn7dnlexpqdzr44srt7t5edxlwjqae970prfmlzywjhttae99sche4v8",
+    "terra16akp34qkh3v6537gra4ypqj4z208fmesdpzp9vgx3w3luruplgmse5rvku",
+    "terra1xxyr0tduxlggrujcsqmnllu74dmg4697heyjmvvyv6tj3q0hh0qqqq8d6h",
+    "terra1rlfuqcq935j6avrwsurzn6altrq6htet0ggz3hv86kueeewfzunqj2u6lw",
+    "terra1zanekgprlqpdhu2nmqq9efcnr5f4f76vph2fykvw94pq8sylltdsll64qj",
+    "terra10yalv9g9q27hzwdqm9qlma2phjqrr4z46793ygyh0htjpw0dlzesr8f3m2",
+    "terra1snnu9nkmasfek5h2g68mat2uw3knk3zguzw2k3g5shafzkr0n8qst0ckza",
+    "terra1zkxylr2xyvgzeedz4yd54l4p9j8dtajr2ramewn8f35x46gr7cqs74jfxz",
+  ];
+
   const { txhash } = await sendTxWithConfirm(
     admin,
-    [
-      new MsgUpdateContractAdmin(
-        admin.key.accAddress(getPrefix()),
-        argv.newAdmin ?? "",
-        argv["contract-address"]
-      ),
-    ],
+    contracts.map(
+      (contract) =>
+        new MsgUpdateContractAdmin(
+          admin.key.accAddress(getPrefix()),
+          argv.newAdmin ?? "",
+          contract
+        )
+    ),
     undefined,
-    "100000"
+    (contracts.length * 60000).toFixed(0)
   );
   console.log(`Contract admin changed! Txhash: ${txhash}`);
 })();

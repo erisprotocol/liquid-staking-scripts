@@ -151,8 +151,12 @@ const templates: Record<string, InstantiateMsg> = {
   },
 };
 
-// MIGALOO
+// MIGALOO (ampWHALE)
 // ts-node 2_deploy_hub_tokenfactory.ts --network migaloo --key mainnet-migaloo --hub-code-id 5 --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory.wasm"
+
+// ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --contracts eris_staking_hub_tokenfactory_whitewhale --folder contracts-tokenfactory --migrates migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4
+// eris_arb_vault_whitewhale: 5 -> 510
+// migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4
 
 // OSMOSIS
 // ts-node 2_deploy_hub_tokenfactory.ts --network testnet-osmosis --key testnet-osmosis --hub-code-id 684 --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_osmosis.wasm"

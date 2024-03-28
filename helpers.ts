@@ -30,7 +30,7 @@ const phoenix: LCDClientConfig = {
   chainID: "phoenix-1",
   lcd: "https://phoenix-lcd.terra.dev",
   // lcd: "https://phoenix-lcd.erisprotocol.com",
-  gasAdjustment: 1.2,
+  gasAdjustment: 1.3,
   prefix: "terra",
   gasPrices: { uluna: 0.015 },
 };
@@ -38,7 +38,7 @@ const columbus: LCDClientConfig = {
   chainID: "columbus-5",
   lcd: "https://lcd.terra.dev",
   gasPrices: { uluna: "28.325" },
-  gasAdjustment: 1.2,
+  gasAdjustment: 1.3,
   prefix: "terra",
 };
 
@@ -80,6 +80,13 @@ const networks = {
     gasAdjustment: 1.5,
     prefix: "migaloo",
     gasPrices: { uwhale: 0 },
+  },
+  ["testnet-cosmos"]: {
+    chainID: "theta-testnet-001",
+    lcd: "https://rest.sentry-01.theta-testnet.polypore.xyz",
+    gasAdjustment: 1.5,
+    prefix: "cosmos",
+    gasPrices: { uatom: 0.01 },
   },
   migaloo: {
     chainID: "migaloo-1",
@@ -123,7 +130,8 @@ const networks = {
     lcd: "https://osmosis-api.polkachu.com/",
     gasAdjustment: 1.3,
     prefix: "osmo",
-    gasPrices: { uosmo: 0.0025 },
+    // gasPrices: { uosmo: 0.0025 },
+    gasPrices: { uosmo: 0.004 },
   },
   "testnet-osmosis": {
     chainID: "osmo-test-5",
@@ -185,20 +193,20 @@ export async function createWallet(
     const lk = await LedgerKey.create({
       transport: await TransportNodeHid.create(60 * 1000),
     });
-    return terra.wallet(lk);
+    return terra.wallet(lk as any);
   }
   if (keyName === "ledger-classic") {
     const lk = await LedgerKey.create({
       transport: await TransportNodeHid.create(60 * 1000),
     });
-    return terra.wallet(lk);
+    return terra.wallet(lk as any);
   }
   if (keyName === "ledger-juno") {
     const lk = await LedgerKey.create({
       transport: await TransportNodeHid.create(60 * 1000),
       coinType: 118,
     });
-    return terra.wallet(lk);
+    return terra.wallet(lk as any);
   }
   // if (keyName === "ledger-juno") {
   //   const lk = await JunoLedgerKey.create(
@@ -306,6 +314,7 @@ export async function sendTxWithConfirm(
     }
 
     const result = await signer.lcd.tx.broadcast(tx, getChainId());
+    console.log("Hash: ", result.txhash);
     if (isTxError(result)) {
       throw new Error(`tx failed! raw log: ${result.raw_log}`);
     }

@@ -13,6 +13,13 @@ export type DaoInterfaceFor_String =
       };
     }
   | {
+      enterprise_v2: {
+        distributor: string;
+        gov: string;
+        membership: string;
+      };
+    }
+  | {
       cw4: {
         addr: string;
         fund_distributor: string;
@@ -22,6 +29,11 @@ export type DaoInterfaceFor_String =
   | {
       alliance: {
         addr: string;
+      };
+    }
+  | {
+      capa: {
+        gov: string;
       };
     };
 /**

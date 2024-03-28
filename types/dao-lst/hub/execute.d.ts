@@ -62,6 +62,10 @@ export type ExecuteMsg =
          */
         allow_donations?: boolean | null;
         /**
+         * Update the DAO config
+         */
+        dao_interface?: DaoInterfaceFor_String | null;
+        /**
          * Update the default max_spread
          */
         default_max_spread?: number | null;
@@ -211,6 +215,37 @@ export type CallbackMsg =
       check_received_coin: {
         snapshot: Asset;
         snapshot_stake: Asset;
+      };
+    };
+export type DaoInterfaceFor_String =
+  | {
+      enterprise: {
+        addr: string;
+        fund_distributor: string;
+      };
+    }
+  | {
+      enterprise_v2: {
+        distributor: string;
+        gov: string;
+        membership: string;
+      };
+    }
+  | {
+      cw4: {
+        addr: string;
+        fund_distributor: string;
+        gov: string;
+      };
+    }
+  | {
+      alliance: {
+        addr: string;
+      };
+    }
+  | {
+      capa: {
+        gov: string;
       };
     };
 export type ClaimType = {

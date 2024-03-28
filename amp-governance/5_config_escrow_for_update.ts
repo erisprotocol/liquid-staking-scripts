@@ -80,7 +80,8 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
   mainnet: <ExecuteMsg>{
     update_config: {
       push_update_contracts: [
-        "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d", // prop gauge
+        // ampROAR
+        // "terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d", // prop gauge
       ],
     },
   },

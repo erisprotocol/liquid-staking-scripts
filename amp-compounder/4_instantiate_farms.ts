@@ -199,25 +199,30 @@ const lps: Record<string, { lp?: string; name?: string; pair?: string }[]> = {
     //   name: "AST-USD-aLP",
     //   lp: "neutron1vw93hy8tm3xekpz9286428gesmmc8dqxmw8cujsh3fcu3rt0hvdqvlyrrl",
     // },
-    // ASTRO-USDC
     // {
     //   name: "NTR-ATO-aLP",
     //   pair: "neutron1e22zh5p8meddxjclevuhjmfj69jxfsa8uu3jvht72rv9d8lkhves6t8veq",
     // },
-    // ASTRO-USDC
     // {
     //   name: "NTR-USD-aLP",
     //   pair: "neutron1l3gtxnwjuy65rzk63k352d52ad0f2sh89kgrqwczgt56jc8nmc3qh5kag3",
     // },
-    // ASTRO-USDC
     // {
     //   name: "USD-USDT-aLP",
     //   pair: "neutron1adk7gupr0thjr3e6wcnlxr7ugclcg4cukv2np8la29dz38zuzymqjcv5s4",
     // },
-    // ASTRO-USDC
+    // {
+    //   name: "wst-axl-aLP",
+    //   pair: "neutron1wzsewgysr8ttdlw96lp7u2j55z3sg7rtuvfjmd70ajavvpr3308s3zekqu",
+    // },
+
     {
-      name: "wst-axl-aLP",
-      pair: "neutron1wzsewgysr8ttdlw96lp7u2j55z3sg7rtuvfjmd70ajavvpr3308s3zekqu",
+      name: "AST-USD-CLP",
+      pair: "neutron1jh27klc7z8xk3nr32nynvk40qm9f64eypq7nj2w48egtehu35n3q59pkfn",
+    },
+    {
+      name: "wst-axl-CLP",
+      pair: "neutron1yw0a7nxa8jdgzmdsme4gwxhj76n44z305qgwrzvlfavgna9epcys3k9m2f",
     },
   ],
 };

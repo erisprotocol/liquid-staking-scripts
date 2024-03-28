@@ -3,7 +3,8 @@
     "bot": "ts-node -T -P tsconfig.json --",
     "dev:bot": "nodemon -r tsconfig-paths/register --",
     "dev:harvester": "yarn dev:bot bots/harvester.ts",
-    "tsnode": "node --loader ts-node/esm --no-warnings"
+    "tsnode": "node --loader ts-node/esm --no-warnings",
+    "dev:cmd": "nodemon ica/cmd.ts --ignore '**/*.json'"
   },
   "dependencies": {
     "@archwayhq/arch3.js": "^0.4.0",
@@ -17,7 +18,7 @@
     "@ledgerhq/hw-transport-node-hid": "^6.27.1",
     "@ledgerhq/hw-transport-webhid": "^6.27.4",
     "@ledgerhq/hw-transport-webusb": "^6.27.4",
-    "@terra-money/feather.js": "^1.0.0-beta.4",
+    "@terra-money/feather.js": "^2.0.0-beta.12",
     "@terra-money/ledger-station-js": "^1.3.2",
     "@types/cron": "^2.0.0",
     "bech32": "1.1.4",
@@ -35,7 +36,7 @@
     "yargs": "^17.4.0"
   },
   "devDependencies": {
-    "@types/promptly": "^3.0.2",
+    "@types/promptly": "^3.0.5",
     "@types/secp256k1": "^4.0.3",
     "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.16.0",

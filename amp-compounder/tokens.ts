@@ -1,5 +1,11 @@
 export const tokens = {
   luna: { native_token: { denom: "uluna" } },
+  wbtc: {
+    native_token: {
+      denom:
+        "ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD",
+    },
+  },
   usdc: {
     native_token: {
       denom:
@@ -72,6 +78,12 @@ export const tokens = {
         "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
     },
   },
+  boneluna: {
+    token: {
+      contract_addr:
+        "terra17aj4ty4sz4yhgm08na8drc0v03v2jwr3waxcqrwhajj729zhl7zqnpc0ml",
+    },
+  },
 
   vkr: {
     token: {
@@ -117,6 +129,11 @@ export const tokens = {
 };
 
 export const tokens_migaloo = {
+  whale: {
+    native_token: {
+      denom: "uwhale",
+    },
+  },
   usdc: {
     native_token: {
       denom:
@@ -139,6 +156,30 @@ export const tokens_migaloo = {
     native_token: {
       denom:
         "ibc/7214707FABBA013C581D0B23FD8A3E0252276DB81E32CA00310D652249D31BC9",
+    },
+  },
+  ampluna: {
+    native_token: {
+      denom:
+        "ibc/05238E98A143496C8AF2B6067BABC84503909ECE9E45FBCBAC2CBA5C889FD82A",
+    },
+  },
+  boneluna: {
+    native_token: {
+      denom:
+        "ibc/40C29143BF4153B365089E40E437B7AA819672646C45BB0A5F1E10915A0B6708",
+    },
+  },
+  musdc: {
+    token: {
+      contract_addr:
+        "migaloo10nucfm2zqgzqmy7y7ls398t58pjt9cwjsvpy88y2nvamtl34rgmqt5em2v",
+    },
+  },
+  wbtc: {
+    native_token: {
+      denom:
+        "ibc/6E5BF71FE1BEBBD648C8A7CB7A790AEF0081120B2E5746E6563FC95764716D61",
     },
   },
 };
