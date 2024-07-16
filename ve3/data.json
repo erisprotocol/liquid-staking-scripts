@@ -1,0 +1,29 @@
+{
+  "mainnet-copy": {
+    "global_config_addr": "terra1aed7zsx7ay2ecke0gml989huzawldkh868r3p09kf685qrk9kfxsk92c2m",
+    "asset_gauge_addr": "terra1z40yygcx7mau96yav87389fg8csx9479vay5lztwxv0t8l0p7yfqetdc3d",
+    "voting_escrow_addr": "terra15zune42p62yemqef88r0mkqta7kep34n2ntcq7x2z8a4c2w9s73q8vg650",
+    "bribe_manager_addr": "terra14ttavw324el60fmff4mq4n4ddj3q5h5lp4w782sjw6yeh7p44tcsm3xruk",
+    "gauges": {
+      "stable": {
+        "alliance_connector_addr": "terra1jp4tnf3ygdkx7gumt2jdnfdwdvc24tepfpy9ce57crr3l6nmcmhs60kmuu",
+        "alliance_connector_zasset": "factory/terra1jp4tnf3ygdkx7gumt2jdnfdwdvc24tepfpy9ce57crr3l6nmcmhs60kmuu/zluna",
+        "alliance_connector_vt": "factory/terra1jp4tnf3ygdkx7gumt2jdnfdwdvc24tepfpy9ce57crr3l6nmcmhs60kmuu/vt",
+        "asset_staking_addr": "terra169a77cjdcq96ceyqdpcxreud5nd3c3xdyhq8mjpw9m8eyy2gpx3q24n2j4"
+      },
+      "project": {
+        "alliance_connector_addr": "terra1xenxeajhmtgv3m0paadnz8k6ex4c82pnxfuxd6n4drlywelsmz8svvszss",
+        "alliance_connector_zasset": "factory/terra1xenxeajhmtgv3m0paadnz8k6ex4c82pnxfuxd6n4drlywelsmz8svvszss/zluna",
+        "alliance_connector_vt": "factory/terra1xenxeajhmtgv3m0paadnz8k6ex4c82pnxfuxd6n4drlywelsmz8svvszss/vt",
+        "asset_staking_addr": "terra1axj46c0jrgxnr50y0lhju3v9uvseva46evphztjtwld8eg3mnlys67lx9p"
+      },
+      "bluechip": {
+        "alliance_connector_addr": "terra1s49440fvedlz98xjhfuzqaflyqx0zcrqz502ujukzmulau2zggnqg66a9e",
+        "alliance_connector_vt": "factory/terra1s49440fvedlz98xjhfuzqaflyqx0zcrqz502ujukzmulau2zggnqg66a9e/vt",
+        "asset_staking_addr": "terra1fhwmd37xlrl2hmf63q4w7znxp7ahrx53nx8cyfhnd3fm964z353qgtq705",
+        "alliance_connector_zasset": "factory/terra1s49440fvedlz98xjhfuzqaflyqx0zcrqz502ujukzmulau2zggnqg66a9e/zluna"
+      }
+    },
+    "zapper_addr": "terra1jrt9q0pfg8e9n0ypjp5m93hyxzy2wgne4z3kyurll9lr783gvgqqwq0vne"
+  }
+}

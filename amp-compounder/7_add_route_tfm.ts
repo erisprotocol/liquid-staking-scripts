@@ -200,31 +200,15 @@ export class RouteBuilder {
   const address = admin.key.accAddress(getPrefix());
 
   const routes = [
-    // RouteBuilder.start(tokens.luna).astro(tokens.usdc).whale(tokens.whale),
+    RouteBuilder.start(tokens.luna).whale(tokens.whale),
 
-    // RouteBuilder.start(tokens.red)
-    //   .astro(tokens.luna)
-    //   .astro(tokens.usdc)
-    //   .whale(tokens.whale),
+    RouteBuilder.start(tokens.red).astro(tokens.luna).whale(tokens.whale),
 
-    // RouteBuilder.start(tokens.sayve)
-    //   .astro(tokens.luna)
-    //   .astro(tokens.usdc)
-    //   .whale(tokens.whale),
+    RouteBuilder.start(tokens.sayve).astro(tokens.luna).whale(tokens.whale),
 
-    // RouteBuilder.start(tokens.tpt)
-    //   .astro(tokens.luna)
-    //   .astro(tokens.usdc)
-    //   .whale(tokens.whale),
+    RouteBuilder.start(tokens.tpt).astro(tokens.luna).whale(tokens.whale),
 
-    // RouteBuilder.start(tokens.ampluna)
-    //   .astro(tokens.luna)
-    //   .astro(tokens.usdc)
-    //   .whale(tokens.whale),
-
-    // RouteBuilder.start(tokens.roar).whale(tokens.whale),
-    // RouteBuilder.start(tokens.ampwhale).whale(tokens.whale),
-    // RouteBuilder.start(tokens.usdc).whale(tokens.whale),
+    RouteBuilder.start(tokens.ampluna).astro(tokens.luna).whale(tokens.whale),
 
     // RouteBuilder.start(tokens.vkr).astro(tokens.usdc).whale(tokens.whale),
     // RouteBuilder.start(tokens.astro).astro(tokens.usdc).whale(tokens.whale),
@@ -303,7 +287,7 @@ export class RouteBuilder {
     // RouteBuilder.start(tokens.amproar).whale(tokens.roar).whale(tokens.whale),
 
     // RouteBuilder.start(tokens.boneluna).whale(tokens.luna).whale(tokens.whale),
-    RouteBuilder.start(tokens.ampluna).astro(tokens.luna).whale(tokens.whale),
+    // RouteBuilder.start(tokens.ampluna).astro(tokens.luna).whale(tokens.whale),
 
     // RouteBuilder.start(tokens.whale).whale(tokens.ampwhale),
 

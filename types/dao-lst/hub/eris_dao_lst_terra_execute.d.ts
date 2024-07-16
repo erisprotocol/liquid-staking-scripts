@@ -248,9 +248,22 @@ export type DaoInterfaceFor_String =
         gov: string;
       };
     };
-export type ClaimType = {
-  default: string;
-};
+export type ClaimType =
+  | {
+      default: string;
+    }
+  | {
+      genie: {
+        contract: string;
+        payload: string;
+      };
+    }
+  | {
+      transfer: {
+        recipient: string;
+        token: AssetInfo;
+      };
+    };
 
 /**
  * Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg

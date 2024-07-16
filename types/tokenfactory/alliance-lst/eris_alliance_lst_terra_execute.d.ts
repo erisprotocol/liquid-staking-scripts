@@ -32,7 +32,9 @@ export type ExecuteMsg =
     }
   | {
       harvest: {
-        stages?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
+        stages?:
+          | [StageType, AssetInfo, Decimal | null, Uint128 | null][][]
+          | null;
         validators?: string[] | null;
         withdrawals?: [WithdrawType, AssetInfo][] | null;
       };
@@ -99,7 +101,15 @@ export type ExecuteMsg =
         /**
          * Sets the stages preset
          */
-        stages_preset?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
+        stages_preset?:
+          | [
+              StageType,
+              AssetInfo,
+              Decimal | null,
+              Uint128 | null,
+              boolean | null
+            ][][]
+          | null;
         /**
          * The staking module's unbonding time, in seconds
          */

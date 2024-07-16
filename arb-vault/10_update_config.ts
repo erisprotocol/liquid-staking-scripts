@@ -32,6 +32,8 @@ const argv = yargs(process.argv)
   .parseSync();
 
 // ts-node arb-vault/10_update_config.ts --network mainnet --key mainnet --contract terra1r9gls56glvuc4jedsvc3uwh6vj95mqm9efc7hnweqxa2nlme5cyqxygy5m
+// arbOSMO
+// ts-node arb-vault/10_update_config.ts --network osmosis --key key-mainnet --contract osmo1lq8g8jax6wh0dfwfjnyqm69q6zuv08dkppeemllqlwdyhfv06njquhcejr
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -43,14 +45,15 @@ const argv = yargs(process.argv)
     [
       new MsgExecuteContract(account, argv.contract, <ExecuteMsg>{
         update_config: {
-          utilization_method: {
-            steps: [
-              ["0.01", "0.4"],
-              ["0.02", "0.7"],
-              ["0.03", "0.9"],
-              ["0.05", "1.0"],
-            ],
-          },
+          // unbond_time_s: (14 + 3) * 24 * 60 * 60,
+          // utilization_method: {
+          //   steps: [
+          //     ["0.01", "0.4"],
+          //     ["0.02", "0.7"],
+          //     ["0.03", "0.9"],
+          //     ["0.05", "1.0"],
+          //   ],
+          // },
           // insert_lsd: {
           //   name: "LunaX",
           //   disabled: false,
@@ -75,15 +78,13 @@ const argv = yargs(process.argv)
           //   disabled: false,
           //   lsd_type: {
           //     stader: {
-          //       addr: "terra179e90rqspswfzmhdl25tg22he0fcefwndgzc957ncx9dleduu7ms3evpuk",
+          //       addr: "terra179e90rqspswfzmhdl25tg22he0fcefwndgzc957ncx9dleduu7ms3evpuk",  :1468800
           //       cw20: "terra14xsm2wzvu7xaf567r693vgfkhmvfs08l68h4tjj5wjgyn5ky8e2qvzyanh",
           //     },
           //   },
           //   name: "LunaX",
           // },
-
           // force_remove_lsd: "boneLUNA",
-
           // set_whitelist: [
           //   "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
           //   "terra187r4dlnw8negcvupryhtgc88vcy0w7j3e7n69e",

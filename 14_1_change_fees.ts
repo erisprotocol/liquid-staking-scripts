@@ -48,7 +48,7 @@ const argv = yargs(process.argv)
       argv["hub-address"],
       <ExecuteMsg>{
         update_config: {
-          protocol_reward_fee: "0.08",
+          protocol_reward_fee: "0.1",
           // protocol_fee_contract: "osmo1z3txc4x7scxsypx9tgynyfhu48nw60a5dwp8jc",
         },
       }

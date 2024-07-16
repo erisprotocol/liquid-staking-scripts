@@ -172,6 +172,7 @@ const templates: Partial<
             tokens.luna,
             null,
             null,
+            true,
           ],
         ],
         // [
@@ -194,6 +195,7 @@ const templates: Partial<
               },
             },
             tokens.roar,
+            null,
             null,
             null,
           ],
@@ -225,6 +227,7 @@ const templates: Partial<
       //   "migaloo1j2x4vsm2a5qefkvgr7gl30gf2puvsa504plzwgdhwl3wvm5lxayquvvsfq",
       // protocol_reward_fee: "0",
 
+      // ampBTC
       stages_preset: [
         [
           [
@@ -236,6 +239,7 @@ const templates: Partial<
             { native: tokens_migaloo.whale.native_token.denom },
             null,
             null,
+            true
           ],
         ],
       ],

@@ -31,7 +31,7 @@ const argv = yargs(process.argv)
   })
   .parseSync();
 
-// ampROAR: ts-node dao-lst/10_update_config.ts --network mainnet --key mainnet --contract terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
+// xxx: ts-node alliance-lst/10_update_config.ts --network mainnet --key mainnet --contract terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
@@ -42,17 +42,29 @@ const argv = yargs(process.argv)
 
     [
       new MsgExecuteContract(account, argv.contract, <ExecuteMsg>{
-        update_config: {
-          dao_interface: {
-            enterprise_v2: {
-              distributor:
-                "terra16j3yxfwzytjm7xq7kcdmfyessz8vg6r938hrfkk64nq9dyyqcd9qczudmr",
-              gov: "terra1dlq3pvxe3eqnzp4g82wlsgllu8k0245asxmhepnyms36w67x2fjs4s6lsf",
-              membership:
-                "terra1fv92cnlenl8am5vpcamsxpr6l7y9ytpvlhery9ncy95jjxh8pmlsass2rq",
-            },
-          },
-        },
+        // update_config: {
+        //   dao_interface: {
+        //     enterprise_v2: {
+        //       distributor:
+        //         "terra16j3yxfwzytjm7xq7kcdmfyessz8vg6r938hrfkk64nq9dyyqcd9qczudmr",
+        //       gov: "terra1dlq3pvxe3eqnzp4g82wlsgllu8k0245asxmhepnyms36w67x2fjs4s6lsf",
+        //       membership:
+        //         "terra1fv92cnlenl8am5vpcamsxpr6l7y9ytpvlhery9ncy95jjxh8pmlsass2rq",
+        //     },
+        //   },
+        // },
+        // claim: {
+        //   claims: [
+        //     {
+        //       genie: {
+        //         contract:
+        //           "terra1k89zgnksjaz869s3e4dvu304mwq26t2g53ymr8jpsyjuxxxqc28sc0kfmr",
+        //         payload:
+        //           "eyJjbGFpbV9hbW91bnRzIjpbIjUwNjAzNTE2MzUiXSwic2lnbmF0dXJlIjoiMy9ialZiS3RwL05ocXJnd00vT20zc2VSSnlFR0lLZkF4djBnK1h1ajRrc1ZkeVFvcXQzaWZwaHlkMVhYVWlDQk94ZkUrODRMOXBvZjZzYTgwRDhDWVE9PSJ9",
+        //       },
+        //     },
+        //   ],
+        // },
       }),
     ]
   );

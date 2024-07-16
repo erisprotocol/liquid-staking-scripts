@@ -112,12 +112,13 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 
 // MIGALOO ampBTC
 // ts-node ./alliance-lst/01_deploy_alliance_lst.ts --network migaloo --key mainnet-migaloo --label "ERIS ampBTC Hub" --hub-code-id 476 --hub-binary "../contracts-tokenfactory/artifacts/eris_alliance_lst_whitewhale.wasm"
-// eris_alliance_lst_whitewhale: 476 : migaloo1pll95yfcnxd5pkkrcsad63l929m4ehk4c46fpqqp3c2d488ca0csc220d0
+// ts-node amp-governance/1_upload_contracts.ts --network migaloo --key mainnet-migaloo --folder contracts-tokenfactory --contracts eris_alliance_lst_whitewhale --migrates migaloo1pll95yfcnxd5pkkrcsad63l929m4ehk4c46fpqqp3c2d488ca0csc220d0
+// eris_alliance_lst_whitewhale: 476->594->616 : migaloo1pll95yfcnxd5pkkrcsad63l929m4ehk4c46fpqqp3c2d488ca0csc220d0
 
 // TERRA MOAR
 // ts-node ./alliance-lst/01_deploy_alliance_lst.ts --network mainnet --key mainnet --label "ERIS MOAR Hub" --hub-code-id 2660 --hub-binary "../contracts-tokenfactory/artifacts/eris_alliance_lst_terra.wasm"
-// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-tokenfactory --contracts eris_alliance_lst_terra --migrates terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu
-// eris_alliance_lst_terra: 2660->2661->2687->2689 : terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --code-id 2791 --folder contracts-tokenfactory --contracts eris_alliance_lst_terra --migrates terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu
+// eris_alliance_lst_terra: 2660->2661->2687->2689->2788->2791 : terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu
 
 // // // TERRA
 // // // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-dao-lst --contracts eris_dao_lst_terra eris_gov_voting_escrow eris_gov_prop_gauges
@@ -131,7 +132,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // // // PropGauge ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --folder contracts-dao-lst --contracts eris_gov_prop_gauges --migrates terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d
 // // // Voting-Escrow ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --folder contracts-dao-lst --contracts eris_gov_voting_escrow --migrates terra1q33xvxt03ds6rsrk9p7dzaz4540s5q995gmt8dp3u47smaw292jqrmpxgd
 
-// // // 'eris_dao_lst_terra: 1917->2288->2422->2657', terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
+// // // 'eris_dao_lst_terra: 1917->2288->2422->2657->2852', terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy
 // // // 'eris_gov_voting_escrow: 1918->2686', terra1q33xvxt03ds6rsrk9p7dzaz4540s5q995gmt8dp3u47smaw292jqrmpxgd
 // // // 'eris_gov_prop_gauges: 1919->2290 terra1uvv5rs7jl9ugf65k3qvsc9fyt5djcuh2fnwgk37xjea0975ud07qmygr5d
 (async function () {

@@ -39,7 +39,14 @@ export type ExecuteMsg =
         cw20_assets?: string[] | null;
         native_denoms?: string[] | null;
         router?: [Empty, AssetInfoBaseFor_Addr[]] | null;
-        stages?: [StageType, AssetInfoBaseFor_Addr, Decimal | null, Uint128 | null][][] | null;
+        stages?:
+          | [
+              StageType,
+              AssetInfoBaseFor_Addr,
+              Decimal | null,
+              Uint128 | null
+            ][][]
+          | null;
         withdrawals?: [WithdrawType, AssetInfoBaseFor_Addr][] | null;
       };
     }
@@ -71,7 +78,15 @@ export type ExecuteMsg =
         /**
          * Sets the stages preset
          */
-        stages_preset?: [StageType, AssetInfoBaseFor_Addr, Decimal | null, Uint128 | null][][] | null;
+        stages_preset?:
+          | [
+              StageType,
+              AssetInfoBaseFor_Addr,
+              Decimal | null,
+              Uint128 | null,
+              boolean | null
+            ][][]
+          | null;
         /**
          * Sets the withdrawals preset
          */
@@ -147,11 +162,15 @@ export type AssetInfoBaseFor_Addr =
   | {
       cw20: Addr;
     };
-export type StageType = {
-  dex: {
-    addr: Addr;
-  };
-};
+export type StageType =
+  | {
+      dex: {
+        addr: Addr;
+      };
+    }
+  | {
+      burn: { addr: Addr };
+    };
 export type WithdrawType = {
   dex: {
     addr: Addr;
@@ -165,7 +184,12 @@ export type CallbackMsg =
     }
   | {
       single_stage_swap: {
-        stage: [StageType, AssetInfoBaseFor_Addr, Decimal | null, Uint128 | null][];
+        stage: [
+          StageType,
+          AssetInfoBaseFor_Addr,
+          Decimal | null,
+          Uint128 | null
+        ][];
       };
     }
   | {

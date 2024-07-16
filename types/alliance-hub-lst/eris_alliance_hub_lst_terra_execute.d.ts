@@ -39,7 +39,9 @@ export type ExecuteMsg =
         cw20_assets?: string[] | null;
         native_denoms?: string[] | null;
         router?: [MultiSwapRouterType, AssetInfo[]] | null;
-        stages?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
+        stages?:
+          | [StageType, AssetInfo, Decimal | null, Uint128 | null][][]
+          | null;
         withdrawals?: [WithdrawType, AssetInfo][] | null;
       };
     }
@@ -71,7 +73,15 @@ export type ExecuteMsg =
         /**
          * Sets the stages preset
          */
-        stages_preset?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
+        stages_preset?:
+          | [
+              StageType,
+              AssetInfo,
+              Decimal | null,
+              Uint128 | null,
+              boolean | null
+            ][][]
+          | null;
         /**
          * Sets the withdrawals preset
          */
@@ -150,7 +160,8 @@ export type StageType =
         addr: Addr;
         msg: MantaMsg;
       };
-    };
+    }
+  | { burn: { addr: string } };
 export type WithdrawType = {
   dex: {
     addr: Addr;

@@ -8,6 +8,7 @@ import {
 } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg } from "../types/amp-compounder/fees_collector/execute_msg";
+import { tokens_migaloo } from "./tokens";
 
 const argv = yargs(process.argv)
   .options({
@@ -55,73 +56,73 @@ const argv = yargs(process.argv)
           // migaloo1u0h8ls4rkzj3mkzgmywyqf4ahaljzaf2zszcj23kq389lk9hdc2sjzz9sq sends to Terra
           // migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v compounds to whale + burn
           // https://migaloo-lcd.erisprotocol.com/cosmwasm/wasm/v1/contract/migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v/smart/eyAiY29uZmlnIjoge319
-          target_list: [
-            {
-              addr: "migaloo1u0h8ls4rkzj3mkzgmywyqf4ahaljzaf2zszcj23kq389lk9hdc2sjzz9sq",
-              weight: 7,
-              msg: null,
-              target_type: "weight",
-            },
-            // {
-            //   addr: "migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup",
-            //   weight: 3,
-            //   msg: "eyJidXJuIjp7fX0=",
-            //   target_type: "weight",
-            // },
-            {
-              addr: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
-              weight: 0,
-              msg: null,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "200000000",
-                  min_fill: "100000000",
-                },
-              },
-            },
-            {
-              addr: "migaloo1l4x3hd7rwj26nqw2dhhdm4t9vtv0lqx3v54hzg",
-              weight: 0,
-              msg: null,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "200000000",
-                  min_fill: "100000000",
-                },
-              },
-            },
-            {
-              addr: "migaloo1eetvnrgndvc9atgqxykmhl9xp34l66hsy2u27u",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "200000000",
-                  min_fill: "100000000",
-                },
-              },
-            },
+          // target_list: [
+          //   {
+          //     addr: "migaloo1u0h8ls4rkzj3mkzgmywyqf4ahaljzaf2zszcj23kq389lk9hdc2sjzz9sq",
+          //     weight: 7,
+          //     msg: null,
+          //     target_type: "weight",
+          //   },
+          //   // {
+          //   //   addr: "migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup",
+          //   //   weight: 3,
+          //   //   msg: "eyJidXJuIjp7fX0=",
+          //   //   target_type: "weight",
+          //   // },
+          //   {
+          //     addr: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
+          //     weight: 0,
+          //     msg: null,
+          //     target_type: {
+          //       fill_up_first: {
+          //         filled_to: "200000000",
+          //         min_fill: "100000000",
+          //       },
+          //     },
+          //   },
+          //   {
+          //     addr: "migaloo1l4x3hd7rwj26nqw2dhhdm4t9vtv0lqx3v54hzg",
+          //     weight: 0,
+          //     msg: null,
+          //     target_type: {
+          //       fill_up_first: {
+          //         filled_to: "200000000",
+          //         min_fill: "100000000",
+          //       },
+          //     },
+          //   },
+          //   {
+          //     addr: "migaloo1eetvnrgndvc9atgqxykmhl9xp34l66hsy2u27u",
+          //     weight: 0,
+          //     target_type: {
+          //       fill_up_first: {
+          //         filled_to: "200000000",
+          //         min_fill: "100000000",
+          //       },
+          //     },
+          //   },
 
-            {
-              addr: "migaloo187llpg2lgvvnltqg50vfqaap54xnqejvhnslte",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "200000000",
-                  min_fill: "100000000",
-                },
-              },
-            },
-            {
-              addr: "migaloo1v6cfsslgx04arl8qx5nmx4qggfxlg6t2wkrfc7",
-              weight: 0,
-              target_type: {
-                fill_up_first: {
-                  filled_to: "100000000",
-                  min_fill: "50000000",
-                },
-              },
-            },
-          ],
+          //   {
+          //     addr: "migaloo187llpg2lgvvnltqg50vfqaap54xnqejvhnslte",
+          //     weight: 0,
+          //     target_type: {
+          //       fill_up_first: {
+          //         filled_to: "200000000",
+          //         min_fill: "100000000",
+          //       },
+          //     },
+          //   },
+          //   {
+          //     addr: "migaloo1v6cfsslgx04arl8qx5nmx4qggfxlg6t2wkrfc7",
+          //     weight: 0,
+          //     target_type: {
+          //       fill_up_first: {
+          //         filled_to: "100000000",
+          //         min_fill: "50000000",
+          //       },
+          //     },
+          //   },
+          // ],
 
           // [
           //   // migaloo1eetvnrgndvc9atgqxykmhl9xp34l66hsy2u27u
@@ -208,63 +209,76 @@ const argv = yargs(process.argv)
 
           // Migaloo GINKOU
           // fee collector 2
-          // target_list: [
-          //   {
-          //     addr: "migaloo18qatlena5eujecsuwrwkpr5qccjddrf8ss4ykzlx8gmrt5dlxxkqysf3lz",
-          //     weight: 1,
-          //     target_type: "weight",
-          //   },
-          //   {
-          //     addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
-          //     asset_override: tokens_migaloo.ampwhalet,
-          //     weight: 1,
-          //     target_type: {
-          //       ibc: {
-          //         channel_id: "channel-0",
-          //       },
-          //     },
-          //   },
-          //   {
-          //     addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
-          //     asset_override: tokens_migaloo.bonewhalet,
-          //     weight: 1,
-          //     target_type: {
-          //       ibc: {
-          //         channel_id: "channel-0",
-          //       },
-          //     },
-          //   },
-          //   {
-          //     addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
-          //     asset_override: tokens_migaloo.amproar,
-          //     weight: 1,
-          //     target_type: {
-          //       ibc: {
-          //         channel_id: "channel-0",
-          //       },
-          //     },
-          //   },
-          //   {
-          //     addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
-          //     asset_override: tokens_migaloo.ampluna,
-          //     weight: 1,
-          //     target_type: {
-          //       ibc: {
-          //         channel_id: "channel-2",
-          //       },
-          //     },
-          //   },
-          //   {
-          //     addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
-          //     asset_override: tokens_migaloo.boneluna,
-          //     weight: 1,
-          //     target_type: {
-          //       ibc: {
-          //         channel_id: "channel-2",
-          //       },
-          //     },
-          //   },
-          // ],
+          target_list: [
+            {
+              addr: "migaloo1tevq6j3dlv86h95v60xafatvvy7sa53tr53mrl",
+              asset_override: tokens_migaloo.whale,
+              weight: 1,
+              target_type: "weight",
+            },
+            {
+              addr: "migaloo1tevq6j3dlv86h95v60xafatvvy7sa53tr53mrl",
+              asset_override: tokens_migaloo.ampwhalet,
+              weight: 1,
+              target_type: "weight",
+            },
+            {
+              addr: "migaloo1tevq6j3dlv86h95v60xafatvvy7sa53tr53mrl",
+              asset_override: tokens_migaloo.guppy,
+              weight: 1,
+              target_type: "weight",
+            },
+            // {
+            //   addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
+            //   asset_override: tokens_migaloo.ampwhalet,
+            //   weight: 1,
+            //   target_type: {
+            //     ibc: {
+            //       channel_id: "channel-0",
+            //     },
+            //   },
+            // },
+            // {
+            //   addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
+            //   asset_override: tokens_migaloo.bonewhalet,
+            //   weight: 1,
+            //   target_type: {
+            //     ibc: {
+            //       channel_id: "channel-0",
+            //     },
+            //   },
+            // },
+            // {
+            //   addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
+            //   asset_override: tokens_migaloo.amproar,
+            //   weight: 1,
+            //   target_type: {
+            //     ibc: {
+            //       channel_id: "channel-0",
+            //     },
+            //   },
+            // },
+            // {
+            //   addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
+            //   asset_override: tokens_migaloo.ampluna,
+            //   weight: 1,
+            //   target_type: {
+            //     ibc: {
+            //       channel_id: "channel-2",
+            //     },
+            //   },
+            // },
+            // {
+            //   addr: "terra1tqnwsvl6pd7xqem7e7yfgs3dkgew8wy3j8h8ejmhgajupygeg8zqg2zkgj",
+            //   asset_override: tokens_migaloo.boneluna,
+            //   weight: 1,
+            //   target_type: {
+            //     ibc: {
+            //       channel_id: "channel-2",
+            //     },
+            //   },
+            // },
+          ],
 
           // max_spread: "0.5",
           // compound_proxy: 'terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg'

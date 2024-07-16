@@ -18,6 +18,12 @@ export const tokens = {
         "factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR",
     },
   },
+  moar: {
+    native_token: {
+      denom:
+        "factory/terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu/MOAR",
+    },
+  },
   whale: {
     native_token: {
       denom:
@@ -64,6 +70,12 @@ export const tokens = {
     token: {
       contract_addr:
         "terra1nsuqsk6kh58ulczatwev87ttq2z6r3pusulg9r24mfj2fvtzd4uq3exn26",
+    },
+  },
+  astro_native: {
+    native_token: {
+      denom:
+        "ibc/8D8A7F7253615E5F76CB6252A1E1BD921D5EDB7BBAAF8913FB1C77FF125D9995",
     },
   },
   xastro: {
@@ -144,6 +156,23 @@ export const tokens_migaloo = {
     native_token: {
       denom:
         "ibc/EA459CE57199098BA5FFDBD3194F498AA78439328A92C7D136F06A5220903DA6",
+    },
+  },
+  ash: {
+    native_token: {
+      denom:
+        "factory/migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup/ash",
+    },
+  },
+  guppy: {
+    native_token: {
+      denom: "factory/migaloo1etlu2h30tjvv8rfa4fwdc43c92f6ul5w9acxzk/uguppy",
+    },
+  },
+  gash: {
+    native_token: {
+      denom:
+        "factory/migaloo1r9x8fz4alekzr78k42rpmr9unpa7egsldpqeynmwl2nfvzexue9sn8l5rg/gash",
     },
   },
   bonewhalet: {

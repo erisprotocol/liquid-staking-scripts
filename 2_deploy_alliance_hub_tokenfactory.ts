@@ -136,8 +136,28 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
   //     },
   //   },
   // },
+  // migaloo: <InstantiateMsg>{
+  //   denom: "ampASH",
+  //   protocol_fee_contract:
+  //     "migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v",
+  //   protocol_reward_fee: "0.069",
+  //   owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
+  //   operator: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
+
+  //   utoken: {
+  //     native_token: {
+  //       denom:
+  //         "factory/migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup/ash",
+  //     },
+  //   },
+  //   dao_interface: {
+  //     alliance: {
+  //       addr: "migaloo190qz7q5fu4079svf890h4h3f8u46ty6cxnlt78eh486k9qm995hquuv9kd",
+  //     },
+  //   },
+  // },
   migaloo: <InstantiateMsg>{
-    denom: "ampASH",
+    denom: "ampGASH",
     protocol_fee_contract:
       "migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v",
     protocol_reward_fee: "0.069",
@@ -147,7 +167,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     utoken: {
       native_token: {
         denom:
-          "factory/migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup/ash",
+          "factory/migaloo1r9x8fz4alekzr78k42rpmr9unpa7egsldpqeynmwl2nfvzexue9sn8l5rg/gash",
       },
     },
     dao_interface: {
@@ -170,9 +190,9 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 
 // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --migrates terra1j35ta0llaxcf55auv2cjqau5a7aee6g8fz7md7my7005cvh23jfsaw83dy
 
-// ampwhalet: ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --code-id 2040 --migrates terra1j35ta0llaxcf55auv2cjqau5a7aee6g8fz7md7my7005cvh23jfsaw83dy
-// boneWhale: ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --code-id 2040 --migrates terra10j3zrymfrkta2pxe0gklc79gu06tqyuy8c3kh6tqdsrrprsjqkrqzfl4df
-// 1927 -> 2038 -> 2040
+// ampwhalet: ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --migrates terra1j35ta0llaxcf55auv2cjqau5a7aee6g8fz7md7my7005cvh23jfsaw83dy
+// boneWhale: ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --code-id 2790 --migrates terra10j3zrymfrkta2pxe0gklc79gu06tqyuy8c3kh6tqdsrrprsjqkrqzfl4df
+// 1927 -> 2038 -> 2040 -> 2790
 
 // CAPA 2042 -> terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y
 // ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst
@@ -182,8 +202,10 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // ts-node amp-governance/1_upload_contracts.ts --network migaloo --key key-mainnet --contracts eris_alliance_hub_lst_whitewhale --folder contracts-dao-lst --migrates migaloo1cwk3hg5g0rz32u6us8my045ge7es0jnmtfpwt50rv6nagk5aalasa733pt
 // ts-node 2_deploy_alliance_hub_tokenfactory.ts --network migaloo --key key-mainnet --hub-code-id 220 --label "ERIS Amplified USDC Hub"
 // ts-node 2_deploy_alliance_hub_tokenfactory.ts --network migaloo --key key-mainnet --hub-code-id 220 --label "ERIS Amplified ASH Hub"
+// ts-node 2_deploy_alliance_hub_tokenfactory.ts --network migaloo --key key-mainnet --hub-code-id 626 --label "ERIS Amplified gASH Hub"
 // ampUSDC -> 220 -> 525 -> migaloo1cwk3hg5g0rz32u6us8my045ge7es0jnmtfpwt50rv6nagk5aalasa733pt
 // ampASH -> 220 -> 525 -> migaloo1cmcnld5q4z9nltml664nuxthcrz5r9vpfv0efgadxj4pwl3ry8yq26nk76
+// ampGASH -> 626 -> migaloo1nsskhvvh0msm7d5ke2kfg24a8d4jecsnxd28s27h0uz5kf9ap60shlqmcl
 
 (async function () {
   const terra = createLCDClient(argv["network"]);

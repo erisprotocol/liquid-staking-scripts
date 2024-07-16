@@ -15,6 +15,7 @@ import {
 import { LedgerKey } from "@terra-money/ledger-station-js";
 import { SignMode } from "@terra-money/terra.proto/cosmos/tx/signing/v1beta1/signing";
 import * as fs from "fs";
+import { get, set } from "lodash";
 import * as promptly from "promptly";
 import * as keystore from "./keystore";
 import { AssetInfo } from "./types/ampz/eris_ampz_execute";
@@ -28,11 +29,19 @@ const DEFAULT_GAS_SETTINGS = {
 
 const phoenix: LCDClientConfig = {
   chainID: "phoenix-1",
-  lcd: "https://phoenix-lcd.terra.dev",
-  // lcd: "https://phoenix-lcd.erisprotocol.com",
-  gasAdjustment: 1.3,
+  // lcd: "https://phoenix-lcd.terra.dev",
+  lcd: "https://phoenix-lcd.erisprotocol.com",
+  gasAdjustment: 1.4,
   prefix: "terra",
   gasPrices: { uluna: 0.015 },
+};
+const phoenixLowfee: LCDClientConfig = {
+  chainID: "phoenix-1",
+  // lcd: "https://phoenix-lcd.terra.dev",
+  lcd: "https://phoenix-lcd.erisprotocol.com",
+  gasAdjustment: 1.3,
+  prefix: "terra",
+  gasPrices: { uluna: 0.000025 },
 };
 const columbus: LCDClientConfig = {
   chainID: "columbus-5",
@@ -41,9 +50,19 @@ const columbus: LCDClientConfig = {
   gasAdjustment: 1.3,
   prefix: "terra",
 };
+const phoenix_newmetric: LCDClientConfig = {
+  chainID: "phoenix-1",
+  // lcd: "https://phoenix-lcd.terra.dev",
+  lcd: "https://cradle-manager.ec1-prod.newmetric.xyz/cradle/proxy/3d0f9480-3445-4038-b1de-303791b951ff",
+  gasAdjustment: 1.4,
+  prefix: "terra",
+  gasPrices: { uluna: 0.015 },
+};
 
 const networks = {
   mainnet: phoenix,
+  ["mainnet-lowfee"]: phoenixLowfee,
+  ["mainnet-copy"]: phoenix_newmetric,
   ledger: phoenix,
   classic: columbus,
   ["classic-testnet"]: columbus,
@@ -90,10 +109,12 @@ const networks = {
   },
   migaloo: {
     chainID: "migaloo-1",
-    lcd: "https://migaloo-lcd.erisprotocol.com",
-    gasAdjustment: 1.3,
+    // lcd: "https://migaloo-lcd.erisprotocol.com",
+    lcd: "https://migaloo-api.polkachu.com",
+    // lcd: "https://api-migaloo.cosmos-spaces.cloud",
+    gasAdjustment: 1.5,
     prefix: "migaloo",
-    gasPrices: { uwhale: 0.25 },
+    gasPrices: { uwhale: 1 },
   },
   ["archwaytest"]: {
     chainID: "constantine-3",
@@ -326,6 +347,44 @@ export async function sendTxWithConfirm(
 }
 
 /**
+ * @notice Same with `sendTransaction`, but requires confirmation for CLI before broadcasting
+ */
+export async function sendTxWithConfirmUnsigned(
+  wallet: Wallet,
+  msgs: Msg[],
+  memo?: string,
+  gas?: string,
+  confirm = true
+) {
+  try {
+    const x = {
+      msgs,
+      ...DEFAULT_GAS_SETTINGS,
+      memo: memo as string,
+      gas: gas as string,
+      chainID: getChainId(),
+    };
+
+    const tx = await wallet.createTx(x);
+
+    if (confirm) {
+      console.log("\n" + JSON.stringify(tx).replace(/\\/g, "") + "\n");
+      await waitForConfirm("Confirm transaction before broadcasting");
+    }
+
+    const result = await wallet.lcd.tx.broadcast(tx, getChainId());
+    console.log("Hash: ", result.txhash);
+    if (isTxError(result)) {
+      throw new Error(`tx failed! raw log: ${result.raw_log}`);
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/**
  * @notice Same with `storeCode`, but requires confirmation for CLI before broadcasting
  */
 export async function storeCodeWithConfirm(
@@ -426,4 +485,66 @@ export const getToken = (asset: AssetInfo | string) => {
   } else {
     return asset.native_token.denom;
   }
+};
+
+export const addInfo = (
+  folder: string,
+  network: Chains,
+  path: string,
+  value: string
+) => {
+  const filePath = folder + "/data.json";
+  const existing = fs.existsSync(filePath)
+    ? fs.readFileSync(filePath).toString()
+    : "{}";
+  const data = JSON.parse(existing);
+
+  if (!data[network]) {
+    data[network] = {};
+  }
+
+  const existingValue = get(data[network], path);
+
+  if (existingValue) {
+    console.log(
+      `changing value ${folder}.${network}.${path}: ${existingValue} -> ${value}`
+    );
+  } else {
+    console.log(`adding value ${folder}.${network}.${path}: ${value}`);
+  }
+
+  set(data[network], path, value);
+
+  fs.writeFileSync(filePath, JSON.stringify(data, undefined, 2));
+};
+
+export const getInfo = (folder: string, network: Chains, path: string) => {
+  const filePath = folder + "/data.json";
+  const existing = fs.existsSync(filePath)
+    ? fs.readFileSync(filePath).toString()
+    : "{}";
+  const data = JSON.parse(existing);
+
+  if (!data[network]) {
+    data[network] = {};
+  }
+
+  const existingValue = get(data[network], path);
+
+  if (existingValue) {
+    return existingValue;
+  } else {
+    throw new Error(`did not find ${folder}.${network}.${path}`);
+  }
+};
+
+export const selectMany = <T, U>(
+  array: T[],
+  selector: (x: T) => U[]
+): Array<U> => {
+  const result = array.map((x) => selector(x));
+  if (!result.length) {
+    return [];
+  }
+  return result.reduce((a, b) => a.concat(b));
 };

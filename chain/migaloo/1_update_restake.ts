@@ -41,8 +41,7 @@ const argv = yargs(process.argv)
       argv["contract"],
       <ExecuteMsg>{
         update_config: {
-          restake_hub_addr:
-            "migaloo1fl005yh4ztvfv4qgr4vc96uz5h658ztgu0n5gu5lpma96g8ya32s6sus5v",
+          min_gauge_percentage: "0.01",
         },
       }
     ),

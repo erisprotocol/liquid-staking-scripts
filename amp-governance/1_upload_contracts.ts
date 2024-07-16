@@ -40,6 +40,9 @@ const argv = yargs(process.argv)
     migrates: {
       type: "array",
     },
+    migratesAll: {
+      type: "boolean",
+    },
     folder: {
       type: "string",
       default: "contracts-terra",
@@ -176,7 +179,8 @@ async function uploadCode(deployer: Wallet, path: string) {
   if (
     argv.migrates &&
     argv.contracts &&
-    argv.migrates.length !== argv.contracts.length
+    argv.migrates.length !== argv.contracts.length &&
+    !argv.migratesAll
   ) {
     throw new Error("Invalid parameters, need to be same length as contracts");
   }
@@ -200,17 +204,34 @@ async function uploadCode(deployer: Wallet, path: string) {
 
     await delayPromise(1000);
 
-    const migrate = argv.migrates && argv.migrates[index];
-    if (migrate && typeof migrate === "string") {
-      const { txhash } = await sendTxWithConfirm(admin, [
-        new MsgMigrateContract(
-          admin.key.accAddress(getPrefix()),
-          migrate,
-          codeId,
-          {}
-        ),
-      ]);
+    if (argv.migratesAll) {
+      const migrates = argv.migrates ?? [];
+      const { txhash } = await sendTxWithConfirm(
+        admin,
+        migrates.map(
+          (migrate) =>
+            new MsgMigrateContract(
+              admin.key.accAddress(getPrefix()),
+              migrate.toString(),
+              codeId,
+              {}
+            )
+        )
+      );
       console.log(`Contract migrated! Txhash: ${txhash}`);
+    } else {
+      const migrate = argv.migrates && argv.migrates[index];
+      if (migrate && typeof migrate === "string") {
+        const { txhash } = await sendTxWithConfirm(admin, [
+          new MsgMigrateContract(
+            admin.key.accAddress(getPrefix()),
+            migrate,
+            codeId,
+            {}
+          ),
+        ]);
+        console.log(`Contract migrated! Txhash: ${txhash}`);
+      }
     }
 
     index++;
