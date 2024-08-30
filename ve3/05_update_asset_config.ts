@@ -8,6 +8,7 @@ import {
   getInfo,
   getPrefix,
   printProposal,
+  selectMany,
   sendTxWithConfirm,
   toNew,
 } from "../helpers";
@@ -95,22 +96,20 @@ const argv = yargs(process.argv)
 
   const gauges: Record<string, AssetInfoWithConfigFor_String[]> = {
     stable: [
-      // ASTRO LUNA-SOLID,
-      token("terra14arerdfc88cdv6m6frc03a0963z877756kqac4h4xvd9vftn0hqqhquca8", true),
+      // // ASTRO LUNA-USDC,
+      // token("terra1yqp35sjllqjqh25pt49pcqnnpe3960tanmf2upfadej2gdumz6psn8t5vp", true),
       // ASTRO LUNA-USDT,
       token("terra14h48hukanmfv6wrrs50m4w2f9hf09lakwl5d5pkpt4rpl3gtg7ks4ye6d4", true),
-      // ASTRO LUNA-USDC,
-      token("terra1yqp35sjllqjqh25pt49pcqnnpe3960tanmf2upfadej2gdumz6psn8t5vp", true),
     ],
     project: [
+      // ASTRO ROAR,
+      token("terra1vczn40ch624g2kserhzqu2n69j3h7h7c5nfeznw96pnxjuly5h5s25u9dm", true),
       // ASTRO USDC-SOLID,
       token("terra12usr3jlgvuzq70kpt6u03stxrgzwpjxnej6herpuw9t7echj8z3q44dyyk", true),
       // ASTRO SWTH,
       token("terra1wwy8xjk4mff7qp2g7qzmgfu9agd6wjdmz99crj94zv9tmh7dvhmq0jsf6a", true),
       // ASTRO stLUNA,
       token("terra14n22zd24nath0tf8fwn468nz7753rjuks67ppddrcqwq37x2xsxsddqxqc", true),
-      // ASTRO ROAR,
-      token("terra1vczn40ch624g2kserhzqu2n69j3h7h7c5nfeznw96pnxjuly5h5s25u9dm", true),
       // ASTRO ASTRO,
       token("terra14lul8rjcad0jeuu680n4q7dwgxjkr6mqzx8umyewj8c6xn93squqllleht", true),
       // ASTRO WHALE,
@@ -119,8 +118,12 @@ const argv = yargs(process.argv)
       token("terra1my4tml2ae4zewq0u5fpq2qzq4rdpfh5pq7y3eekxxhwxdwdmce4shw9mt4", true),
       // ASTRO bLUNA,
       token("terra1h3z2zv6aw94fx5263dy6tgz6699kxmewlx3vrcu4jjrudg6xmtyqk6vt0u", true),
+      // ASTRO LUNA-SOLID,
+      token("terra14arerdfc88cdv6m6frc03a0963z877756kqac4h4xvd9vftn0hqqhquca8", true),
     ],
     bluechip: [
+      // ASTRO USDC-USDT,
+      token("terra1huw82c9grj9xz9umkc8hqcjqgndadlkrp8rn9u6eh5jh5j2s2t7qs33vry", true),
       // ASTRO ATOM
       token("terra19xrvvkq5607xudcxvw444yycjz6e3vk3l8p633z68k0vv5q09wnsa9q2qt", true),
       // ASTRO SOL,
@@ -129,8 +132,6 @@ const argv = yargs(process.argv)
       token("terra12eu8jk4w7lgn2rk7xs46nz7c7r9fw8q98afy9adlwtkghazj40asjf65zu", true),
       // ASTRO INJ,
       token("terra1euf8klqukk4wlly90nve0n6drqvq9pst73wc34pruuvx09nptxyse68hgl", true),
-      // ASTRO USDC-USDT,
-      token("terra1huw82c9grj9xz9umkc8hqcjqgndadlkrp8rn9u6eh5jh5j2s2t7qs33vry", true),
       // ASTRO wstETH,
       token("terra19d8tttv0lvhwpj828qqrcmm6yaqdfhrchfheuufcw4kywtmk9u3q98ask3", true),
       // ASTRO BTC,
@@ -144,15 +145,24 @@ const argv = yargs(process.argv)
   const { txhash } = await sendTxWithConfirm(
     admin,
 
-    gaugeNames.map((gauge) => {
-      const contract = argv.contract || getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr(gauge));
-      const assets = gauges[gauge as any];
-      return printProposal(
-        new MsgExecuteContract(address, contract, <ExecuteMsg>{
-          whitelist_assets: assets,
-        })
-      );
-    })
+    selectMany(
+      gaugeNames.map((gauge) => {
+        const contract = argv.contract || getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr(gauge));
+        const assets = gauges[gauge as any];
+
+        return assets.map((asset) =>
+          printProposal(
+            new MsgExecuteContract(address, contract, <ExecuteMsg>{
+              update_asset_config: {
+                info: asset.info,
+                config: asset.config,
+              },
+            })
+          )
+        );
+      }),
+      (a) => a
+    )
   );
   console.log(`Contract added route! Txhash: ${txhash}`);
 })();
@@ -164,7 +174,7 @@ function token(denom: string, isastroport = false): AssetInfoWithConfigFor_Strin
         stake_config: {
           astroport: {
             contract: "terra1eywh4av8sln6r45pxq45ltj798htfy0cfcf7fy3pxc2gcv6uc07se4ch9x",
-            reward_infos: [toNew(tokens.astro)],
+            reward_infos: [toNew(tokens.astro_native)],
           },
         },
       };

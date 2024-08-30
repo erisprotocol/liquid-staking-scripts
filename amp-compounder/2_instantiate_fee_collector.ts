@@ -143,7 +143,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     zapper: "terra1cs0tkknd2t94jd7hgdkmfyvenwr05ztra4rj6uackr597j9jfkxsghtywg",
-    stablecoin: tokens.usdc,
+    stablecoin: tokens.axlUsdc,
     target_list: [
       {
         addr: "terra1l6rq7905263uqmayurtulzc09sfcgxdedsfen7m0y6wf28s49tvqdkwau9",

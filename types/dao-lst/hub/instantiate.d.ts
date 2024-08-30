@@ -27,6 +27,13 @@ export type DaoInterfaceFor_String =
       };
     }
   | {
+      dao_dao: {
+        cw_rewards: string;
+        gov: string;
+        staking: string;
+      };
+    }
+  | {
       alliance: {
         addr: string;
       };

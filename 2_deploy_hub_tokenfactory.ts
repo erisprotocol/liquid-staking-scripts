@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
+  Chains,
   createLCDClient,
   createWallet,
   getPrefix,
@@ -55,7 +56,7 @@ async function uploadCode(deployer: Wallet, path: string) {
   return codeId;
 }
 
-const templates: Record<string, InstantiateMsg> = {
+const templates: Partial<Record<Chains, InstantiateMsg>> = {
   migaloo: <InstantiateMsg>{
     denom: "ampWHALE",
     epoch_period: 3 * 24 * 60 * 60,
@@ -73,26 +74,26 @@ const templates: Record<string, InstantiateMsg> = {
     utoken: "uwhale",
     delegation_strategy: "uniform",
   },
-  injective: <InstantiateMsg>{
-    chain_config: {},
-    denom: "ampINJ",
-    owner: "inj1rnh5c7emgt2g9s2ezg6km7lylyxyddq5jjnjav",
-    operator: "inj1hpay25j5c8ufgdxcyfpfkfghp6j80pzmcnjgvf",
-    protocol_reward_fee: "0.05",
-    protocol_fee_contract: "inj1gna5fqgt0qqzpekw6c2cdwaxd3hd0xe6emah82",
-    utoken: "inj",
-    delegation_strategy: "uniform",
-    epoch_period: 3 * 24 * 60 * 60,
-    unbond_period: 21 * 24 * 60 * 60,
-    validators: [
-      "injvaloper19a77dzm2lrxt2gehqca3nyzq077kq7qsgvmrp4",
-      "injvaloper1r3lgsyq49zvl36cnevjx3q6u2ep897rws9hauk",
-      "injvaloper1agu7gu9ay39jkaccsfnt0ykjce6daycjuzyg2a",
-      "injvaloper1ltu4jgw850x7kg9kl7g8hjtuzatvzfpy0svplt",
-      "injvaloper1esud09zs5754g5nlkmrgxsfdj276xm64cgmd3w",
-      "injvaloper16gdnrnl224ylje5z9vd0vn0msym7p58f00qauj",
-    ],
-  },
+  // injective: <InstantiateMsg>{
+  //   chain_config: {},
+  //   denom: "ampINJ",
+  //   owner: "inj1rnh5c7emgt2g9s2ezg6km7lylyxyddq5jjnjav",
+  //   operator: "inj1hpay25j5c8ufgdxcyfpfkfghp6j80pzmcnjgvf",
+  //   protocol_reward_fee: "0.05",
+  //   protocol_fee_contract: "inj1gna5fqgt0qqzpekw6c2cdwaxd3hd0xe6emah82",
+  //   utoken: "inj",
+  //   delegation_strategy: "uniform",
+  //   epoch_period: 3 * 24 * 60 * 60,
+  //   unbond_period: 21 * 24 * 60 * 60,
+  //   validators: [
+  //     "injvaloper19a77dzm2lrxt2gehqca3nyzq077kq7qsgvmrp4",
+  //     "injvaloper1r3lgsyq49zvl36cnevjx3q6u2ep897rws9hauk",
+  //     "injvaloper1agu7gu9ay39jkaccsfnt0ykjce6daycjuzyg2a",
+  //     "injvaloper1ltu4jgw850x7kg9kl7g8hjtuzatvzfpy0svplt",
+  //     "injvaloper1esud09zs5754g5nlkmrgxsfdj276xm64cgmd3w",
+  //     "injvaloper16gdnrnl224ylje5z9vd0vn0msym7p58f00qauj",
+  //   ],
+  // },
   ["testnet-osmosis"]: <InstantiateMsg>{
     denom: "ampOSMO",
     epoch_period: 3 * 24 * 60 * 60,
@@ -149,6 +150,24 @@ const templates: Record<string, InstantiateMsg> = {
     utoken: "usei",
     delegation_strategy: "uniform",
   },
+  nibiru: <InstantiateMsg>{
+    denom: "ampNIBI",
+    epoch_period: 3 * 24 * 60 * 60 + 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "nibivaloper1qe8uuf5x69c526h4nzxwv4ltftr73v7q7twm9z",
+      "nibivaloper1w26kzhwhely77xup3npfh70tzuc4amtx8j0743",
+      "nibivaloper169haflwp0wj4jd29zm6eg4kkxztptry6hwnmyv",
+      "nibivaloper1xesqr8vjvy34jhu027zd70ypl0nnev5ecrzmn9",
+    ],
+    protocol_fee_contract: "nibi1c023jxq099et7a44ledfwuu3sdkfq8ca7vgv0t",
+    protocol_reward_fee: "0.05",
+    owner: "nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke",
+    chain_config: {},
+    operator: "nibi1c023jxq099et7a44ledfwuu3sdkfq8ca7vgv0t",
+    utoken: "unibi",
+    delegation_strategy: "uniform",
+  },
 };
 
 // MIGALOO (ampWHALE)
@@ -203,7 +222,7 @@ const templates: Record<string, InstantiateMsg> = {
   if (argv["msg"]) {
     msg = JSON.parse(fs.readFileSync(path.resolve(argv["msg"]), "utf8"));
   } else {
-    msg = templates[argv["network"]];
+    msg = templates[argv["network"] as Chains];
   }
 
   msg["owner"] = msg["owner"] || deployer.key.accAddress(getPrefix());
@@ -217,7 +236,7 @@ const templates: Record<string, InstantiateMsg> = {
     argv["admin"] ? argv["admin"] : deployer.key.accAddress(getPrefix()),
     hubCodeId,
     msg,
-    undefined
+    "ERIS Amplifier"
     // {
     //   uosmo: "10000000",
     // }

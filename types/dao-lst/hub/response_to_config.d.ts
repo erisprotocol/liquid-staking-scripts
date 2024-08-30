@@ -27,6 +27,13 @@ export type DaoInterfaceFor_Addr =
       };
     }
   | {
+      dao_dao: {
+        cw_rewards: Addr;
+        gov: Addr;
+        staking: Addr;
+      };
+    }
+  | {
       alliance: {
         addr: Addr;
       };
@@ -52,18 +59,12 @@ export type Addr = string;
  * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
  */
 export type Decimal = string;
-export type StageType =
-  | {
-      dex: {
-        addr: Addr;
-      };
-    }
-  | {
-      manta: {
-        addr: Addr;
-        msg: MantaMsg;
-      };
-    };
+export type StageType = {
+  fin: {
+    addr: Addr;
+  };
+};
+export type Denom = string;
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -92,11 +93,17 @@ export type AssetInfo =
         denom: string;
       };
     };
-export type WithdrawType = {
-  dex: {
-    addr: Addr;
-  };
-};
+export type WithdrawType =
+  | {
+      black_whale: {
+        addr: Addr;
+      };
+    }
+  | {
+      bow: {
+        addr: Addr;
+      };
+    };
 
 export interface ConfigResponse {
   /**
@@ -130,7 +137,7 @@ export interface ConfigResponse {
   /**
    * Stages that must be used by permissionless users
    */
-  stages_preset: [StageType, AssetInfo, Decimal | null, Uint128 | null][][];
+  stages_preset: [StageType, Denom, Decimal | null, Uint128 | null][][];
   /**
    * Address of the Stake token
    */
@@ -150,7 +157,7 @@ export interface ConfigResponse {
   /**
    * withdrawals that must be used by permissionless users
    */
-  withdrawals_preset: [WithdrawType, AssetInfo][];
+  withdrawals_preset: [WithdrawType, Denom][];
   [k: string]: unknown;
 }
 export interface FeeConfig {
@@ -162,16 +169,4 @@ export interface FeeConfig {
    * Fees that are being applied during reinvest of staking rewards
    */
   protocol_reward_fee: Decimal;
-}
-export interface MantaMsg {
-  swap: MantaSwap;
-}
-export interface MantaSwap {
-  min_return: Coin[];
-  stages: [string, string][][];
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-  [k: string]: unknown;
 }

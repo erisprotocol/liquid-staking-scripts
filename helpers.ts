@@ -6,6 +6,7 @@ import {
   LCDClientConfig,
   MnemonicKey,
   Msg,
+  MsgExecuteContract,
   MsgInstantiateContract,
   MsgStoreCode,
   Tx,
@@ -19,6 +20,7 @@ import { get, set } from "lodash";
 import * as promptly from "promptly";
 import * as keystore from "./keystore";
 import { AssetInfo } from "./types/ampz/eris_ampz_execute";
+import { AssetInfoBaseFor_Addr } from "./types/ve3/asset-staking/response_to_all_pending_rewards";
 
 const DEFAULT_GAS_SETTINGS = {
   // gasPrices: "5.665uluna",
@@ -87,6 +89,15 @@ const networks = {
   kujira: {
     chainID: "kaiyo-1",
     lcd: "https://kujira-api.polkachu.com",
+    gasAdjustment: 1.3,
+    prefix: "kujira",
+    gasPrices: {
+      ukuji: 0.0025,
+    },
+  },
+  "kujira-copy": {
+    chainID: "kaiyo-1",
+    lcd: "https://cradle-manager.ec1-prod.newmetric.xyz/cradle/proxy/2128d7dc-6cbb-49b7-987a-a2e706a1898b",
     gasAdjustment: 1.3,
     prefix: "kujira",
     gasPrices: {
@@ -175,6 +186,14 @@ const networks = {
     prefix: "sei",
     gasPrices: { usei: 0.1 },
   },
+  nibiru: {
+    chainID: "cataclysm-1",
+    // lcd: "https://lcd.nibiru.fi/",
+    lcd: "https://nibiru.api.kjnodes.com",
+    gasAdjustment: 1.3,
+    prefix: "nibi",
+    gasPrices: { unibi: 0.025 },
+  },
 };
 
 export type Chains = keyof typeof networks;
@@ -205,11 +224,7 @@ export function createLCDClient(network: string): LCDClient {
 /**
  * @notice Create a `Wallet` instance by loading the private key stored in the keystore
  */
-export async function createWallet(
-  terra: LCDClient,
-  keyName: string,
-  keyDir: string
-): Promise<Wallet> {
+export async function createWallet(terra: LCDClient, keyName: string, keyDir: string): Promise<Wallet> {
   if (keyName === "ledger") {
     const lk = await LedgerKey.create({
       transport: await TransportNodeHid.create(60 * 1000),
@@ -237,9 +252,7 @@ export async function createWallet(
   //   return terra.wallet(lk);
   // }
 
-  const password = await promptly.password(
-    "Enter password to decrypt the key:"
-  );
+  const password = await promptly.password("Enter password to decrypt the key:");
 
   if (keyName.startsWith("key-")) {
     const words = keystore.loadKey(keyName, keyDir, password);
@@ -254,13 +267,8 @@ export async function createWallet(
 /**
  * @notice Create a `Wallet` instance by loading the private key stored in the keystore
  */
-export async function getMnemonic(
-  keyName: string,
-  keyDir: string
-): Promise<string> {
-  const password = await promptly.password(
-    "Enter password to decrypt the key:"
-  );
+export async function getMnemonic(keyName: string, keyDir: string): Promise<string> {
+  const password = await promptly.password("Enter password to decrypt the key:");
   const key = keystore.loadKey(keyName, keyDir, password);
   return key;
 }
@@ -279,13 +287,7 @@ export async function waitForConfirm(msg: string) {
 /**
  * @notice Same with `sendTransaction`, but requires confirmation for CLI before broadcasting
  */
-export async function sendTxWithConfirm(
-  signer: Wallet,
-  msgs: Msg[],
-  memo?: string,
-  gas?: string,
-  confirm = true
-) {
+export async function sendTxWithConfirm(signer: Wallet, msgs: Msg[], memo?: string, gas?: string, confirm = true) {
   try {
     let signMode: SignMode | undefined;
     if (signer.key instanceof LedgerKey) {
@@ -387,11 +389,7 @@ export async function sendTxWithConfirmUnsigned(
 /**
  * @notice Same with `storeCode`, but requires confirmation for CLI before broadcasting
  */
-export async function storeCodeWithConfirm(
-  signer: Wallet,
-  filePath: string,
-  confirm = true
-) {
+export async function storeCodeWithConfirm(signer: Wallet, filePath: string, confirm = true) {
   const code = fs.readFileSync(filePath).toString("base64");
   const result = await sendTxWithConfirm(
     signer,
@@ -415,21 +413,12 @@ export async function instantiateWithConfirm(
   initCoins?: Coins.Input
 ) {
   const result = await sendTxWithConfirm(signer, [
-    new MsgInstantiateContract(
-      signer.key.accAddress(getPrefix()),
-      admin,
-      codeId,
-      initMsg,
-      initCoins,
-      label
-    ),
+    new MsgInstantiateContract(signer.key.accAddress(getPrefix()), admin, codeId, initMsg, initCoins, label),
   ]);
 
   const extendedResult = {
     ...result,
-    address: result.logs.map(
-      (a: TxLog) => a.eventsByType["instantiate"]["_contract_address"][0]
-    )[0],
+    address: result.logs.map((a: TxLog) => a.eventsByType["instantiate"]["_contract_address"][0])[0],
   };
 
   return extendedResult;
@@ -444,15 +433,7 @@ export async function instantiateMultipleWithConfirm(
   const result = await sendTxWithConfirm(
     signer,
     init.map(
-      (a) =>
-        new MsgInstantiateContract(
-          signer.key.accAddress(getPrefix()),
-          admin,
-          codeId,
-          a.msg,
-          undefined,
-          a.label
-        )
+      (a) => new MsgInstantiateContract(signer.key.accAddress(getPrefix()), admin, codeId, a.msg, undefined, a.label)
     )
   );
   return result;
@@ -477,26 +458,31 @@ export const toBase64 = (obj: any): string => {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
 };
 
-export const getToken = (asset: AssetInfo | string) => {
+export const getToken = (asset: AssetInfo | AssetInfoBaseFor_Addr | string) => {
   if (typeof asset === "string") {
     return asset;
   } else if ("token" in asset) {
     return asset.token.contract_addr;
-  } else {
+  } else if ("native_token" in asset) {
     return asset.native_token.denom;
+  } else if ("cw20" in asset) {
+    return asset.cw20;
+  } else {
+    return asset.native;
   }
 };
 
-export const addInfo = (
-  folder: string,
-  network: Chains,
-  path: string,
-  value: string
-) => {
+export const toNew = (asset: AssetInfo): AssetInfoBaseFor_Addr => {
+  if ("native_token" in asset) {
+    return { native: asset.native_token.denom };
+  } else {
+    return { cw20: asset.token.contract_addr };
+  }
+};
+
+export const addInfo = (folder: string, network: Chains, path: string, value: string) => {
   const filePath = folder + "/data.json";
-  const existing = fs.existsSync(filePath)
-    ? fs.readFileSync(filePath).toString()
-    : "{}";
+  const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath).toString() : "{}";
   const data = JSON.parse(existing);
 
   if (!data[network]) {
@@ -506,9 +492,7 @@ export const addInfo = (
   const existingValue = get(data[network], path);
 
   if (existingValue) {
-    console.log(
-      `changing value ${folder}.${network}.${path}: ${existingValue} -> ${value}`
-    );
+    console.log(`changing value ${folder}.${network}.${path}: ${existingValue} -> ${value}`);
   } else {
     console.log(`adding value ${folder}.${network}.${path}: ${value}`);
   }
@@ -520,9 +504,7 @@ export const addInfo = (
 
 export const getInfo = (folder: string, network: Chains, path: string) => {
   const filePath = folder + "/data.json";
-  const existing = fs.existsSync(filePath)
-    ? fs.readFileSync(filePath).toString()
-    : "{}";
+  const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath).toString() : "{}";
   const data = JSON.parse(existing);
 
   if (!data[network]) {
@@ -538,13 +520,17 @@ export const getInfo = (folder: string, network: Chains, path: string) => {
   }
 };
 
-export const selectMany = <T, U>(
-  array: T[],
-  selector: (x: T) => U[]
-): Array<U> => {
+export const selectMany = <T, U>(array: T[], selector: (x: T) => U[]): Array<U> => {
   const result = array.map((x) => selector(x));
   if (!result.length) {
     return [];
   }
   return result.reduce((a, b) => a.concat(b));
 };
+
+export function printProposal(msg: MsgExecuteContract): MsgExecuteContract {
+  console.log("Contract: ", msg.contract);
+  console.log(JSON.stringify(msg.execute_msg, null, 2));
+
+  return msg;
+}

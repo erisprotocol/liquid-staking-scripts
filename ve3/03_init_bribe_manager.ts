@@ -50,6 +50,27 @@ const templates: Partial<Record<Chains, any>> = {
     },
     whitelist: [],
   },
+  mainnet: <InstantiateMsg>{
+    global_config_addr: "",
+    fee: {
+      amount: "10000000",
+      info: {
+        native: "uluna",
+      },
+    },
+    whitelist: [
+      // toNew(tokens.luna),
+      // toNew(tokens.axlUsdc),
+      // toNew(tokens.usdc),
+      // toNew(tokens.ampluna),
+      // toNew(tokens.whale),
+      // toNew(tokens.solid),
+      // toNew(tokens.roar),
+      // toNew(tokens.capa),
+      // toNew(tokens.astro),
+      // toNew(tokens.astro_native),
+    ],
+  },
 };
 
 (async function () {

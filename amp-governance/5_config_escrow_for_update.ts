@@ -157,6 +157,14 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
       ],
     },
   },
+  nibiru: <ExecuteMsg>{
+    update_config: {
+      push_update_contracts: [
+        "nibi1qh59hdelxfwah7g7e8k0lxu4upqatq5w4jdw60yv9shhlhm86ckq4txl92", // amp gauge
+        "nibi19g4zl2rac0ljtxrwqrd0lqgaca7ettn3p2udu4w3zamk84fae72ssvf2le", // prop gauge
+      ],
+    },
+  },
 };
 
 (async function () {

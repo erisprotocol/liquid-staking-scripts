@@ -6,6 +6,20 @@
  */
 
 /**
+ * Represents the type of an fungible asset.
+ *
+ * Each **asset info** instance can be one of three variants:
+ *
+ * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ */
+export type AssetInfoBaseFor_Addr =
+  | {
+      native: string;
+    }
+  | {
+      cw20: Addr;
+    };
+/**
  * A human readable address.
  *
  * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
@@ -17,5 +31,6 @@
 export type Addr = string;
 
 export interface Config {
+  center_asset_infos?: AssetInfoBaseFor_Addr[];
   global_config_addr: Addr;
 }

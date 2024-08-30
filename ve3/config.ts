@@ -3,6 +3,7 @@ import { Chains } from "../helpers";
 interface Data {
   owner: string;
   controller: string;
+  stewardship: string;
   fee_collector: string;
   take_collector: string;
   gauges: string[];
@@ -41,8 +42,24 @@ export const config: Partial<Record<Chains, Data>> = {
   "mainnet-copy": {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     controller: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    stewardship: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     fee_collector: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     take_collector: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    lst_hub: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+    gauges: ["stable", "project", "bluechip"],
+    weights: ["0.1", "0.05", "0.05"],
+  },
+  mainnet: {
+    owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+    controller: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+
+    stewardship:
+      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
+
+    fee_collector:
+      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
+    take_collector:
+      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
     lst_hub: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
     gauges: ["stable", "project", "bluechip"],
     weights: ["0.1", "0.05", "0.05"],

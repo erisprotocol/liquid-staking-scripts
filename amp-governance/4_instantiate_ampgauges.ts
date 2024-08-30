@@ -32,6 +32,7 @@ const argv = yargs(process.argv)
     label: {
       type: "string",
       demandOption: true,
+      default: "vAMP Gauge",
     },
   })
   .parseSync();
@@ -135,6 +136,13 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     validators_limit: 30,
     escrow_addr:
       "sei1jkntjf038jtwzs7zefuyt35v6esv2ht986p4m8rrcfm9xtafphqq8gtw8w",
+  },
+  nibiru: <InstantiateMsg>{
+    hub_addr: "nibi1udqqx30cw8nwjxtl4l28ym9hhrp933zlq8dqxfjzcdhvl8y24zcqpzmh8m",
+    owner: "nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke",
+    validators_limit: 30,
+    escrow_addr:
+      "nibi1us4rh4a9rexvde8l3m8f8nlz6wcf9qg57zk2w06kqkm4vtp96vkst9kuwd",
   },
 };
 

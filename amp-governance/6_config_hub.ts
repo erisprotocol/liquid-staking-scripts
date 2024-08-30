@@ -239,7 +239,7 @@ const templates: Partial<
             { native: tokens_migaloo.whale.native_token.denom },
             null,
             null,
-            true
+            true,
           ],
         ],
       ],
@@ -374,6 +374,41 @@ const templates: Partial<
     update_config: {
       vote_operator:
         "kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk",
+    },
+  },
+
+  nibiru: <ExecuteMsg>{
+    update_config: {
+      delegation_strategy: {
+        gauges: {
+          amp_factor_bps: 10000,
+          amp_gauges:
+            "nibi1qh59hdelxfwah7g7e8k0lxu4upqatq5w4jdw60yv9shhlhm86ckq4txl92",
+          max_delegation_bps: 2500,
+          min_delegation_bps: 50,
+          validator_count: 30,
+        },
+      },
+      vote_operator:
+        "nibi19g4zl2rac0ljtxrwqrd0lqgaca7ettn3p2udu4w3zamk84fae72ssvf2le",
+      // protocol_reward_fee: "0",
+
+      // // ampBTC
+      // stages_preset: [
+      //   [
+      //     [
+      //       {
+      //         dex: {
+      //           addr: "migaloo1axtz4y7jyvdkkrflknv9dcut94xr5k8m6wete4rdrw4fuptk896su44x2z",
+      //         },
+      //       },
+      //       { native: tokens_migaloo.whale.native_token.denom },
+      //       null,
+      //       null,
+      //       true
+      //     ],
+      //   ],
+      // ],
     },
   },
 };

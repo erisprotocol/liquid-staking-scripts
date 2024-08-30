@@ -62,6 +62,10 @@ export type ExecuteMsg =
          */
         allow_donations?: boolean | null;
         /**
+         * Update the DAO config
+         */
+        dao_interface?: DaoInterfaceFor_String | null;
+        /**
          * Update the default max_spread
          */
         default_max_spread?: number | null;
@@ -213,9 +217,60 @@ export type AssetInfo =
         denom: string;
       };
     };
-export type ClaimType = {
-  default: string;
-};
+export type DaoInterfaceFor_String =
+  | {
+      enterprise: {
+        addr: string;
+        fund_distributor: string;
+      };
+    }
+  | {
+      enterprise_v2: {
+        distributor: string;
+        gov: string;
+        membership: string;
+      };
+    }
+  | {
+      cw4: {
+        addr: string;
+        fund_distributor: string;
+        gov: string;
+      };
+    }
+  | {
+      dao_dao: {
+        cw_rewards: string;
+        gov: string;
+        staking: string;
+      };
+    }
+  | {
+      alliance: {
+        addr: string;
+      };
+    }
+  | {
+      capa: {
+        gov: string;
+      };
+    };
+export type ClaimType =
+  | {
+      default: string;
+    }
+  | {
+      genie: {
+        contract: string;
+        payload: string;
+      };
+    }
+  | {
+      transfer: {
+        recipient: string;
+        token: AssetInfo;
+      };
+    };
 
 /**
  * Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg

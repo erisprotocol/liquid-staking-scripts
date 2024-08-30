@@ -26,8 +26,12 @@ export type Uint128 = string;
  */
 export type Decimal = string;
 
-export interface State {
+export interface StateResponse {
   harvested: Uint128;
   last_exchange_rate: Decimal;
+  share_exchange_rate: Decimal;
+  stake_available: Uint128;
+  stake_in_contract: Uint128;
   taken: Uint128;
+  total_shares: Uint128;
 }

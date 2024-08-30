@@ -6,10 +6,16 @@ export const tokens = {
         "ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD",
     },
   },
-  usdc: {
+  axlUsdc: {
     native_token: {
       denom:
         "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+    },
+  },
+  usdc: {
+    native_token: {
+      denom:
+        "ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB",
     },
   },
   amproar: {

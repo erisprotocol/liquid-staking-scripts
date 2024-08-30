@@ -55,7 +55,7 @@ const argv = yargs(process.argv)
 // ts-node ampz/5_migrate.ts --network mainnet --key ledger --code-id 1314 --contracts terra1kgqwwdyg0sq05tjl34qh48ewu6ln3q0ds63hl87tjdrp80e5s0yqt6rp48
 // ts-node ampz/10_update_config.ts --network mainnet --key ledger --contract terra1kgqwwdyg0sq05tjl34qh48ewu6ln3q0ds63hl87tjdrp80e5s0yqt6rp48
 
-// migrate 1314->1947  ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_ampz --migrates terra1kgqwwdyg0sq05tjl34qh48ewu6ln3q0ds63hl87tjdrp80e5s0yqt6rp48
+// migrate 1314->1947->3150  ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_ampz --migrates terra1kgqwwdyg0sq05tjl34qh48ewu6ln3q0ds63hl87tjdrp80e5s0yqt6rp48
 
 async function uploadCode(deployer: Wallet, path: string) {
   await waitForConfirm(`Upload code ${path}?`);

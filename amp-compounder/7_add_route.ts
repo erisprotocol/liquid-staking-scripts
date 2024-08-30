@@ -98,12 +98,12 @@ function getToken(a: AssetInfo) {
     [tokens.tpt, tokens.luna, tokens.wbtc],
     [tokens.ampluna, tokens.luna, tokens.wbtc],
     [tokens.roar, tokens.luna, tokens.wbtc],
-    [tokens.usdc, tokens.luna, tokens.wbtc],
+    [tokens.axlUsdc, tokens.luna, tokens.wbtc],
     [tokens.capa, tokens.luna, tokens.wbtc],
-    [tokens.solid, tokens.usdc, tokens.luna, tokens.wbtc],
-    [tokens.astro, tokens.usdc, tokens.luna, tokens.wbtc],
-    [tokens.vkr, tokens.usdc, tokens.luna, tokens.wbtc],
-    [tokens.xastro, tokens.astro, tokens.usdc, tokens.luna, tokens.wbtc],
+    [tokens.solid, tokens.axlUsdc, tokens.luna, tokens.wbtc],
+    [tokens.astro, tokens.axlUsdc, tokens.luna, tokens.wbtc],
+    [tokens.vkr, tokens.axlUsdc, tokens.luna, tokens.wbtc],
+    [tokens.xastro, tokens.astro, tokens.axlUsdc, tokens.luna, tokens.wbtc],
   ];
 
   // const from = [red, sayve, tpt];

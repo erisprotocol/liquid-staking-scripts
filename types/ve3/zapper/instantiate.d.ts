@@ -5,6 +5,22 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * Represents the type of an fungible asset.
+ *
+ * Each **asset info** instance can be one of three variants:
+ *
+ * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ */
+export type AssetInfoBaseFor_String =
+  | {
+      native: string;
+    }
+  | {
+      cw20: string;
+    };
+
 export interface InstantiateMsg {
+  center_asset_infos: AssetInfoBaseFor_String[];
   global_config_addr: string;
 }

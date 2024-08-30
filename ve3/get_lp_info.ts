@@ -29,11 +29,7 @@ export interface LpInfo {
     throw new Error(`no data available for network ${network}`);
   }
 
-  const gauges: Record<string, any> = getInfo(
-    "ve3",
-    network,
-    Ve3InfoKeys.gauges
-  );
+  const gauges: Record<string, any> = getInfo("ve3", network, Ve3InfoKeys.gauges);
 
   const result: LpInfo[] = [];
 
@@ -44,30 +40,22 @@ export interface LpInfo {
     });
 
     for (const lp of lps) {
-      const is_astroport =
-        typeof lp.config.stake_config === "object" &&
-        "astroport" in lp.config.stake_config;
+      const is_astroport = typeof lp.config.stake_config === "object" && "astroport" in lp.config.stake_config;
 
       let pair_contract = "";
       let lp_denom = "";
       if ("cw20" in lp.info) {
         lp_denom = lp.info.cw20;
-        const minter = await terra.wasm.contractQuery<{ minter: string }>(
-          lp.info.cw20,
-          {
-            minter: {},
-          }
-        );
+        const minter = await terra.wasm.contractQuery<{ minter: string }>(lp.info.cw20, {
+          minter: {},
+        });
         pair_contract = minter.minter;
       } else {
         lp_denom = lp.info.native;
         pair_contract = lp.info.native.split("/")[1];
       }
 
-      const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(
-        pair_contract,
-        { pair: {} }
-      );
+      const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(pair_contract, { pair: {} });
 
       result.push({
         lp: lp_denom,
@@ -77,6 +65,9 @@ export interface LpInfo {
       });
     }
   }
+  const res = JSON.stringify(result)
+    .replace(/"Astroport"/gi, "PairType.Astroport")
+    .replace(/"WhiteWhale"/gi, "PairType.WhiteWhale");
 
-  console.log(JSON.stringify(result));
+  console.log(res);
 })();

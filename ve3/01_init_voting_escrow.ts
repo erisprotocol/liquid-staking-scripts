@@ -63,6 +63,48 @@ const templates: Partial<Record<Chains, any>> = {
       },
     ],
   },
+  mainnet: <InstantiateMsg>{
+    global_config_addr: "",
+    deposit_assets: [
+      {
+        config: "default",
+        info: {
+          native: "uluna",
+        },
+      },
+      {
+        config: {
+          exchange_rate: {
+            contract:
+              "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
+          },
+        },
+        info: {
+          cw20: tokens.ampluna.token.contract_addr,
+        },
+      },
+
+      {
+        config: {
+          exchange_rate: {
+            contract:
+              "terra1l2nd99yze5fszmhl5svyh5fky9wm4nz4etlgnztfu4e8809gd52q04n3ea",
+          },
+        },
+        info: {
+          cw20: tokens.boneluna.token.contract_addr,
+        },
+      },
+
+      {
+        config: "default",
+        info: {
+          native:
+            "ibc/08095CEDEA29977C9DD0CE9A48329FDA622C183359D5F90CF04CC4FF80CBE431",
+        },
+      },
+    ],
+  },
 };
 
 (async function () {

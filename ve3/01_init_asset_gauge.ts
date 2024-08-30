@@ -61,6 +61,26 @@ const templates: Partial<Record<Chains, any>> = {
       cw20: tokens.ampluna.token.contract_addr,
     },
   },
+  mainnet: <InstantiateMsg>{
+    gauges: [
+      {
+        name: "stable",
+        min_gauge_percentage: "0.01",
+      },
+      {
+        name: "project",
+        min_gauge_percentage: "0.01",
+      },
+      {
+        name: "bluechip",
+        min_gauge_percentage: "0.01",
+      },
+    ],
+    global_config_addr: "",
+    rebase_asset: {
+      cw20: tokens.ampluna.token.contract_addr,
+    },
+  },
 };
 
 (async function () {

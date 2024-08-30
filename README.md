@@ -1,7 +1,7 @@
 # Scripts
 
 This directory contains scripts to deploy, migrate, or interact with Eris Stake Hub smart contract. As well as the bots run by ERIS.
-Originally this repository was included in the main repository: https://github.com/erisprotocol/liquid-staking-contracts - we wanted to move it out, so that the commit history for the smart contracts is more visible and does not change often, and only when we change something with the source code. Best setup is to have both repositories in the same parent folder.
+Originally this repository was included in the main repository: <https://github.com/erisprotocol/liquid-staking-contracts> - we wanted to move it out, so that the commit history for the smart contracts is more visible and does not change often, and only when we change something with the source code. Best setup is to have both repositories in the same parent folder.
 
 ## How to Use
 
@@ -88,3 +88,82 @@ ts-node 5_harvest.ts --network mainnet --key mainnet --hub-address terra10788fkz
 ```bash
 ts-node 11_multisend.ts --network mainnet --key invest
 ```
+
+### Launching Amplifier
+
+```bash
+echo 'NETWORK="nibiru"; echo $NETWORK' >  ~/.network
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --folder contracts-tokenfactory \
+    --contracts  eris_staking_hub_tokenfactory_nibiru ve3_voting_escrow ve3_zapper
+```
+
+```bash
+source ~/.network
+ts-node 2_deploy_hub_tokenfactory.ts \
+    --network $NETWORK \
+    --key key-mainnet \
+    --hub-code-id 132 \
+    --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_nibiru.wasm"
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/2_instantiate_escrow.ts \
+    --network $NETWORK \
+    --key key-mainnet \
+    --contract-code-id 133
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/4_instantiate_ampgauges.ts \
+    --network $NETWORK \
+    --key key-mainnet \
+    --contract-code-id 134
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/4_instantiate_propgauges.ts \
+    --network $NETWORK \
+    --key key-mainnet \
+    --contract-code-id 135
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/5_config_escrow_for_update.ts \
+  --network $NETWORK  \
+  --key key-mainnet \
+  --contract nibi1us4rh4a9rexvde8l3m8f8nlz6wcf9qg57zk2w06kqkm4vtp96vkst9kuwd
+
+```
+
+```bash
+source ~/.network
+ts-node amp-governance/6_config_hub.ts \
+  --network $NETWORK  \
+  --key key-mainnet \
+  --contract nibi1udqqx30cw8nwjxtl4l28ym9hhrp933zlq8dqxfjzcdhvl8y24zcqpzmh8m
+
+```
+
+#### Nibiru
+
+tf/nibi1udqqx30cw8nwjxtl4l28ym9hhrp933zlq8dqxfjzcdhvl8y24zcqpzmh8m/ampNIBI
+
+fee: nibi1z3txc4x7scxsypx9tgynyfhu48nw60a5jskwde
+owner: nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke
+operator: nibi1c023jxq099et7a44ledfwuu3sdkfq8ca7vgv0t
+
+eris_staking_hub_tokenfactory_nibiru: 132 -> nibi1udqqx30cw8nwjxtl4l28ym9hhrp933zlq8dqxfjzcdhvl8y24zcqpzmh8m
+eris_gov_voting_escrow: 133 -> nibi1us4rh4a9rexvde8l3m8f8nlz6wcf9qg57zk2w06kqkm4vtp96vkst9kuwd
+eris_gov_amp_gauges: 134 -> nibi1qh59hdelxfwah7g7e8k0lxu4upqatq5w4jdw60yv9shhlhm86ckq4txl92
+eris_gov_prop_gauges: 135 -> nibi19g4zl2rac0ljtxrwqrd0lqgaca7ettn3p2udu4w3zamk84fae72ssvf2le

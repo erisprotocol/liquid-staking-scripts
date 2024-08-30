@@ -12,7 +12,9 @@ export type ExecuteMsg =
       };
     }
   | {
-      withdraw: {};
+      withdraw: {
+        recipient?: string | null;
+      };
     }
   | {
       claim_rewards: {};

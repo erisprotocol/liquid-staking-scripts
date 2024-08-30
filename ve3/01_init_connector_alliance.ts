@@ -56,6 +56,17 @@ const templates: Partial<Record<Chains, any>> = {
     reward_denom: "uluna",
     zasset_denom: "zluna",
   },
+  mainnet: <InstantiateMsg>{
+    global_config_addr: "",
+    alliance_token_denom: "vt",
+    gauge: "",
+    lst_asset_info: {
+      cw20: tokens.ampluna.token.contract_addr,
+    },
+    lst_hub_address: "",
+    reward_denom: "uluna",
+    zasset_denom: "zluna",
+  },
 };
 
 (async function () {

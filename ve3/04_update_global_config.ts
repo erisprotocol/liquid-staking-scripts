@@ -90,19 +90,20 @@ const argv = yargs(process.argv)
     throw new Error(`no data available for network ${network}`);
   }
 
-  const connectors =
+  const connectors: [string, string][] =
     config[network]?.gauges.map((a) => [
       connector(a),
       getInfo("ve3", network, Ve3InfoKeys.alliance_connector_addr(a)),
     ]) ?? [];
 
-  const stakings =
+  const stakings: [string, string][] =
     config[network]?.gauges.map((a) => [
       staking(a),
       getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr(a)),
     ]) ?? [];
 
   const controller = config[network]?.controller ?? "";
+  const stewardship = config[network]?.stewardship ?? "";
 
   const { txhash } = await sendTxWithConfirm(
     admin,
@@ -111,13 +112,13 @@ const argv = yargs(process.argv)
       new MsgExecuteContract(address, contract, <ExecuteMsg>{
         set_addresses: {
           addresses: [
-            // ["DELEGATION_CONTROLLER", controller],
-            // ["ASSET_WHITELIST_CONTROLLER", controller],
-            // ["BRIBE_WHITELIST_CONTROLLER", controller],
-            // ["VE_GUARDIAN", controller],
+            ["DELEGATION_CONTROLLER", stewardship],
+            ["ASSET_WHITELIST_CONTROLLER", stewardship],
+            ["BRIBE_WHITELIST_CONTROLLER", stewardship],
+            ["VE_GUARDIAN", stewardship],
 
-            // ["TAKE_RECIPIENT", config[network]?.take_collector],
-            // ["FEE_COLLECTOR", config[network]?.fee_collector],
+            ["TAKE_RECIPIENT", config[network]?.take_collector],
+            ["FEE_COLLECTOR", config[network]?.fee_collector],
             // ["TEAM_WALLET", ""],
 
             [
@@ -125,19 +126,19 @@ const argv = yargs(process.argv)
               getInfo("ve3", network, Ve3InfoKeys.asset_gauge_addr),
             ],
 
-            // [
-            //   "VOTING_ESCROW",
-            //   getInfo("ve3", network, Ve3InfoKeys.voting_escrow_addr),
-            // ],
-            // [
-            //   "BRIBE_MANAGER",
-            //   getInfo("ve3", network, Ve3InfoKeys.bribe_manager_addr),
-            // ],
-            // ...connectors,
-            // ...stakings,
+            [
+              "VOTING_ESCROW",
+              getInfo("ve3", network, Ve3InfoKeys.voting_escrow_addr),
+            ],
+            [
+              "BRIBE_MANAGER",
+              getInfo("ve3", network, Ve3InfoKeys.bribe_manager_addr),
+            ],
+            ...connectors,
+            ...stakings,
           ],
-          lists: [],
-          // lists: [["FREE_BRIBES", [...stakings.map((a) => a[1])]]],
+          // lists: [],
+          lists: [["FREE_BRIBES", [...stakings.map((a) => a[1])]]],
         },
       }),
     ]

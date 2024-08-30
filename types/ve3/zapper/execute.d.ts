@@ -10,7 +10,14 @@ export type ExecuteMsg =
       create_lp: {
         assets: AssetInfoBaseFor_Addr[];
         min_received?: Uint128 | null;
-        post_action?: PostAction | null;
+        post_action?: PostActionCreate | null;
+        stage: StageType;
+      };
+    }
+  | {
+      withdraw_lp: {
+        min_received?: AssetBaseFor_Addr[] | null;
+        post_action?: PostActionWithdraw | null;
         stage: StageType;
       };
     }
@@ -35,6 +42,7 @@ export type ExecuteMsg =
       update_config: {
         delete_routes?: RouteDelete[] | null;
         insert_routes?: RouteInit[] | null;
+        update_centers?: AssetInfoBaseFor_String[] | null;
       };
     }
   | {
@@ -78,7 +86,7 @@ export type Addr = string;
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
-export type PostAction =
+export type PostActionCreate =
   | {
       stake: {
         asset_staking: Addr;
@@ -101,6 +109,13 @@ export type StageType =
         pair: Addr;
       };
     };
+export type PostActionWithdraw = {
+  swap_to: {
+    asset: AssetInfoBaseFor_Addr;
+    min_received?: Uint128 | null;
+    receiver?: string | null;
+  };
+};
 /**
  * Represents the type of an fungible asset.
  *
@@ -149,6 +164,13 @@ export type CallbackMsg =
         receiver: string;
         token: AssetInfoBaseFor_Addr;
       };
+    }
+  | {
+      send_results: {
+        min_received?: AssetBaseFor_Addr[] | null;
+        receiver: string;
+        tokens: AssetInfoBaseFor_Addr[];
+      };
     };
 export type PairType =
   | {
@@ -167,6 +189,21 @@ export type PairType =
       xyk_white_whale: {};
     };
 
+/**
+ * Represents a fungible asset with a known amount
+ *
+ * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
+ */
+export interface AssetBaseFor_Addr {
+  /**
+   * Specifies the asset's amount
+   */
+  amount: Uint128;
+  /**
+   * Specifies the asset's type (CW20 or native)
+   */
+  info: AssetInfoBaseFor_Addr;
+}
 export interface RouteDelete {
   both?: boolean | null;
   from: AssetInfoBaseFor_Addr;
@@ -197,19 +234,4 @@ export interface PairInfo {
    * The pool type (xyk, stableswap etc) available in [`PairType`]
    */
   pair_type: PairType;
-}
-/**
- * Represents a fungible asset with a known amount
- *
- * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
- */
-export interface AssetBaseFor_Addr {
-  /**
-   * Specifies the asset's amount
-   */
-  amount: Uint128;
-  /**
-   * Specifies the asset's type (CW20 or native)
-   */
-  info: AssetInfoBaseFor_Addr;
 }

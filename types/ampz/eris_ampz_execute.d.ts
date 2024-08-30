@@ -143,6 +143,13 @@ export type DestinationState =
         dex: DepositLiquidity;
         lp_token: string;
       };
+    }
+  | {
+      execute_contract: {
+        asset_info: AssetInfo;
+        contract: Addr;
+        msg: Binary;
+      };
     };
 export type DepositMarket = {
   capapult: {
@@ -155,6 +162,12 @@ export type DepositLiquidity = {
     lock_up?: number | null;
   };
 };
+/**
+ * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
+ *
+ * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
+ */
+export type Binary = string;
 export type Source =
   | "claim"
   | {
@@ -252,6 +265,13 @@ export type DestinationRuntime =
         asset_infos: AssetInfo[];
         dex: DepositLiquidity;
         lp_token: string;
+      };
+    }
+  | {
+      execute_contract: {
+        asset_info: AssetInfo;
+        contract: Addr;
+        msg: Binary;
       };
     };
 /**

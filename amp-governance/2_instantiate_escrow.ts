@@ -32,7 +32,8 @@ const argv = yargs(process.argv)
     },
     label: {
       type: "string",
-      demandOption: true,
+      demandOption: false,
+      default: "Voting Escrow",
     },
   })
   .parseSync();
@@ -157,6 +158,13 @@ const templates: Partial<Record<Chains, any>> = {
     logo_urls_whitelist: ["https://www.erisprotocol.com/"],
     owner: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
     guardian_addr: "sei1dpaaxgw4859qhew094s87l0he8tfea3lfxd5et",
+  },
+  nibiru: <TfInstantiateMsg>{
+    deposit_denom:
+      "tf/nibi1udqqx30cw8nwjxtl4l28ym9hhrp933zlq8dqxfjzcdhvl8y24zcqpzmh8m/ampNIBI",
+    logo_urls_whitelist: ["https://www.erisprotocol.com/"],
+    owner: "nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke",
+    guardian_addr: "nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke",
   },
   "testnet-kujira": <TfInstantiateMsg>{
     deposit_denom:

@@ -52,6 +52,14 @@ const templates: Partial<Record<Chains, any>> = {
       native: "",
     },
   },
+  mainnet: <InstantiateMsg>{
+    global_config_addr: "",
+    default_yearly_take_rate: "0.1",
+    gauge: "",
+    reward_info: {
+      native: "",
+    },
+  },
 };
 
 (async function () {

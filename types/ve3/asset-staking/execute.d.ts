@@ -15,7 +15,10 @@ export type ExecuteMsg =
       };
     }
   | {
-      unstake: AssetBaseFor_Addr;
+      unstake: {
+        asset: AssetBaseFor_Addr;
+        recipient?: string | null;
+      };
     }
   | {
       claim_reward: AssetInfoBaseFor_Addr;

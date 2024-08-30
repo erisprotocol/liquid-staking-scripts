@@ -103,7 +103,7 @@ const templates: Record<
       },
       solid_usdc: {
         name: "Capapult SOLID-axlUSDC",
-        pair: [tokens.solid, tokens.usdc],
+        pair: [tokens.solid, tokens.axlUsdc],
         reward_token: tokens.capa.token.contract_addr,
         proxy_generator:
           "terra1xmrywqgwprf6elkvl3tnnq53hle8y6aqatnmsznh0gfplelq3qdsj7xh86",

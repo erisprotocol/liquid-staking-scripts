@@ -13,9 +13,33 @@ export type DaoInterfaceFor_String =
       };
     }
   | {
+      enterprise_v2: {
+        distributor: string;
+        gov: string;
+        membership: string;
+      };
+    }
+  | {
       cw4: {
         addr: string;
         fund_distributor: string;
+        gov: string;
+      };
+    }
+  | {
+      dao_dao: {
+        cw_rewards: string;
+        gov: string;
+        staking: string;
+      };
+    }
+  | {
+      alliance: {
+        addr: string;
+      };
+    }
+  | {
+      capa: {
         gov: string;
       };
     };

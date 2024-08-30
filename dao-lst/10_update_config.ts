@@ -42,39 +42,39 @@ const argv = yargs(process.argv)
 
     [
       new MsgExecuteContract(account, argv.contract, <ExecuteMsg>{
-        // update_config: {
-        //   dao_interface: {
-        //     enterprise_v2: {
-        //       distributor:
-        //         "terra16j3yxfwzytjm7xq7kcdmfyessz8vg6r938hrfkk64nq9dyyqcd9qczudmr",
-        //       gov: "terra1dlq3pvxe3eqnzp4g82wlsgllu8k0245asxmhepnyms36w67x2fjs4s6lsf",
-        //       membership:
-        //         "terra1fv92cnlenl8am5vpcamsxpr6l7y9ytpvlhery9ncy95jjxh8pmlsass2rq",
-        //     },
-        //   },
-        // },
-
-        claim: {
-          claims: [
-            {
-              // genie: {
-              //   contract:
-              //     "terra1k89zgnksjaz869s3e4dvu304mwq26t2g53ymr8jpsyjuxxxqc28sc0kfmr",
-              //   payload:
-              //     "eyJjbGFpbV9hbW91bnRzIjpbIjUwNjAzNTE2MzUiXSwic2lnbmF0dXJlIjoiMy9ialZiS3RwL05ocXJnd00vT20zc2VSSnlFR0lLZkF4djBnK1h1ajRrc1ZkeVFvcXQzaWZwaHlkMVhYVWlDQk94ZkUrODRMOXBvZjZzYTgwRDhDWVE9PSJ9",
-              // },
-              transfer: {
-                recipient: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
-                token: {
-                  native_token: {
-                    denom:
-                      "ibc/F709DF4969CD26174C1A53AA95F3D98BE643C1A52C9981487766F96A1811F6A4",
-                  },
-                },
-              },
+        update_config: {
+          dao_interface: {
+            dao_dao: {
+              staking:
+                "kujira10pay2c5nsslm3f8gat8fnqq8zdgcjjya9wwlqqcftwm5sz5u7p3s5h0r77",
+              gov: "kujira1cy0232rssjmkqz0505cm79l3lpgrc308sxku3v4ezr9p6ppa5jgsmzl62y",
+              cw_rewards:
+                "kujira1zxlshq5rzt8dw0gpnlcdcsymfhy0t9nmq49a76hlfa4x00g27xnsqfdds2",
             },
-          ],
+          },
         },
+
+        // claim: {
+        //   claims: [
+        //     {
+        //       // genie: {
+        //       //   contract:
+        //       //     "terra1k89zgnksjaz869s3e4dvu304mwq26t2g53ymr8jpsyjuxxxqc28sc0kfmr",
+        //       //   payload:
+        //       //     "eyJjbGFpbV9hbW91bnRzIjpbIjUwNjAzNTE2MzUiXSwic2lnbmF0dXJlIjoiMy9ialZiS3RwL05ocXJnd00vT20zc2VSSnlFR0lLZkF4djBnK1h1ajRrc1ZkeVFvcXQzaWZwaHlkMVhYVWlDQk94ZkUrODRMOXBvZjZzYTgwRDhDWVE9PSJ9",
+        //       // },
+        //       transfer: {
+        //         recipient: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
+        //         token: {
+        //           native_token: {
+        //             denom:
+        //               "ibc/F709DF4969CD26174C1A53AA95F3D98BE643C1A52C9981487766F96A1811F6A4",
+        //           },
+        //         },
+        //       },
+        //     },
+        //   ],
+        // },
       }),
     ]
   );

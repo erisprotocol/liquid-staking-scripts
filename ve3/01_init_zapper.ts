@@ -1,5 +1,6 @@
 import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
+import { tokens } from "../amp-compounder/tokens";
 import {
   Chains,
   addInfo,
@@ -8,6 +9,7 @@ import {
   getInfo,
   getPrefix,
   instantiateWithConfirm,
+  toNew,
 } from "../helpers";
 import * as keystore from "../keystore";
 import { InstantiateMsg } from "../types/ve3/zapper/instantiate";
@@ -42,6 +44,11 @@ const argv = yargs(process.argv)
 const templates: Partial<Record<Chains, any>> = {
   "mainnet-copy": <InstantiateMsg>{
     global_config_addr: "",
+    center_asset_infos: [toNew(tokens.luna), toNew(tokens.axlUsdc)],
+  },
+  mainnet: <InstantiateMsg>{
+    global_config_addr: "",
+    center_asset_infos: [toNew(tokens.luna)],
   },
 };
 

@@ -42,6 +42,9 @@ const templates: Partial<Record<Chains, any>> = {
   "mainnet-copy": <InstantiateMsg>{
     owner: "",
   },
+  mainnet: <InstantiateMsg>{
+    owner: "",
+  },
 };
 
 (async function () {

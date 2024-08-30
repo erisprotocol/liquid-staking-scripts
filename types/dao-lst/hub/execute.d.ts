@@ -35,9 +35,9 @@ export type ExecuteMsg =
       harvest: {
         cw20_assets?: string[] | null;
         native_denoms?: string[] | null;
-        router?: [MultiSwapRouterType, AssetInfo[]] | null;
-        stages?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
-        withdrawals?: [WithdrawType, AssetInfo][] | null;
+        router?: [MultiSwapRouterType, Denom[]] | null;
+        stages?: [StageType, Denom, Decimal | null, Uint128 | null][][] | null;
+        withdrawals?: [WithdrawType, Denom][] | null;
       };
     }
   | {
@@ -88,7 +88,7 @@ export type ExecuteMsg =
         /**
          * Sets the stages preset
          */
-        stages_preset?: [StageType, AssetInfo, Decimal | null, Uint128 | null][][] | null;
+        stages_preset?: [StageType, Denom, Decimal | null, Uint128 | null][][] | null;
         /**
          * The staking module's unbonding time, in seconds
          */
@@ -100,7 +100,7 @@ export type ExecuteMsg =
         /**
          * Sets the withdrawals preset
          */
-        withdrawals_preset?: [WithdrawType, AssetInfo][] | null;
+        withdrawals_preset?: [WithdrawType, Denom][] | null;
       };
     }
   | {
@@ -149,58 +149,44 @@ export type MultiSwapRouterType = {
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-/**
- * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("stake...") }; NativeToken { denom: String::from("uluna") }; ```
- */
-export type AssetInfo =
-  | {
-      token: {
-        contract_addr: Addr;
-      };
-    }
-  | {
-      native_token: {
-        denom: string;
-      };
-    };
-export type StageType =
-  | {
-      dex: {
-        addr: Addr;
-      };
-    }
-  | {
-      manta: {
-        addr: Addr;
-        msg: MantaMsg;
-      };
-    };
+export type Denom = string;
+export type StageType = {
+  fin: {
+    addr: Addr;
+  };
+};
 /**
  * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
  *
  * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
  */
 export type Decimal = string;
-export type WithdrawType = {
-  dex: {
-    addr: Addr;
-  };
-};
+export type WithdrawType =
+  | {
+      black_whale: {
+        addr: Addr;
+      };
+    }
+  | {
+      bow: {
+        addr: Addr;
+      };
+    };
 export type VoteOption = "yes" | "no" | "abstain" | "no_with_veto";
 export type CallbackMsg =
   | {
       withdraw_lps: {
-        withdrawals: [WithdrawType, AssetInfo][];
+        withdrawals: [WithdrawType, Denom][];
       };
     }
   | {
       single_stage_swap: {
-        stage: [StageType, AssetInfo, Decimal | null, Uint128 | null][];
+        stage: [StageType, Denom, Decimal | null, Uint128 | null][];
       };
     }
   | {
       multi_swap_router: {
-        router: [MultiSwapRouterType, AssetInfo[]];
+        router: [MultiSwapRouterType, Denom[]];
       };
     }
   | {
@@ -215,6 +201,20 @@ export type CallbackMsg =
       check_received_coin: {
         snapshot: Asset;
         snapshot_stake: Asset;
+      };
+    };
+/**
+ * This enum describes available Token types. ## Examples ``` # use cosmwasm_std::Addr; # use astroport::asset::AssetInfo::{NativeToken, Token}; Token { contract_addr: Addr::unchecked("stake...") }; NativeToken { denom: String::from("uluna") }; ```
+ */
+export type AssetInfo =
+  | {
+      token: {
+        contract_addr: Addr;
+      };
+    }
+  | {
+      native_token: {
+        denom: string;
       };
     };
 export type DaoInterfaceFor_String =
@@ -236,6 +236,13 @@ export type DaoInterfaceFor_String =
         addr: string;
         fund_distributor: string;
         gov: string;
+      };
+    }
+  | {
+      dao_dao: {
+        cw_rewards: string;
+        gov: string;
+        staking: string;
       };
     }
   | {
