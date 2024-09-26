@@ -1,11 +1,6 @@
 import { MsgRegisterFeeShare } from "@terra-money/feather.js/dist/core/feeshare/MsgRegisterFeeShare";
 import yargs from "yargs/yargs";
-import {
-  createLCDClient,
-  createWallet,
-  getPrefix,
-  sendTxWithConfirm,
-} from "../helpers";
+import { createLCDClient, createWallet, getPrefix, sendTxWithConfirm } from "../helpers";
 import * as keystore from "../keystore";
 
 const argv = yargs(process.argv)
@@ -37,11 +32,7 @@ export const toRegisterFeeShareMsg = ({
   deployerAddress,
   withdrawerAddress,
 }: RegisterFeeShareParams) => {
-  const registerMsg = new MsgRegisterFeeShare(
-    contractAddress,
-    deployerAddress,
-    withdrawerAddress
-  );
+  const registerMsg = new MsgRegisterFeeShare(contractAddress, deployerAddress, withdrawerAddress);
   const packed = registerMsg.packAny();
 
   const msg = {
@@ -69,10 +60,8 @@ export const toRegisterFeeShareMsg = ({
   const results = missing.map((a) =>
     toRegisterFeeShareMsg({
       contractAddress: a,
-      deployerAddress:
-        "terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8",
-      withdrawerAddress:
-        "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
+      deployerAddress: "terra1e9zwkd9epy8863d3ezmp5m4fsf95ceknhtmadwjt9rukvf8wtflstlecx8",
+      withdrawerAddress: "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
     })
   );
 
@@ -142,8 +131,9 @@ export const toRegisterFeeShareMsg = ({
 
     // moar
     // "terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu",
+
     "terra1hwxg6s732eparz3ys7sa4t5f64ngpd2w8syrca6z7ckv3fs9uqnsvrpcqa",
-    "terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl",
+    // "terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl",
     "terra1hfksrhchkmsj4qdq33wkksrslnfles6y2l77fmmzeep0xmq24l2smsd3lj",
     "terra1ym2495f63mdx63tu96085x2vf3xpy9z9k5urxwhvmf9jldm99q5qr4q6n8",
     "terra1v399cx9drllm70wxfsgvfe694tdsd9x96p9ha36w7muffe4znlusqswspq",
@@ -164,9 +154,7 @@ export const toRegisterFeeShareMsg = ({
 
   const { txhash } = await sendTxWithConfirm(
     admin,
-    contracts.map(
-      (contract) => new MsgRegisterFeeShare(contract, account, receiver)
-    ),
+    contracts.map((contract) => new MsgRegisterFeeShare(contract, account, receiver)),
     undefined,
     (contracts.length * 80000).toFixed(0)
   );

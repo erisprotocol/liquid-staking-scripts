@@ -1,11 +1,6 @@
 import { MsgUpdateContractAdmin } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import {
-  createLCDClient,
-  createWallet,
-  getPrefix,
-  sendTxWithConfirm,
-} from "./helpers";
+import { createLCDClient, createWallet, getPrefix, sendTxWithConfirm } from "./helpers";
 import * as keystore from "./keystore";
 
 const argv = yargs(process.argv)
@@ -22,10 +17,6 @@ const argv = yargs(process.argv)
       type: "string",
       demandOption: false,
       default: keystore.DEFAULT_KEY_DIR,
-    },
-    "contract-address": {
-      type: "string",
-      demandOption: true,
     },
     "new-admin": {
       type: "string",
@@ -58,40 +49,49 @@ const argv = yargs(process.argv)
 
 // ts-node 15_change_admin.ts --network mainnet --key mainnet --contract-address terra1zxwam5gmqvkxrj4j5s8ct92mxyd90x8snv4m7m46j685kf8d3krs4k76pq --new-admin terra1k9j8rcyk87v5jvfla2m9wp200azegjz0eshl7n2pwv852a7ssceqsnn7pq
 
+// ts-node 15_change_admin.ts --network mainnet --key mainnet --new-admin terra1q0vny4wx2pfteh9zq323wh48c654xacpfq5tew
+
 (async function () {
   const terra = createLCDClient(argv["network"]);
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
 
   const contracts = [
-    "terra1dy5c2fqh00t6ptv7tplj43mkkl5smtrxzg0q0kz7mljlaun3939qsynf2g",
-    "terra1flxt6akuldavdu4q0kcassvql5ju2ljyhwujezyslk0lj29h8yrqk7hfm5",
-    "terra1zd2rkvzcm7m2aearymr9lv53cqwxjlujjcujtkyfphur7azqwahsrftnm8",
-    "terra138l5l4djy7kkn4xelw806k9389mmd22txrqpn773x4y4p5f0kljszt5683",
-    "terra1e5vchf97lakl6sulztkn54aapekzfzsa6amdt88exvwmu25s3z0sg6hplq",
-    "terra1nrzw3c28h5sq9q7pw9umc0882607exz8he5uj9yx2yw22m3mhrmsxw2lql",
-    "terra1m9fvkwjpwd4ddgkxd5ddvc2jst9wtv33u7kj89tq2wr0tjm34j8qyfmpwm",
-    "terra1as76h247wvey3aqmw22mlkq8g6vj8zj7qw4wywwn388s2mjt0rtqpp570z",
-    "terra1ymwcpz20lcaue5kkawj3t2fe7et4xd7xkxtuxzc43at0dvcywrsqcuunk2",
-    "terra1kle8kd6gwx9fwpav6spj8zg25uhftsm87gdss4ssmej4pnee2rtshhyct4",
-    "terra1cgtn7dnlexpqdzr44srt7t5edxlwjqae970prfmlzywjhttae99sche4v8",
-    "terra16akp34qkh3v6537gra4ypqj4z208fmesdpzp9vgx3w3luruplgmse5rvku",
-    "terra1xxyr0tduxlggrujcsqmnllu74dmg4697heyjmvvyv6tj3q0hh0qqqq8d6h",
-    "terra1rlfuqcq935j6avrwsurzn6altrq6htet0ggz3hv86kueeewfzunqj2u6lw",
-    "terra1zanekgprlqpdhu2nmqq9efcnr5f4f76vph2fykvw94pq8sylltdsll64qj",
-    "terra10yalv9g9q27hzwdqm9qlma2phjqrr4z46793ygyh0htjpw0dlzesr8f3m2",
-    "terra1snnu9nkmasfek5h2g68mat2uw3knk3zguzw2k3g5shafzkr0n8qst0ckza",
-    "terra1zkxylr2xyvgzeedz4yd54l4p9j8dtajr2ramewn8f35x46gr7cqs74jfxz",
+    // "terra1dy5c2fqh00t6ptv7tplj43mkkl5smtrxzg0q0kz7mljlaun3939qsynf2g",
+    // "terra1flxt6akuldavdu4q0kcassvql5ju2ljyhwujezyslk0lj29h8yrqk7hfm5",
+    // "terra1zd2rkvzcm7m2aearymr9lv53cqwxjlujjcujtkyfphur7azqwahsrftnm8",
+    // "terra138l5l4djy7kkn4xelw806k9389mmd22txrqpn773x4y4p5f0kljszt5683",
+    // "terra1e5vchf97lakl6sulztkn54aapekzfzsa6amdt88exvwmu25s3z0sg6hplq",
+    // "terra1nrzw3c28h5sq9q7pw9umc0882607exz8he5uj9yx2yw22m3mhrmsxw2lql",
+    // "terra1m9fvkwjpwd4ddgkxd5ddvc2jst9wtv33u7kj89tq2wr0tjm34j8qyfmpwm",
+    // "terra1as76h247wvey3aqmw22mlkq8g6vj8zj7qw4wywwn388s2mjt0rtqpp570z",
+    // "terra1ymwcpz20lcaue5kkawj3t2fe7et4xd7xkxtuxzc43at0dvcywrsqcuunk2",
+    // "terra1kle8kd6gwx9fwpav6spj8zg25uhftsm87gdss4ssmej4pnee2rtshhyct4",
+    // "terra1cgtn7dnlexpqdzr44srt7t5edxlwjqae970prfmlzywjhttae99sche4v8",
+    // "terra16akp34qkh3v6537gra4ypqj4z208fmesdpzp9vgx3w3luruplgmse5rvku",
+    // "terra1xxyr0tduxlggrujcsqmnllu74dmg4697heyjmvvyv6tj3q0hh0qqqq8d6h",
+    // "terra1rlfuqcq935j6avrwsurzn6altrq6htet0ggz3hv86kueeewfzunqj2u6lw",
+    // "terra1zanekgprlqpdhu2nmqq9efcnr5f4f76vph2fykvw94pq8sylltdsll64qj",
+    // "terra10yalv9g9q27hzwdqm9qlma2phjqrr4z46793ygyh0htjpw0dlzesr8f3m2",
+    // "terra1snnu9nkmasfek5h2g68mat2uw3knk3zguzw2k3g5shafzkr0n8qst0ckza",
+    // "terra1zkxylr2xyvgzeedz4yd54l4p9j8dtajr2ramewn8f35x46gr7cqs74jfxz",
+
+    "terra1hwxg6s732eparz3ys7sa4t5f64ngpd2w8syrca6z7ckv3fs9uqnsvrpcqa",
+    // "terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl",
+    "terra1hfksrhchkmsj4qdq33wkksrslnfles6y2l77fmmzeep0xmq24l2smsd3lj",
+    "terra1ym2495f63mdx63tu96085x2vf3xpy9z9k5urxwhvmf9jldm99q5qr4q6n8",
+    "terra1v399cx9drllm70wxfsgvfe694tdsd9x96p9ha36w7muffe4znlusqswspq",
+    "terra1x8v9fujf3c78q2we23x0vgzmxgtt0hgvuvfsxy4w3ar9kcua4c6qqcnhyh",
+    "terra1awq6t7jfakg9wfjn40fk3wzwmd57mvrqtt3a39z9rmet7wdjj3ysgw3lpa",
+    "terra16l43xt2uq09yvz4axg73n8rtm0qte9lremdwm6ph0e35r2jnm43qnl8h53",
+    "terra14mmvqn0kthw6sre75vku263lafn5655mkjdejqjedjga4cw0qx2qlf4arv",
+    "terra1uqhj8agyeaz8fu6mdggfuwr3lp32jlrx5hqag4jxexde92rzkamq3l62zg",
+    "terra1tuuwm8yrj54qeg0c8xu00aha9ryatyhtczq8qq2q8tntuw0auzas9037wh",
   ];
 
   const { txhash } = await sendTxWithConfirm(
     admin,
     contracts.map(
-      (contract) =>
-        new MsgUpdateContractAdmin(
-          admin.key.accAddress(getPrefix()),
-          argv.newAdmin ?? "",
-          contract
-        )
+      (contract) => new MsgUpdateContractAdmin(admin.key.accAddress(getPrefix()), argv.newAdmin ?? "", contract)
     ),
     undefined,
     (contracts.length * 60000).toFixed(0)

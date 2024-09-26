@@ -92,7 +92,7 @@ const networks = {
     gasAdjustment: 1.3,
     prefix: "kujira",
     gasPrices: {
-      ukuji: 0.0025,
+      ukuji: 0.0034,
     },
   },
   "kujira-copy": {
@@ -101,7 +101,7 @@ const networks = {
     gasAdjustment: 1.3,
     prefix: "kujira",
     gasPrices: {
-      ukuji: 0.0025,
+      ukuji: 0.0034,
     },
   },
   ["testnet-migaloo"]: {
@@ -533,4 +533,40 @@ export function printProposal(msg: MsgExecuteContract): MsgExecuteContract {
   console.log(JSON.stringify(msg.execute_msg, null, 2));
 
   return msg;
+}
+
+let props: MsgExecuteContract[] = [];
+export function addProposal(msg: MsgExecuteContract): MsgExecuteContract {
+  props.push(msg);
+  return msg;
+}
+
+export function done(title: string, dao: string) {
+  const data = {
+    id: "DaoProposalSingle",
+    data: {
+      title: title,
+      description: "Adds LPs from White Whale to asset-staking",
+      actionData: props.map((a, index) => ({
+        _id: index.toString(),
+        actionKey: "execute",
+        data: {
+          chainId: "phoenix-1",
+          sender: dao,
+          address: a.contract,
+          message: JSON.stringify(a.execute_msg, null, 2),
+          funds: [],
+          cw20: false,
+        },
+      })),
+    },
+  };
+
+  const dataFill = Buffer.from(JSON.stringify(data)).toString("base64");
+
+  const url = `https://daodao.zone/dao/${dao}/proposals/create?prefill=${dataFill}`;
+
+  props = [];
+  console.log(url);
+  return undefined;
 }

@@ -57,12 +57,14 @@ export interface LpInfo {
 
       const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(pair_contract, { pair: {} });
 
-      result.push({
-        lp: lp_denom,
-        pair: pair_contract,
-        tokens: pair.asset_infos.map((a) => getToken(a)),
-        type: is_astroport ? "Astroport" : "WhiteWhale",
-      });
+      if (!result.some((a) => a.lp === lp_denom)) {
+        result.push({
+          lp: lp_denom,
+          pair: pair_contract,
+          tokens: pair.asset_infos.map((a) => getToken(a)),
+          type: is_astroport ? "Astroport" : "WhiteWhale",
+        });
+      }
     }
   }
   const res = JSON.stringify(result)

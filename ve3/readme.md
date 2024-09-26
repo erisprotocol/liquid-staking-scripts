@@ -179,6 +179,13 @@ ts-node ve3/05_update_asset_config.ts \
     --key mainnet
 ```
 
+```bash
+source ~/.network
+ts-node ve3/05_change_lp.ts \
+    --network $NETWORK \
+    --key mainnet
+```
+
 ## Queries
 
 ```bash
@@ -242,11 +249,14 @@ source ~/.network
 ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
     --key mainnet \
+    --key-migrate ledger \
     --folder contracts-ve3 \
     --contracts ve3_asset_staking \
     --migrates terra1v399cx9drllm70wxfsgvfe694tdsd9x96p9ha36w7muffe4znlusqswspq terra1awq6t7jfakg9wfjn40fk3wzwmd57mvrqtt3a39z9rmet7wdjj3ysgw3lpa terra14mmvqn0kthw6sre75vku263lafn5655mkjdejqjedjga4cw0qx2qlf4arv \
     --migratesAll true
 ```
+
+// 3162 -> 3166 -> 3175
 
 ```bash
 source ~/.network
@@ -263,11 +273,37 @@ source ~/.network
 ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
     --key mainnet \
+    --key-migrate ledger \
     --folder contracts-ve3 \
     --contracts ve3_connector_alliance \
     --migrates terra1jp4tnf3ygdkx7gumt2jdnfdwdvc24tepfpy9ce57crr3l6nmcmhs60kmuu terra1xenxeajhmtgv3m0paadnz8k6ex4c82pnxfuxd6n4drlywelsmz8svvszss terra1s49440fvedlz98xjhfuzqaflyqx0zcrqz502ujukzmulau2zggnqg66a9e \
     --migratesAll true
 ```
+
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --key-migrate ledger \
+    --folder contracts-ve3 \
+    --contracts ve3_bribe_manager \
+    --migrates terra1tuuwm8yrj54qeg0c8xu00aha9ryatyhtczq8qq2q8tntuw0auzas9037wh
+```
+
+// 3119 -> 3174
+
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --key-migrate ledger \
+    --folder contracts-ve3 \
+    --contracts ve3_asset_gauge \
+    --migrates terra1hfksrhchkmsj4qdq33wkksrslnfles6y2l77fmmzeep0xmq24l2smsd3lj
+```
+// 3117 -> 3176
 
 --contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow \
 
