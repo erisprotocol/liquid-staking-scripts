@@ -546,7 +546,7 @@ export function done(title: string, dao: string) {
     id: "DaoProposalSingle",
     data: {
       title: title,
-      description: "Adds LPs from White Whale to asset-staking",
+      description: ".",
       actionData: props.map((a, index) => ({
         _id: index.toString(),
         actionKey: "execute",

@@ -15,17 +15,15 @@ export class Ve3InfoKeys {
   static global_config_addr = "global_config_addr";
   static asset_gauge_addr = "asset_gauge_addr";
   static zapper_addr = "zapper_addr";
+  static pdt_addr = "pdt_addr";
+  static pdt_axl_recovery_addr = "pdt_axl_recovery_addr";
   static voting_escrow_addr = "voting_escrow_addr";
   static bribe_manager_addr = "bribe_manager_addr";
 
-  static asset_staking_addr = (gauge: string) =>
-    `gauges.${gauge}.asset_staking_addr`;
-  static alliance_connector_addr = (gauge: string) =>
-    `gauges.${gauge}.alliance_connector_addr`;
-  static alliance_connector_zasset = (gauge: string) =>
-    `gauges.${gauge}.alliance_connector_zasset`;
-  static alliance_connector_vt = (gauge: string) =>
-    `gauges.${gauge}.alliance_connector_vt`;
+  static asset_staking_addr = (gauge: string) => `gauges.${gauge}.asset_staking_addr`;
+  static alliance_connector_addr = (gauge: string) => `gauges.${gauge}.alliance_connector_addr`;
+  static alliance_connector_zasset = (gauge: string) => `gauges.${gauge}.alliance_connector_zasset`;
+  static alliance_connector_vt = (gauge: string) => `gauges.${gauge}.alliance_connector_vt`;
 
   static asset_staking_addr_str = "asset_staking_addr";
   static alliance_connector_addr_str = "alliance_connector_addr";
@@ -53,15 +51,12 @@ export const config: Partial<Record<Chains, Data>> = {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
     controller: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
 
-    stewardship:
-      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
+    stewardship: "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
 
-    fee_collector:
-      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
-    take_collector:
-      "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
+    fee_collector: "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
+    take_collector: "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg",
     lst_hub: "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
-    gauges: ["stable", "project", "bluechip"],
-    weights: ["0.1", "0.05", "0.05"],
+    gauges: ["stable", "project", "bluechip", "single"],
+    weights: ["0.1", "0.05", "0.05", "0.05"],
   },
 };

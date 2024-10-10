@@ -1,13 +1,6 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import {
-  Chains,
-  createLCDClient,
-  createWallet,
-  getInfo,
-  getPrefix,
-  sendTxWithConfirm,
-} from "../helpers";
+import { Chains, createLCDClient, createWallet, getInfo, getPrefix, sendTxWithConfirm } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg } from "../types/ve3/global-config/execute";
 import { Ve3InfoKeys, config } from "./config";
@@ -40,8 +33,7 @@ const argv = yargs(process.argv)
   const admin = await createWallet(terra, argv["key"], argv["key-dir"]);
 
   const address = admin.key.accAddress(getPrefix());
-  const contract =
-    argv.contract || getInfo("ve3", network, Ve3InfoKeys.global_config_addr);
+  const contract = argv.contract || getInfo("ve3", network, Ve3InfoKeys.global_config_addr);
 
   // vec![
   //   // controller
@@ -97,12 +89,9 @@ const argv = yargs(process.argv)
     ]) ?? [];
 
   const stakings: [string, string][] =
-    config[network]?.gauges.map((a) => [
-      staking(a),
-      getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr(a)),
-    ]) ?? [];
-
+    config[network]?.gauges.map((a) => [staking(a), getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr(a))]) ?? [];
   const controller = config[network]?.controller ?? "";
+
   const stewardship = config[network]?.stewardship ?? "";
 
   const { txhash } = await sendTxWithConfirm(
@@ -110,35 +99,36 @@ const argv = yargs(process.argv)
 
     [
       new MsgExecuteContract(address, contract, <ExecuteMsg>{
+        // // default setting
+        // set_addresses: {
+        //   addresses: [
+        //     // ["DELEGATION_CONTROLLER", stewardship],
+        //     // ["ASSET_WHITELIST_CONTROLLER", stewardship],
+        //     // ["BRIBE_WHITELIST_CONTROLLER", stewardship],
+        //     // ["VE_GUARDIAN", stewardship],
+
+        //     // ["TAKE_RECIPIENT", config[network]?.take_collector],
+        //     // ["FEE_COLLECTOR", config[network]?.fee_collector],
+        //     // // ["TEAM_WALLET", ""],
+
+        //     // ["ASSET_GAUGE", getInfo("ve3", network, Ve3InfoKeys.asset_gauge_addr)],
+
+        //     // ["VOTING_ESCROW", getInfo("ve3", network, Ve3InfoKeys.voting_escrow_addr)],
+        //     // ["BRIBE_MANAGER", getInfo("ve3", network, Ve3InfoKeys.bribe_manager_addr)],
+        //     ...connectors,
+        //     ...stakings,
+        //   ],
+        //   lists: [["FREE_BRIBES", [...stakings.map((a) => a[1])]]],
+        // },
+
+        // PDT
         set_addresses: {
           addresses: [
-            ["DELEGATION_CONTROLLER", stewardship],
-            ["ASSET_WHITELIST_CONTROLLER", stewardship],
-            ["BRIBE_WHITELIST_CONTROLLER", stewardship],
-            ["VE_GUARDIAN", stewardship],
-
-            ["TAKE_RECIPIENT", config[network]?.take_collector],
-            ["FEE_COLLECTOR", config[network]?.fee_collector],
-            // ["TEAM_WALLET", ""],
-
-            [
-              "ASSET_GAUGE",
-              getInfo("ve3", network, Ve3InfoKeys.asset_gauge_addr),
-            ],
-
-            [
-              "VOTING_ESCROW",
-              getInfo("ve3", network, Ve3InfoKeys.voting_escrow_addr),
-            ],
-            [
-              "BRIBE_MANAGER",
-              getInfo("ve3", network, Ve3InfoKeys.bribe_manager_addr),
-            ],
-            ...connectors,
-            ...stakings,
+            // ["PDT_CONTROLLER", stewardship],
+            ["PDT_CONFIG_OWNER", "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl"],
           ],
-          // lists: [],
-          lists: [["FREE_BRIBES", [...stakings.map((a) => a[1])]]],
+          lists: [],
+          // lists: [["PDT_DCA_EXECUTOR", [stewardship, "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup"]]],
         },
       }),
     ]

@@ -15,10 +15,10 @@ ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
     --key mainnet \
     --folder contracts-ve3 \
-    --contracts  ve3_global_config ve3_voting_escrow ve3_zapper
+    --contracts  phoenix_treasury
 ```
 
---contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow ve3_zapper \
+--contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow ve3_zapper phoenix_treasury \
 
 ```typescript mainnet
 "ve3_asset_gauge: 3117";
@@ -50,6 +50,24 @@ ts-node ve3/01_init_zapper.ts \
 
 ```bash
 source ~/.network
+ts-node ve3/01_init_pdt.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3222 \
+    --label phoenix_treasury
+```
+
+```bash
+source ~/.network
+ts-node ve3/01_init_pdt.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3225 \
+    --label phoenix_axelar_recovery
+```
+
+```bash
+source ~/.network
 ts-node ve3/01_init_asset_gauge.ts \
     --network $NETWORK \
     --key mainnet \
@@ -74,6 +92,16 @@ ts-node ve3/01_init_connector_alliance.ts \
     --key mainnet \
     --contract-code-id 3120 \
     --label ve3-connector-alliance \
+    --gauge "bluechip"
+```
+
+```bash
+source ~/.network
+ts-node ve3/01_init_connector_alliance.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3120 \
+    --label ve3-connector-alliance \
     --gauge "project"
 ```
 
@@ -84,7 +112,17 @@ ts-node ve3/01_init_connector_alliance.ts \
     --key mainnet \
     --contract-code-id 3120 \
     --label ve3-connector-alliance \
-    --gauge "bluechip"
+    --gauge "stable"
+```
+
+```bash
+source ~/.network
+ts-node ve3/01_init_connector_alliance.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3120 \
+    --label ve3-connector-alliance \
+    --gauge "single"
 ```
 
 ```bash
@@ -101,7 +139,7 @@ source ~/.network
 ts-node ve3/02_init_asset_staking.ts \
     --network $NETWORK \
     --key mainnet \
-    --contract-code-id 3118 \
+    --contract-code-id 3175 \
     --label ve3-asset-staking \
     --gauge "stable"
 ```
@@ -111,7 +149,7 @@ source ~/.network
 ts-node ve3/02_init_asset_staking.ts \
     --network $NETWORK \
     --key mainnet \
-    --contract-code-id 3118 \
+    --contract-code-id 3175 \
     --label ve3-asset-staking \
     --gauge "project"
 ```
@@ -121,9 +159,19 @@ source ~/.network
 ts-node ve3/02_init_asset_staking.ts \
     --network $NETWORK \
     --key mainnet \
-    --contract-code-id 3118 \
+    --contract-code-id 3175 \
     --label ve3-asset-staking \
     --gauge "bluechip"
+```
+
+```bash
+source ~/.network
+ts-node ve3/02_init_asset_staking.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3175 \
+    --label ve3-asset-staking \
+    --gauge "single"
 ```
 
 ```bash
@@ -138,6 +186,20 @@ ts-node ve3/03_init_bribe_manager.ts \
 ```bash
 source ~/.network
 ts-node ve3/04_update_global_config.ts \
+    --network $NETWORK \
+    --key mainnet
+```
+
+```bash
+source ~/.network
+ts-node ve3/04_update_pdt_oracles.ts \
+    --network $NETWORK \
+    --key mainnet
+```
+
+```bash
+source ~/.network
+ts-node ve3/04_update_asset_gauge.ts \
     --network $NETWORK \
     --key mainnet
 ```
@@ -232,6 +294,12 @@ ts-node ve3/06_stake_vt.ts \
     --key mainnet
 ```
 
+```bash
+ts-node ve3/06_pdt_treasury_action.ts \
+    --network $NETWORK \
+    --key mainnet
+```
+
 ## Migrations
 
 ```bash
@@ -303,9 +371,10 @@ ts-node amp-governance/1_upload_contracts.ts \
     --contracts ve3_asset_gauge \
     --migrates terra1hfksrhchkmsj4qdq33wkksrslnfles6y2l77fmmzeep0xmq24l2smsd3lj
 ```
-// 3117 -> 3176
 
---contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow \
+// 3117 -> 3176 -> 3224
+
+--contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow phoenix_treasury \
 
 ```typescript mainnet-copy
 "ve3_asset_gauge: 3077";
@@ -317,3 +386,18 @@ ts-node amp-governance/1_upload_contracts.ts \
 "ve3_voting_escrow: 3074";
 "ve3_zapper: 3080";
 ```
+
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --key-migrate mainnet \
+    --folder contracts-ve3 \
+    --contracts phoenix_treasury \
+    --migrates terra16st8yfprkdl06kccktshd3p2vccq93xcn9mkhjl8s4jumyjtd4kqye0me5
+```
+
+PDT: 3223
+
+Axl OTC: 3225

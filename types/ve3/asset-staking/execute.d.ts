@@ -152,6 +152,27 @@ export type CallbackMsg =
       distribute_bribes: {
         assets?: AssetInfoBaseFor_Addr[] | null;
       };
+    }
+  | {
+      distribute_take: {
+        recipient: Addr;
+        stake_config: StakeConfigFor_Addr;
+        take_asset: AssetBaseFor_Addr;
+      };
+    };
+export type StakeConfigFor_Addr =
+  | "default"
+  | {
+      astroport: {
+        contract: Addr;
+        reward_infos: AssetInfoBaseFor_Addr[];
+      };
+    }
+  | {
+      ve3: {
+        contract: Addr;
+        reward_infos: AssetInfoBaseFor_Addr[];
+      };
     };
 
 /**
