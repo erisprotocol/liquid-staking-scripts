@@ -15,11 +15,13 @@ import {
 } from "@terra-money/feather.js";
 import { LedgerKey } from "@terra-money/ledger-station-js";
 import { SignMode } from "@terra-money/terra.proto/cosmos/tx/signing/v1beta1/signing";
+import * as axios from "axios";
 import * as fs from "fs";
 import { get, set } from "lodash";
 import * as promptly from "promptly";
 import * as keystore from "./keystore";
 import { AssetInfo } from "./types/ampz/eris_ampz_execute";
+import { NeutronTxResponse } from "./types/model";
 import { AssetInfoBaseFor_Addr } from "./types/ve3/asset-staking/response_to_all_pending_rewards";
 
 const DEFAULT_GAS_SETTINGS = {
@@ -179,6 +181,13 @@ const networks = {
     prefix: "neutron",
     gasPrices: { untrn: 0.01 },
   },
+  "testnet-neutron": {
+    chainID: "pion-1",
+    lcd: "https://rest-falcron.pion-1.ntrn.tech/",
+    gasAdjustment: 1.5,
+    prefix: "neutron",
+    gasPrices: { untrn: 0.0053 },
+  },
   sei: {
     chainID: "pacific-1",
     lcd: "https://sei-api.polkachu.com/",
@@ -208,6 +217,10 @@ export function getChainId() {
 export function getPrefix() {
   const result = networks[current_network];
   return result.prefix;
+}
+
+export function getCurrent() {
+  return networks[current_network];
 }
 
 /**
@@ -398,7 +411,30 @@ export async function storeCodeWithConfirm(signer: Wallet, filePath: string, con
     undefined,
     confirm
   );
+
+  if (!result.logs.length) {
+    const tx = await getTx(result.txhash);
+    if (tx) {
+      return parseInt(
+        tx.events.find((a) => a.type === "store_code")?.attributes.find((a) => a.key === "code_id")?.value ?? ""
+      );
+    }
+  }
   return parseInt(result.logs[0].eventsByType["store_code"]["code_id"][0]);
+}
+export async function getTx(txhash: string) {
+  const config = getCurrent();
+  for (let index = 0; index < 10; index++) {
+    try {
+      const tx = (await axios.default.get<NeutronTxResponse>(`${config.lcd}/cosmos/tx/v1beta1/txs/${txhash}`)).data
+        .tx_response;
+
+      if (tx.code === 0) {
+        return tx;
+      }
+    } catch (error) {}
+  }
+  return undefined;
 }
 
 /**
@@ -415,6 +451,21 @@ export async function instantiateWithConfirm(
   const result = await sendTxWithConfirm(signer, [
     new MsgInstantiateContract(signer.key.accAddress(getPrefix()), admin, codeId, initMsg, initCoins, label),
   ]);
+
+  if (!result.logs.length) {
+    // console.log("SEARCH");
+    const tx = await getTx(result.txhash);
+    // console.log("found tx", tx?.events);
+    const attributes = tx?.events.find((a) => a.type === "instantiate")?.attributes;
+    // console.log("attributes", attributes);
+    const address = attributes?.find((a) => a.key === "_contract_address")?.value ?? "";
+
+    return {
+      ...result,
+      tx,
+      address,
+    };
+  }
 
   const extendedResult = {
     ...result,
@@ -568,5 +619,6 @@ export function done(title: string, dao: string) {
 
   props = [];
   console.log(url);
+  throw new Error("dont commit");
   return undefined;
 }

@@ -27,6 +27,23 @@ export type DaoInterfaceFor_Addr =
       };
     }
   | {
+      dao_dao: {
+        /**
+         * entropic variant of rewards claimable
+         */
+        cw_rewards: Addr;
+        gov: Addr;
+        staking: Addr;
+      };
+    }
+  | {
+      dao_dao_v2: {
+        gov: Addr;
+        rewards: [Addr, number][];
+        staking: Addr;
+      };
+    }
+  | {
       alliance: {
         addr: Addr;
       };

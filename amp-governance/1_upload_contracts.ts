@@ -2,6 +2,8 @@ import { MsgMigrateContract, Wallet } from "@terra-money/feather.js";
 import * as path from "path";
 import yargs from "yargs/yargs";
 import {
+  addInfo,
+  Chains,
   createLCDClient,
   createWallet,
   delayPromise,
@@ -42,6 +44,9 @@ const argv = yargs(process.argv)
     },
     migratesAll: {
       type: "boolean",
+    },
+    "add-codes": {
+      type: "string",
     },
     folder: {
       type: "string",
@@ -166,56 +171,66 @@ async function uploadCode(deployer: Wallet, path: string) {
 }
 
 (async function () {
-  const terra = createLCDClient(argv["network"]);
+  const network = argv["network"] as Chains;
+  const terra = createLCDClient(network);
 
-  const admin = await createWallet(
-    terra,
-    argv["key-migrate"] || argv.key,
-    argv["key-dir"]
-  );
+  const admin = await createWallet(terra, argv["key-migrate"] || argv.key, argv["key-dir"]);
 
   const ids = [];
 
-  if (
-    argv.migrates &&
-    argv.contracts &&
-    argv.migrates.length !== argv.contracts.length &&
-    !argv.migratesAll
-  ) {
+  if (argv.migrates && argv.contracts && argv.migrates.length !== argv.contracts.length && !argv.migratesAll) {
     throw new Error("Invalid parameters, need to be same length as contracts");
   }
 
   let index = 0;
   const upload =
-    argv["key"] === (argv["key-migrate"] ?? argv.key)
-      ? admin
-      : await createWallet(terra, argv["key"], argv["key-dir"]);
+    argv["key"] === (argv["key-migrate"] ?? argv.key) ? admin : await createWallet(terra, argv["key"], argv["key-dir"]);
 
   console.log(`Account upload: ${admin.key.accAddress(getPrefix())}`);
   console.log(`Account migrate: ${upload.key.accAddress(getPrefix())}`);
   for (const contract of argv.contracts) {
     const fullPath = `../${argv.folder}/artifacts/${contract}.wasm`;
     console.log("CODEID", argv["code-id"]);
-    const codeId =
-      (argv["code-id"] && +argv["code-id"][index]) ??
-      (await uploadCode(upload, path.resolve(fullPath)));
+    const codeId = (argv["code-id"] && +argv["code-id"][index]) ?? (await uploadCode(upload, path.resolve(fullPath)));
     ids.push(`${contract}: ${codeId}`);
     console.log(ids);
 
+    if (argv["add-codes"]) {
+      addInfo(argv["add-codes"], network, `codes.${contract}`, codeId.toString());
+    }
+
     await delayPromise(1000);
+
+    // const msg = <MigrateMsg>{
+    //   update_vetos: [
+    //     {
+    //       vetoer: "terra10d07y265gmmuvt4z0w9aw880jnsr700juxf95n",
+    //       spend_above_usd: "0",
+    //       spend_above_usd_30d: "0",
+    //       delay_s: 0,
+    //     },
+    //     {
+    //       vetoer: "terra10d07y265gmmuvt4z0w9aw880jnsr700juxf95n",
+    //       spend_above_usd: "300000",
+    //       spend_above_usd_30d: "1000000",
+    //       delay_s: 0,
+    //     },
+    //     {
+    //       vetoer: "terra15l7567hhxttv2k5enmu4k8uez8e3cx3sxqfg6fsq4zzuwuzy2fqsjq00gr",
+    //       spend_above_usd: "50000",
+    //       spend_above_usd_30d: "150000",
+    //       delay_s: 0,
+    //     },
+    //   ],
+    // };
+    const msg = {};
 
     if (argv.migratesAll) {
       const migrates = argv.migrates ?? [];
       const { txhash } = await sendTxWithConfirm(
         admin,
         migrates.map(
-          (migrate) =>
-            new MsgMigrateContract(
-              admin.key.accAddress(getPrefix()),
-              migrate.toString(),
-              codeId,
-              {}
-            )
+          (migrate) => new MsgMigrateContract(admin.key.accAddress(getPrefix()), migrate.toString(), codeId, msg)
         )
       );
       console.log(`Contract migrated! Txhash: ${txhash}`);
@@ -223,12 +238,7 @@ async function uploadCode(deployer: Wallet, path: string) {
       const migrate = argv.migrates && argv.migrates[index];
       if (migrate && typeof migrate === "string") {
         const { txhash } = await sendTxWithConfirm(admin, [
-          new MsgMigrateContract(
-            admin.key.accAddress(getPrefix()),
-            migrate,
-            codeId,
-            {}
-          ),
+          new MsgMigrateContract(admin.key.accAddress(getPrefix()), migrate, codeId, msg),
         ]);
         console.log(`Contract migrated! Txhash: ${txhash}`);
       }

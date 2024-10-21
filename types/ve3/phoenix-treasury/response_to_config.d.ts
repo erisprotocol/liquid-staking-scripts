@@ -32,6 +32,7 @@ export type Uint128 = string;
 
 export interface Config {
   alliance_token_denom: string;
+  allowed_actions?: string[] | null;
   global_config_addr: Addr;
   reward_denom: string;
   veto_owner: Addr;

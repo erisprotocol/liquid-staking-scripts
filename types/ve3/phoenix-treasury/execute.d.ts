@@ -113,12 +113,14 @@ export type OracleFor_String =
   | {
       pair: {
         contract: string;
+        from_decimals?: number | null;
         simulation_amount: Uint128;
       };
     }
   | {
       route: {
         contract: string;
+        from_decimals?: number | null;
         path: AssetInfoBaseFor_String[];
         simulation_amount: Uint128;
       };

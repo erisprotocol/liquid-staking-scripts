@@ -24,12 +24,14 @@ export type OracleFor_String =
   | {
       pair: {
         contract: string;
+        from_decimals?: number | null;
         simulation_amount: Uint128;
       };
     }
   | {
       route: {
         contract: string;
+        from_decimals?: number | null;
         path: AssetInfoBaseFor_String[];
         simulation_amount: Uint128;
       };
@@ -51,6 +53,7 @@ export type Uint128 = string;
 
 export interface InstantiateMsg {
   alliance_token_denom: string;
+  allowed_actions?: string[] | null;
   global_config_addr: string;
   oracles: [AssetInfoBaseFor_String, OracleFor_String][];
   reward_denom: string;

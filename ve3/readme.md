@@ -50,6 +50,15 @@ ts-node ve3/01_init_zapper.ts \
 
 ```bash
 source ~/.network
+ts-node ve3/01_init_asset_compounding.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --contract-code-id 3246 \
+    --label ve3-asset-compounding
+```
+
+```bash
+source ~/.network
 ts-node ve3/01_init_pdt.ts \
     --network $NETWORK \
     --key mainnet \
@@ -289,12 +298,14 @@ ts-node ve3/06_vote_yes.ts \
 ```
 
 ```bash
+source ~/.network
 ts-node ve3/06_stake_vt.ts \
     --network $NETWORK \
     --key mainnet
 ```
 
 ```bash
+source ~/.network
 ts-node ve3/06_pdt_treasury_action.ts \
     --network $NETWORK \
     --key mainnet
@@ -320,11 +331,26 @@ ts-node amp-governance/1_upload_contracts.ts \
     --key-migrate ledger \
     --folder contracts-ve3 \
     --contracts ve3_asset_staking \
-    --migrates terra1v399cx9drllm70wxfsgvfe694tdsd9x96p9ha36w7muffe4znlusqswspq terra1awq6t7jfakg9wfjn40fk3wzwmd57mvrqtt3a39z9rmet7wdjj3ysgw3lpa terra14mmvqn0kthw6sre75vku263lafn5655mkjdejqjedjga4cw0qx2qlf4arv \
+    --code-id 3243 \
+    --migrates terra1v399cx9drllm70wxfsgvfe694tdsd9x96p9ha36w7muffe4znlusqswspq terra1awq6t7jfakg9wfjn40fk3wzwmd57mvrqtt3a39z9rmet7wdjj3ysgw3lpa terra14mmvqn0kthw6sre75vku263lafn5655mkjdejqjedjga4cw0qx2qlf4arv terra1qdz5qgafx88kp5mf6m2tah8742g4u5g2cek0m3jrgssexexk7g4qw6e23k \
     --migratesAll true
 ```
 
-// 3162 -> 3166 -> 3175
+// 3162 -> 3166 -> 3175 -> 3243
+
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --key-migrate ledger \
+    --folder contracts-ve3 \
+    --contracts ve3_zapper \
+    --code-id 3245 \
+    --migrates terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl
+```
+
+// 3123 -> 3245
 
 ```bash
 source ~/.network
@@ -332,9 +358,11 @@ ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
     --key mainnet \
     --folder contracts-ve3 \
-    --contracts ve3_zapper \
-    --migrates terra1jrt9q0pfg8e9n0ypjp5m93hyxzy2wgne4z3kyurll9lr783gvgqqwq0vne
+    --contracts ve3_asset_compounding \
+    --migrates terra1zly98gvcec54m3caxlqexce7rus6rzgplz7eketsdz7nh750h2rqvu8uzx
 ```
+
+3247
 
 ```bash
 source ~/.network
@@ -400,4 +428,16 @@ ts-node amp-governance/1_upload_contracts.ts \
 
 PDT: 3223
 
-Axl OTC: 3225
+```bash
+source ~/.network
+ts-node amp-governance/1_upload_contracts.ts \
+    --network $NETWORK \
+    --key mainnet \
+    --key-migrate mainnet \
+    --folder contracts-ve3 \
+    --code-id 3228 \
+    --contracts phoenix_treasury \
+    --migrates terra19v058dytxxwdwada9zla0v7my9kjr5z4dtqp9efzn96q79uxdersl7wy9g
+```
+
+Axl OTC: 3225-> 3228

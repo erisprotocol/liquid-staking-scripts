@@ -15,6 +15,7 @@ export class Ve3InfoKeys {
   static global_config_addr = "global_config_addr";
   static asset_gauge_addr = "asset_gauge_addr";
   static zapper_addr = "zapper_addr";
+  static asset_compunding_addr = "asset_compunding_addr";
   static pdt_addr = "pdt_addr";
   static pdt_axl_recovery_addr = "pdt_axl_recovery_addr";
   static voting_escrow_addr = "voting_escrow_addr";

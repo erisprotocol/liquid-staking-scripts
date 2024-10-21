@@ -93,6 +93,7 @@ const argv = yargs(process.argv)
   const controller = config[network]?.controller ?? "";
 
   const stewardship = config[network]?.stewardship ?? "";
+  const bot = "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup";
 
   const { txhash } = await sendTxWithConfirm(
     admin,
@@ -123,11 +124,13 @@ const argv = yargs(process.argv)
 
         // PDT
         set_addresses: {
-          addresses: [
-            // ["PDT_CONTROLLER", stewardship],
-            ["PDT_CONFIG_OWNER", "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl"],
-          ],
+          // addresses: [
+          //   // ["PDT_CONTROLLER", stewardship],
+          //   ["PDT_CONFIG_OWNER", "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl"],
+          // ],
+          addresses: [["ZAPPER", "terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl"]],
           lists: [],
+          // lists: [["BOT", [stewardship, bot, "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl"]]],
           // lists: [["PDT_DCA_EXECUTOR", [stewardship, "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup"]]],
         },
       }),

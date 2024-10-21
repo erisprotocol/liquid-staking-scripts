@@ -3,15 +3,7 @@ import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import { RouteBuilder } from "../amp-compounder/RouteBuilder";
 import { tokens } from "../amp-compounder/tokens";
-import {
-  Chains,
-  createLCDClient,
-  createWallet,
-  getInfo,
-  getPrefix,
-  sendTxWithConfirm,
-  toNew,
-} from "../helpers";
+import { Chains, createLCDClient, createWallet, getInfo, getPrefix, sendTxWithConfirm, toNew } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg, RouteInit } from "../types/ve3/zapper/execute";
 import { Ve3InfoKeys } from "./config";
@@ -42,30 +34,38 @@ const argv = yargs(process.argv)
   const address = admin.key.accAddress(getPrefix());
   const contract = getInfo("ve3", network, Ve3InfoKeys.zapper_addr);
 
-  const centers = [tokens.luna, tokens.axlUsdc];
+  const centers = [tokens.luna];
 
   const routes = [
-    RouteBuilder.start(tokens.ampluna).whale(tokens.luna).whale(tokens.whale),
-    RouteBuilder.start(tokens.boneluna).whale(tokens.luna).whale(tokens.whale),
+    // RouteBuilder.start(tokens.ampluna).astro(tokens.luna),
+    // using whale as ampluna pcl has issues
+    RouteBuilder.start(tokens.ampluna).whale(tokens.luna),
+    RouteBuilder.start(tokens.boneluna).whale(tokens.luna),
 
-    RouteBuilder.start(tokens.astro_native)
-      .astro(tokens.axlUsdc)
-      .astro(tokens.luna),
+    RouteBuilder.start(tokens.astro_native).astro(tokens.axlUsdc).astro(tokens.luna),
 
-    RouteBuilder.start(tokens.solid).astro(tokens.axlUsdc).astro(tokens.luna),
+    RouteBuilder.start(tokens.solid).astro(tokens.luna),
+    RouteBuilder.start(tokens.solid).astro(tokens.usdc),
 
-    RouteBuilder.start(tokens.ampwhale)
-      .whale(tokens.whale)
-      .whale(tokens.luna)
-      .astro(tokens.axlUsdc),
+    RouteBuilder.start(tokens.ampwhale).whale(tokens.whale).whale(tokens.luna),
 
-    RouteBuilder.start(tokens.bonewhale)
-      .whale(tokens.whale)
-      .whale(tokens.luna)
-      .astro(tokens.axlUsdc),
+    RouteBuilder.start(tokens.bonewhale).whale(tokens.whale).whale(tokens.luna),
 
     RouteBuilder.start(tokens.roar).whale(tokens.whale),
-    RouteBuilder.start(tokens.roar).astro(tokens.luna).astro(tokens.axlUsdc),
+    RouteBuilder.start(tokens.roar).astro(tokens.luna),
+
+    RouteBuilder.start(tokens.luna).astro(tokens.usdc),
+    RouteBuilder.start(tokens.luna).whale(tokens.usdt),
+    RouteBuilder.start(tokens.usdc).astro(tokens.usdt),
+
+    RouteBuilder.start(tokens.luna).astro(tokens.axlWbtc),
+    RouteBuilder.start(tokens.luna).whale(tokens.wbtc),
+
+    RouteBuilder.start(tokens.luna).astro(tokens.atom),
+    RouteBuilder.start(tokens.luna).whale(tokens.inj),
+    RouteBuilder.start(tokens.luna).whale(tokens.wsol),
+    // RouteBuilder.start(tokens.luna).astro(tokens.astro).astro(tokens.xastro_native),
+    // RouteBuilder.start(tokens.rswth).astro(tokens.swth),
   ];
 
   const cache: Record<string, string> = {
@@ -108,6 +108,27 @@ const argv = yargs(process.argv)
       "terra1j9jmsplecj9ay2py27953p84nfmv7f6ce75ms5fleyhd0aecpc7q0hgmsa",
     ["astroport:terra1lxx40s29qvkrcj8fsa3yzyehy7w50umdvvnls2r830rys6lu2zns63eelv-uluna"]:
       "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+
+    ["astroport:terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst-uluna"]:
+      "terra1e45ctmel6t5m9vdgxv3zxh3ecflkfcd6mr42sluzrqnhveqmy3fss338s7",
+    ["astroport:ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB-terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst"]:
+      "terra1fwjxdjpl98shj20l4swlen9hyu4lhvekrvqkqn393lzzghmsn2wqjdnvpu",
+    ["astroport:ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB-uluna"]:
+      "terra1v3lqxl0eyte9x3nhdgcj8hwvjq76aupnnzz0yll8mxs5cckc29pqvg2scu",
+    ["whitewhale:ibc/9B19062D46CAB50361CE9B0A3E6D0A7A53AC9E7CB361F32A73CC733144A9A9E5-uluna"]:
+      "terra1wymgwg90ry2w04avy899ucmuuak7w8n3xw2msmw2jf9rfugre0ssenx4hn",
+    ["astroport:ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB-ibc/9B19062D46CAB50361CE9B0A3E6D0A7A53AC9E7CB361F32A73CC733144A9A9E5"]:
+      "terra1dnssvse0fqw4d4gqc8kvchfud5r6e8cr7w9cdpervhl2pgr2eecquujpg6",
+    ["astroport:ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD-uluna"]:
+      "terra1afkvgc0mxfqakqlaqpxdgy58n79x4r239q3tucxmrsqvqk7ce3ksnctxfu",
+    ["whitewhale:ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD-uluna"]:
+      "terra1xhhr7x8yhv9p336t3squh5f8t2827ttrevnwrwwvqrp88nkt665qy0w07c",
+    ["astroport:ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2-uluna"]:
+      "terra1j3d29y506cvtavdpakdzl6e0g2xcskvmmulsetcd0jfwrpr8eu9qfe0dmf",
+    ["whitewhale:ibc/25BC59386BB65725F735EFC0C369BB717AA8B5DAD846EAF9CBF5D0F18F207211-uluna"]:
+      "terra1q2gd6kc7nt8xct94chrlsqtpxfs9rve0j76lquce624y5zp85cdseshh85",
+    ["whitewhale:terra1ctelwayk6t2zu30a8v9kdg3u2gr0slpjdfny5pjp7m3tuquk32ysugyjdg-uluna"]:
+      "terra12u7a9wkjqrkhxjcxx70uhfx8y49j4lclfnet2smw9agpnrv9chps27n9mh",
   };
 
   for (const route of routes) {

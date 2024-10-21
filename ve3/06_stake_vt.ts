@@ -1,5 +1,6 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
+import { notEmpty } from "../cosmos/helpers";
 import {
   Chains,
   createLCDClient,
@@ -11,7 +12,7 @@ import {
 } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg } from "../types/ve3/connector-alliance/execute";
-import { Ve3InfoKeys, config } from "./config";
+import { config, Ve3InfoKeys } from "./config";
 
 const argv = yargs(process.argv)
   .options({
@@ -97,12 +98,14 @@ terravaloper1564j3fq8p8np4yhh4lytnftz33japc03wn40kg	0.02277567656`;
 
   const rows = elements.split("\n").map((a) => a.split("\t").map((a) => a.trim()) as [string, string]);
 
+  // const contract = getInfo("ve3", network, Ve3InfoKeys.pdt_addr);
+  const contract = getInfo("ve3", network, Ve3InfoKeys.alliance_connector_addr("single"));
+
   const { txhash } = await sendTxWithConfirm(
     admin,
 
-    gaugeNames.map((gauge) => {
-      const contract = getInfo("ve3", network, Ve3InfoKeys.alliance_connector_addr(gauge));
-      return printProposal(
+    [
+      printProposal(
         new MsgExecuteContract(address, contract, <ExecuteMsg>{
           alliance_delegate: {
             delegations: rows.map(([val, perc]) => ({
@@ -111,8 +114,23 @@ terravaloper1564j3fq8p8np4yhh4lytnftz33japc03wn40kg	0.02277567656`;
             })),
           },
         })
-      );
-    })
+      ),
+      // done("[PDT] Stake VT", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
+    ].filter(notEmpty)
+
+    // gaugeNames.map((gauge) => {
+    //   const contract = getInfo("ve3", network, Ve3InfoKeys.alliance_connector_addr(gauge));
+    //   addProposal(
+    //     new MsgExecuteContract(address, contract, <ExecuteMsg>{
+    //       alliance_delegate: {
+    //         delegations: rows.map(([val, perc]) => ({
+    //           validator: val,
+    //           amount: (+perc * amount).toFixed(0) + "000000",
+    //         })),
+    //       },
+    //     })
+    //   );
+    // })
   );
   console.log(`Contract added route! Txhash: ${txhash}`);
 })();

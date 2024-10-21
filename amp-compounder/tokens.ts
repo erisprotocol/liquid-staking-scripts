@@ -30,6 +30,29 @@ export const tokens = {
       denom: "ibc/9B19062D46CAB50361CE9B0A3E6D0A7A53AC9E7CB361F32A73CC733144A9A9E5",
     },
   },
+
+  atom: {
+    native_token: {
+      denom: "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+    },
+  },
+
+  inj: {
+    native_token: {
+      denom: "ibc/25BC59386BB65725F735EFC0C369BB717AA8B5DAD846EAF9CBF5D0F18F207211",
+    },
+  },
+  wsol: {
+    token: {
+      contract_addr: "terra1ctelwayk6t2zu30a8v9kdg3u2gr0slpjdfny5pjp7m3tuquk32ysugyjdg",
+    },
+  },
+  wsteth: {
+    native_token: {
+      denom: "ibc/A356EC90DC3AE43D485514DA7260EDC7ABB5CFAA0654CE2524C739392975AD3C",
+    },
+  },
+
   amproar: {
     native_token: {
       denom: "factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR",
@@ -70,6 +93,11 @@ export const tokens = {
       denom: "ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098",
     },
   },
+  swth: {
+    native_token: {
+      denom: "ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098",
+    },
+  },
   red: {
     token: {
       contract_addr: "terra1xe8umegahlqphtpvjsuwfzfvyjfvag5h8rffsx6ezm0el4xzsf8s7uzezk",
@@ -88,6 +116,11 @@ export const tokens = {
   xastro: {
     token: {
       contract_addr: "terra1x62mjnme4y0rdnag3r8rfgjuutsqlkkyuh4ndgex0wl3wue25uksau39q8",
+    },
+  },
+  xastro_native: {
+    native_token: {
+      denom: "ibc/65B3EB6263482979FD7A80E3FFB9D0C85CFBF6DB63EB8DDE918B2984A40CEAB6",
     },
   },
   ampluna: {

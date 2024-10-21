@@ -1,12 +1,6 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import {
-  Chains,
-  createLCDClient,
-  createWallet,
-  getPrefix,
-  sendTxWithConfirm,
-} from "../helpers";
+import { Chains, createLCDClient, createWallet, getPrefix, sendTxWithConfirm } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg } from "../types/voting_escrow/eris_gov_voting_escrow_execute";
 
@@ -46,6 +40,7 @@ const argv = yargs(process.argv)
 
 // KUJIRA
 // ts-node amp-governance/5_config_escrow_for_update.ts --network kujira --key mainnet-kujira --contract kujira1mxzfcxpn6cjx4u9zln6ttxuc6fuw6g0cettd6nes74vrt2f22h4q3j5cdz
+// 110 -> 393
 
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archwaytest --key mainnet-archway --contract archway1kmg5j6tkc5k9dj0x042y8k0pn5clu6pdfddq0glrl8agxuy2we0scqr324
 // ts-node amp-governance/5_config_escrow_for_update.ts --network archway --key mainnet-archway --contract archway16eu995d6pkhjkhs5gst4c8f7z07qpw8d6u36ejq9nmap27qxz2fqk2w9wu
@@ -175,11 +170,7 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
   console.log("msg", msg);
 
   const { txhash } = await sendTxWithConfirm(deployer, [
-    new MsgExecuteContract(
-      deployer.key.accAddress(getPrefix()),
-      argv.contract,
-      msg!
-    ),
+    new MsgExecuteContract(deployer.key.accAddress(getPrefix()), argv.contract, msg!),
   ]);
   console.log(`Contract added route! Txhash: ${txhash}`);
 })();

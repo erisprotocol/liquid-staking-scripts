@@ -28,8 +28,18 @@ export type DaoInterfaceFor_String =
     }
   | {
       dao_dao: {
+        /**
+         * entropic variant of rewards claimable
+         */
         cw_rewards: string;
         gov: string;
+        staking: string;
+      };
+    }
+  | {
+      dao_dao_v2: {
+        gov: string;
+        rewards: [string, number][];
         staking: string;
       };
     }

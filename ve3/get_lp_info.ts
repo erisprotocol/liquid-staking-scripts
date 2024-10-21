@@ -34,7 +34,10 @@ export interface LpInfo {
   const result: LpInfo[] = [];
 
   for (const gauge in gauges) {
+    if (gauge != "single") continue;
     const addr = gauges[gauge][Ve3InfoKeys.asset_staking_addr_str] as string;
+
+    console.log(`whitelisted ${addr}`);
     const lps = await terra.wasm.contractQuery<Resp>(addr, <QueryMsg>{
       whitelisted_asset_details: {},
     });
@@ -42,28 +45,35 @@ export interface LpInfo {
     for (const lp of lps) {
       const is_astroport = typeof lp.config.stake_config === "object" && "astroport" in lp.config.stake_config;
 
-      let pair_contract = "";
-      let lp_denom = "";
-      if ("cw20" in lp.info) {
-        lp_denom = lp.info.cw20;
-        const minter = await terra.wasm.contractQuery<{ minter: string }>(lp.info.cw20, {
-          minter: {},
-        });
-        pair_contract = minter.minter;
-      } else {
-        lp_denom = lp.info.native;
-        pair_contract = lp.info.native.split("/")[1];
-      }
+      try {
+        let pair_contract = "";
+        let lp_denom = "";
+        if ("cw20" in lp.info) {
+          lp_denom = lp.info.cw20;
+          console.log(`cw20 ${lp.info.cw20}`);
+          const minter = await terra.wasm.contractQuery<{ minter: string }>(lp.info.cw20, {
+            minter: {},
+          });
+          pair_contract = minter.minter;
+        } else {
+          lp_denom = lp.info.native;
+          pair_contract = lp.info.native.split("/")[1];
+        }
 
-      const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(pair_contract, { pair: {} });
+        console.log(`pair ${pair_contract}`);
+        const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(pair_contract, { pair: {} });
 
-      if (!result.some((a) => a.lp === lp_denom)) {
-        result.push({
-          lp: lp_denom,
-          pair: pair_contract,
-          tokens: pair.asset_infos.map((a) => getToken(a)),
-          type: is_astroport ? "Astroport" : "WhiteWhale",
-        });
+        if (!result.some((a) => a.lp === lp_denom)) {
+          result.push({
+            lp: lp_denom,
+            pair: pair_contract,
+            tokens: pair.asset_infos.map((a) => getToken(a)),
+            type: is_astroport ? "Astroport" : "WhiteWhale",
+          });
+        }
+      } catch (error) {
+        console.log(`error for ${JSON.stringify(lp.info)}`);
+        continue;
       }
     }
   }

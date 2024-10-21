@@ -21,11 +21,15 @@ export type ExecuteMsg =
       };
     }
   | {
-      claim_reward: AssetInfoBaseFor_Addr;
+      claim_reward: {
+        asset: AssetInfoBaseFor_Addr;
+        recipient?: string | null;
+      };
     }
   | {
       claim_rewards: {
         assets?: AssetInfoBaseFor_Addr[] | null;
+        recipient?: string | null;
       };
     }
   | {

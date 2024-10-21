@@ -39,6 +39,14 @@ export type ExecuteMsg =
       };
     }
   | {
+      zap: {
+        assets: AssetInfoBaseFor_Addr[];
+        into: AssetInfoBaseFor_String;
+        min_received?: Uint128 | null;
+        post_action?: PostActionCreate | null;
+      };
+    }
+  | {
       update_config: {
         delete_routes?: RouteDelete[] | null;
         insert_routes?: RouteInit[] | null;
@@ -90,6 +98,13 @@ export type PostActionCreate =
   | {
       stake: {
         asset_staking: Addr;
+        receiver?: string | null;
+      };
+    }
+  | {
+      liquid_stake: {
+        compounder: Addr;
+        gauge: string;
         receiver?: string | null;
       };
     }
@@ -155,6 +170,14 @@ export type CallbackMsg =
   | {
       stake: {
         asset_staking: Addr;
+        receiver: string;
+        token: AssetInfoBaseFor_Addr;
+      };
+    }
+  | {
+      liquid_stake: {
+        compounder: Addr;
+        gauge: string;
         receiver: string;
         token: AssetInfoBaseFor_Addr;
       };

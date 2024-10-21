@@ -81,15 +81,15 @@ const templates: Partial<Record<Chains, any>> = {
       },
       {
         vetoer: "terra10d07y265gmmuvt4z0w9aw880jnsr700juxf95n",
-        spend_above_usd: "150000",
-        spend_above_usd_30d: "450000",
+        spend_above_usd: "300000",
+        spend_above_usd_30d: "1000000",
         delay_s: 10 * 24 * 60 * 60,
       },
       {
         vetoer: "terra15l7567hhxttv2k5enmu4k8uez8e3cx3sxqfg6fsq4zzuwuzy2fqsjq00gr",
         spend_above_usd: "50000",
         spend_above_usd_30d: "150000",
-        delay_s: 3 * 24 * 60 * 60,
+        delay_s: 0,
       },
     ],
   },
