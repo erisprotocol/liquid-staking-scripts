@@ -10,44 +10,28 @@ export type QueryMsg =
       config: {};
     }
   | {
-      get_routes: {
+      get_offers: {
         limit?: number | null;
-        start_after?: [AssetInfoBaseFor_Addr, AssetInfoBaseFor_Addr] | null;
+        start_after?: number | null;
       };
     }
   | {
-      get_route: {
-        from: AssetInfoBaseFor_Addr;
-        to: AssetInfoBaseFor_Addr;
+      get_offer: {
+        offer_id: number;
       };
     }
   | {
-      supports_swap: {
-        from: AssetInfoBaseFor_Addr;
-        to: AssetInfoBaseFor_Addr;
+      get_user_offers: {
+        limit?: number | null;
+        start_after?: [string, number] | null;
+        user: string;
+      };
+    }
+  | {
+      get_user_offers_for_collection: {
+        collection: string;
+        limit?: number | null;
+        start_after?: number | null;
+        user: string;
       };
     };
-/**
- * Represents the type of an fungible asset.
- *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
- */
-export type AssetInfoBaseFor_Addr =
-  | {
-      native: string;
-    }
-  | {
-      cw20: Addr;
-    };
-/**
- * A human readable address.
- *
- * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
- *
- * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
- *
- * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
- */
-export type Addr = string;

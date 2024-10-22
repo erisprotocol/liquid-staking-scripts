@@ -5,21 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type ParticleFunction =
-  | {
-      uniform: {
-        particles_per_nft: Uint128;
-      };
-    }
-  | {
-      xyk: {
-        first_particles: Uint128;
-        total_particles: Uint128;
-      };
-    }
-  | {
-      mapping: {};
-    };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -35,11 +20,7 @@ export type ParticleFunction =
  */
 export type Uint128 = string;
 
-export interface InstantiateMsg {
-  charge_royalty_on_withdraw: boolean;
-  collection_addr: string;
-  controller?: string | null;
-  global_config_addr: string;
-  particle_function: ParticleFunction;
-  particle_subdenom: string;
+export interface State {
+  particles_supply: Uint128;
+  tokens: Uint128;
 }

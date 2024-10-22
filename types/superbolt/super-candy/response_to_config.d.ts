@@ -5,6 +5,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type CandyType =
+  | {
+      pre_mint: {};
+    }
+  | {
+      mint: {};
+    };
 /**
  * A human readable address.
  *
@@ -15,12 +22,6 @@
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-/**
- * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
- *
- * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
- */
-export type Decimal = string;
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -49,18 +50,30 @@ export type AssetInfoBaseFor_Addr =
   | {
       cw20: Addr;
     };
+/**
+ * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
+ *
+ * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
+ */
+export type Decimal = string;
 
 export interface Config {
-  astroport_factory: Addr;
-  candy_code_id: number;
-  candy_protocol_fee: Decimal;
-  collection_code_id: number;
-  collection_creation_fee: AssetBaseFor_Addr;
-  collector_code_id: number;
+  candy_type: CandyType;
+  collection_addr: Addr;
+  controller: Addr;
   global_config_addr: Addr;
-  minter_code_id: number;
-  particle_code_id: number;
-  pool_tax: Decimal;
+  mint_fee_recipient: Addr;
+  minter_addr?: Addr | null;
+  paused: boolean;
+  phases: Phase[];
+  protocol_fee: Decimal;
+}
+export interface Phase {
+  end_time_s: number;
+  mint_fee: AssetBaseFor_Addr;
+  mint_limit: number;
+  start_time_s: number;
+  use_whitelist: boolean;
 }
 /**
  * Represents a fungible asset with a known amount

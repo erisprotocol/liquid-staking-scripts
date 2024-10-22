@@ -1,5 +1,6 @@
-import { tokens_neutron } from "../amp-compounder/tokens";
+import { tokens_neutron, tokens_neutron_testnet } from "../amp-compounder/tokens";
 import { Chains, toNew } from "../helpers";
+import { AssetInfoBaseFor_Addr } from "../types/alliance-hub-lst/eris_alliance_hub_lst_whitewhale_execute";
 import { AssetBaseFor_String } from "../types/ve3/bribe-manager/execute";
 
 interface Data {
@@ -12,11 +13,21 @@ interface Data {
   fee_collector: string;
   gauges: string[];
   astroport_factory: string;
+
+  marketplace: MarketplaceData;
+}
+
+interface MarketplaceData {
+  min_bid_increment: string;
+  protocol_auction_fee: string;
+  extension_duration: number;
+  auction_duration: number;
+  accepted_assets: AssetInfoBaseFor_Addr[];
 }
 
 export class SuperInfoKeys {
   static foundry = "foundry";
-  static collection_offer = "collection_offer";
+  static offer = "collection_offer";
   static marketplace = "marketplace";
 
   static global_config_addr = "global_config_addr";
@@ -66,6 +77,19 @@ export const config: Partial<Record<Chains, Data>> = {
       amount: "100000",
     },
     pool_tax: "0.04",
+    marketplace: {
+      accepted_assets: [
+        tokens_neutron_testnet.ntrn,
+        tokens_neutron_testnet.astro,
+        tokens_neutron_testnet.usdc,
+        tokens_neutron_testnet.mars,
+        tokens_neutron_testnet.atom,
+      ].map(toNew),
+      auction_duration: 1 * 24 * 60 * 60,
+      extension_duration: 1 * 60 * 60,
+      min_bid_increment: "1000",
+      protocol_auction_fee: "0.05",
+    },
   },
   neutron: {
     owner: "terra1kefa2zgjn45ctj32d3tje5jdwus7px6n2klgzl",
@@ -80,5 +104,12 @@ export const config: Partial<Record<Chains, Data>> = {
       amount: "100000",
     },
     pool_tax: "0.04",
+    marketplace: {
+      accepted_assets: [],
+      auction_duration: 7 * 24 * 60 * 60,
+      extension_duration: 4 * 60 * 60,
+      min_bid_increment: "1000",
+      protocol_auction_fee: "0.05",
+    },
   },
 };

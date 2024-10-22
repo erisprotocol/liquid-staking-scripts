@@ -5,27 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type ExecuteMsg =
-  | {
-      create_offer: {
-        asset: AssetBaseFor_Addr;
-        collection: string;
-        traits?: NftTraitStandard[] | null;
-      };
-    }
-  | {
-      cancel_offer: {
-        offer_id: number;
-      };
-    }
-  | {
-      settle_offer: {
-        contract: string;
-        msg: Binary;
-        offer_id: number;
-        token_id: string;
-      };
-    };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -64,13 +43,14 @@ export type AssetInfoBaseFor_Addr =
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-/**
- * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
- *
- * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
- */
-export type Binary = string;
+export type ArrayOf_OfferItem = OfferItem[];
 
+export interface OfferItem {
+  asset: AssetBaseFor_Addr;
+  collection: Addr;
+  creator: Addr;
+  traits?: NftTraitStandard[] | null;
+}
 /**
  * Represents a fungible asset with a known amount
  *

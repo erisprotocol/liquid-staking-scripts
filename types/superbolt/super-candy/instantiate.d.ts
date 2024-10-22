@@ -5,12 +5,23 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export type CandyType =
+  | {
+      pre_mint: {};
+    }
+  | {
+      mint: {};
+    };
 /**
- * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
+ * A human readable address.
  *
- * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
+ * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
+ *
+ * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
+ *
+ * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
-export type Decimal = string;
+export type Addr = string;
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -32,33 +43,43 @@ export type Uint128 = string;
  *
  * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
  */
-export type AssetInfoBaseFor_String =
+export type AssetInfoBaseFor_Addr =
   | {
       native: string;
     }
   | {
-      cw20: string;
+      cw20: Addr;
     };
+/**
+ * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
+ *
+ * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
+ */
+export type Decimal = string;
 
 export interface InstantiateMsg {
-  astroport_factory: string;
-  candy_code_id: number;
-  candy_protocol_fee: Decimal;
-  collection_code_id: number;
-  collector_code_id: number;
-  creation_fee: AssetBaseFor_String;
+  candy_type: CandyType;
+  collection_addr: string;
+  controller?: string | null;
   global_config_addr: string;
-  minter_code_id: number;
-  particle_code_id: number;
-  pool_tax: Decimal;
-  [k: string]: unknown;
+  mint_fee_recipient: string;
+  minter_addr?: Addr | null;
+  phases: Phase[];
+  protocol_fee: Decimal;
+}
+export interface Phase {
+  end_time_s: number;
+  mint_fee: AssetBaseFor_Addr;
+  mint_limit: number;
+  start_time_s: number;
+  use_whitelist: boolean;
 }
 /**
  * Represents a fungible asset with a known amount
  *
  * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
  */
-export interface AssetBaseFor_String {
+export interface AssetBaseFor_Addr {
   /**
    * Specifies the asset's amount
    */
@@ -66,5 +87,5 @@ export interface AssetBaseFor_String {
   /**
    * Specifies the asset's type (CW20 or native)
    */
-  info: AssetInfoBaseFor_String;
+  info: AssetInfoBaseFor_Addr;
 }

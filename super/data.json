@@ -1,22 +1,24 @@
 {
-    "testnet-neutron": {
-        "codes": {
-            "super_candy": "7441",
-            "super_collection": "7442",
-            "super_collector": "7443",
-            "super_foundry": "7444",
-            "super_marketplace": "7445",
-            "super_minter": "7446",
-            "super_offer": "7447",
-            "super_particles": "7448",
-            "ve3_asset_gauge": "7449",
-            "ve3_asset_staking": "7450",
-            "ve3_bribe_manager": "7451",
-            "ve3_connector_emission": "7452",
-            "ve3_voting_escrow": "7454",
-            "util_global_config": "7453"
-        },
-        "global_config_addr": "neutron1md759f7j37h79p6fmuxu579w5qu04nwwscvthy3snu7f37hvkssq57za06",
-        "foundry": "neutron1nfxaks3ax96x53mtvrmlk4fquxrhs85yfwr5sr45cr8az2pudyqqqheshz"
-    }
+  "testnet-neutron": {
+    "codes": {
+      "super_candy": "7665",
+      "super_collection": "7442",
+      "super_collector": "7443",
+      "super_foundry": "7666",
+      "super_marketplace": "7671",
+      "super_minter": "7667",
+      "super_offer": "7447",
+      "super_particles": "7448",
+      "ve3_asset_gauge": "7449",
+      "ve3_asset_staking": "7450",
+      "ve3_bribe_manager": "7451",
+      "ve3_connector_emission": "7452",
+      "ve3_voting_escrow": "7454",
+      "util_global_config": "7453"
+    },
+    "global_config_addr": "neutron1md759f7j37h79p6fmuxu579w5qu04nwwscvthy3snu7f37hvkssq57za06",
+    "foundry": "neutron1nfxaks3ax96x53mtvrmlk4fquxrhs85yfwr5sr45cr8az2pudyqqqheshz",
+    "collection_offer": "neutron17j6u2l2a04zpq3wkvf9ls4vqe4qaqtddtm9vfgkmmcrnq5nmpj7qmtr525",
+    "marketplace": "neutron1qlaq54uh9f52d3p66q77s6kt0k9ee3vasy8gkdkk3yvgezcs6zts0mkcv4"
+  }
 }

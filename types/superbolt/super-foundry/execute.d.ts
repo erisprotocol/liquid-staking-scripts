@@ -55,6 +55,7 @@ export type CollectionFeature =
       import: {
         collection: string;
         collection_owner?: string | null;
+        draft_id: string;
         name: string;
       };
     }
@@ -63,6 +64,13 @@ export type CollectionFeature =
         collection: string;
         collection_owner?: string | null;
         name?: string | null;
+      };
+    }
+  | {
+      mint: {
+        collection: string;
+        recipient: string;
+        token_ids: string[];
       };
     };
 export type RoyaltyFeature =

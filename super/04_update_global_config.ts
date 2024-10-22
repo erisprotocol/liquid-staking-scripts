@@ -101,7 +101,10 @@ const argv = yargs(process.argv)
     [
       new MsgExecuteContract(address, contract, <ExecuteMsg>{
         set_addresses: {
-          addresses: [["FEE_COLLECTOR", "neutron1z3txc4x7scxsypx9tgynyfhu48nw60a5p2m47d"]],
+          addresses: [
+            ["FEE_COLLECTOR", "neutron1z3txc4x7scxsypx9tgynyfhu48nw60a5p2m47d"],
+            ["AT_FOUNDRY", getInfo("super", network, SuperInfoKeys.foundry)],
+          ],
           lists: [
             [
               "DATA_BOT",

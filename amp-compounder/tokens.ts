@@ -270,6 +270,38 @@ export const tokens_neutron = {
   },
 };
 
+export const tokens_neutron_testnet = {
+  ntrn: {
+    native_token: {
+      denom: "untrn",
+    },
+  },
+
+  usdc: {
+    native_token: {
+      denom: "factory/neutron1wm8jd0hrw79pfhhm9xmuq43jwz4wtukvxfgkkw/usdc",
+    },
+  },
+
+  astro: {
+    native_token: {
+      denom: "factory/neutron18mcny8tjmy7rw4x3j9ph86gk0hk47dr5crnfc4njqaxc6xvv9a3sumj0cy/astro",
+    },
+  },
+
+  mars: {
+    native_token: {
+      denom: "factory/neutron1wm8jd0hrw79pfhhm9xmuq43jwz4wtukvxfgkkw/mars",
+    },
+  },
+
+  atom: {
+    native_token: {
+      denom: "ibc/9DF365E2C0EF4EA02FA771F638BB9C0C830EFCD354629BDC017F79B348B4E989",
+    },
+  },
+};
+
 export const getContractFromTokenFactory = (factoryToken: { native_token: { denom: string } }): string => {
   return factoryToken.native_token.denom.split("/")[1];
 };

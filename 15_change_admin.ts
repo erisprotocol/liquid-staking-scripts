@@ -87,7 +87,9 @@ const argv = yargs(process.argv)
     // "terra1uqhj8agyeaz8fu6mdggfuwr3lp32jlrx5hqag4jxexde92rzkamq3l62zg",
     // "terra1tuuwm8yrj54qeg0c8xu00aha9ryatyhtczq8qq2q8tntuw0auzas9037wh",
 
-    "terra1qdz5qgafx88kp5mf6m2tah8742g4u5g2cek0m3jrgssexexk7g4qw6e23k",
+    // "terra1qdz5qgafx88kp5mf6m2tah8742g4u5g2cek0m3jrgssexexk7g4qw6e23k",
+    // "terra1zly98gvcec54m3caxlqexce7rus6rzgplz7eketsdz7nh750h2rqvu8uzx",
+    "terra1u72y7gppxrsncctvgfyqduv3md6pgq77pqhz9rxgwl3dqgye00cq7vmf8u",
   ];
 
   const { txhash } = await sendTxWithConfirm(
@@ -96,7 +98,7 @@ const argv = yargs(process.argv)
       (contract) => new MsgUpdateContractAdmin(admin.key.accAddress(getPrefix()), argv.newAdmin ?? "", contract)
     ),
     undefined,
-    (contracts.length * 60000).toFixed(0)
+    (contracts.length * 70000).toFixed(0)
   );
   console.log(`Contract admin changed! Txhash: ${txhash}`);
 })();

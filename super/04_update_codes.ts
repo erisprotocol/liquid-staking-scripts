@@ -1,8 +1,8 @@
-import { MsgExecuteContract } from "@terra-money/feather.js";
+import { MsgExecuteContract, MsgMigrateContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import { Chains, createLCDClient, createWallet, getInfo, getPrefix, sendTxWithConfirm } from "../helpers";
 import * as keystore from "../keystore";
-import { ExecuteMsg } from "../types/super/super-foundry/execute";
+import { ExecuteMsg } from "../types/superbolt/super-foundry/execute";
 import { Codes, SuperInfoKeys } from "./config";
 
 const argv = yargs(process.argv)
@@ -30,21 +30,20 @@ const argv = yargs(process.argv)
 
   const address = admin.key.accAddress(getPrefix());
   const contract = getInfo("super", network, SuperInfoKeys.foundry);
+  const foundry_code = +getInfo("super", network, SuperInfoKeys.code(Codes.super_foundry));
+  console.log(`Foundry ${foundry_code}`);
 
-  const { txhash } = await sendTxWithConfirm(
-    admin,
-
-    [
-      new MsgExecuteContract(address, contract, <ExecuteMsg>{
-        update_config: {
-          candy_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_candy)),
-          collection_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_collection)),
-          collector_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_collector)),
-          minter_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_minter)),
-          particle_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_particles)),
-        },
-      }),
-    ]
-  );
+  const { txhash } = await sendTxWithConfirm(admin, [
+    new MsgMigrateContract(address, contract, foundry_code, {}),
+    new MsgExecuteContract(address, contract, <ExecuteMsg>{
+      update_config: {
+        candy_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_candy)),
+        collection_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_collection)),
+        collector_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_collector)),
+        minter_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_minter)),
+        particle_code_id: +getInfo("super", network, SuperInfoKeys.code(Codes.super_particles)),
+      },
+    }),
+  ]);
   console.log(`Txhash: ${txhash}`);
 })();

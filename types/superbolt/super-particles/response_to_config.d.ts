@@ -15,12 +15,21 @@
  * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
  */
 export type Addr = string;
-/**
- * A fixed-point decimal value with 18 fractional digits, i.e. Decimal(1_000_000_000_000_000_000) == 1.0
- *
- * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
- */
-export type Decimal = string;
+export type ParticleFunction =
+  | {
+      uniform: {
+        particles_per_nft: Uint128;
+      };
+    }
+  | {
+      xyk: {
+        first_particles: Uint128;
+        total_particles: Uint128;
+      };
+    }
+  | {
+      mapping: {};
+    };
 /**
  * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
@@ -35,45 +44,12 @@ export type Decimal = string;
  * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
  */
 export type Uint128 = string;
-/**
- * Represents the type of an fungible asset.
- *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
- */
-export type AssetInfoBaseFor_Addr =
-  | {
-      native: string;
-    }
-  | {
-      cw20: Addr;
-    };
 
 export interface Config {
-  astroport_factory: Addr;
-  candy_code_id: number;
-  candy_protocol_fee: Decimal;
-  collection_code_id: number;
-  collection_creation_fee: AssetBaseFor_Addr;
-  collector_code_id: number;
+  charge_royalty_on_withdraw: boolean;
+  collection_addr: Addr;
+  controller: Addr;
   global_config_addr: Addr;
-  minter_code_id: number;
-  particle_code_id: number;
-  pool_tax: Decimal;
-}
-/**
- * Represents a fungible asset with a known amount
- *
- * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
- */
-export interface AssetBaseFor_Addr {
-  /**
-   * Specifies the asset's amount
-   */
-  amount: Uint128;
-  /**
-   * Specifies the asset's type (CW20 or native)
-   */
-  info: AssetInfoBaseFor_Addr;
+  particle_denom: string;
+  particle_function: ParticleFunction;
 }
