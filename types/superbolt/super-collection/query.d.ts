@@ -7,47 +7,95 @@
 
 export type QueryMsg =
   | {
-      config: {};
+      owner_of: {
+        /**
+         * unset or false will filter out expired approvals, you must set to true to see them
+         */
+        include_expired?: boolean | null;
+        token_id: string;
+      };
     }
   | {
-      get_routes: {
+      approval: {
+        include_expired?: boolean | null;
+        spender: string;
+        token_id: string;
+      };
+    }
+  | {
+      approvals: {
+        include_expired?: boolean | null;
+        token_id: string;
+      };
+    }
+  | {
+      operator: {
+        include_expired?: boolean | null;
+        operator: string;
+        owner: string;
+      };
+    }
+  | {
+      all_operators: {
+        /**
+         * unset or false will filter out expired items, you must set to true to see them
+         */
+        include_expired?: boolean | null;
         limit?: number | null;
-        start_after?: [AssetInfoBaseFor_Addr, AssetInfoBaseFor_Addr] | null;
+        owner: string;
+        start_after?: string | null;
       };
     }
   | {
-      get_route: {
-        from: AssetInfoBaseFor_Addr;
-        to: AssetInfoBaseFor_Addr;
+      num_tokens: {};
+    }
+  | {
+      contract_info: {};
+    }
+  | {
+      nft_info: {
+        token_id: string;
       };
     }
   | {
-      supports_swap: {
-        from: AssetInfoBaseFor_Addr;
-        to: AssetInfoBaseFor_Addr;
+      all_nft_info: {
+        /**
+         * unset or false will filter out expired approvals, you must set to true to see them
+         */
+        include_expired?: boolean | null;
+        token_id: string;
       };
+    }
+  | {
+      tokens: {
+        limit?: number | null;
+        owner: string;
+        start_after?: string | null;
+      };
+    }
+  | {
+      all_tokens: {
+        limit?: number | null;
+        start_after?: string | null;
+      };
+    }
+  | {
+      minter: {};
+    }
+  | {
+      extension: {
+        msg: Empty;
+      };
+    }
+  | {
+      ownership: {};
     };
+
 /**
- * Represents the type of an fungible asset.
+ * An empty struct that serves as a placeholder in different places, such as contracts that don't set a custom message.
  *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ * It is designed to be expressable in correct JSON and JSON Schema but contains no meaningful data. Previously we used enums without cases, but those cannot represented as valid JSON Schema (https://github.com/CosmWasm/cosmwasm/issues/451)
  */
-export type AssetInfoBaseFor_Addr =
-  | {
-      native: string;
-    }
-  | {
-      cw20: Addr;
-    };
-/**
- * A human readable address.
- *
- * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
- *
- * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
- *
- * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
- */
-export type Addr = string;
+export interface Empty {
+  [k: string]: unknown;
+}

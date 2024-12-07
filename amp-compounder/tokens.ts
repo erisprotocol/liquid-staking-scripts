@@ -2,7 +2,7 @@ export const tokens = {
   luna: { native_token: { denom: "uluna" } },
   wbtc: {
     native_token: {
-      denom: "ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD",
+      denom: "ibc/CF57A83CED6CEC7D706631B5DC53ABC21B7EDA7DF7490732B4361E6D5DD19C73",
     },
   },
   axlUsdc: {
@@ -61,6 +61,11 @@ export const tokens = {
   moar: {
     native_token: {
       denom: "factory/terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu/MOAR",
+    },
+  },
+  ampcapa: {
+    native_token: {
+      denom: "factory/terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y/ampCAPA",
     },
   },
   whale: {
@@ -126,6 +131,11 @@ export const tokens = {
   ampluna: {
     token: {
       contract_addr: "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
+    },
+  },
+  arbluna: {
+    token: {
+      contract_addr: "terra1se7rvuerys4kd2snt6vqswh9wugu49vhyzls8ymc02wl37g2p2ms5yz490",
     },
   },
   boneluna: {

@@ -5,233 +5,156 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+/**
+ * This is like Cw721ExecuteMsg but we add a Mint command for an owner to make this stand-alone. You will likely want to remove mint and use other control logic in any contract that inherits this.
+ */
 export type ExecuteMsg =
   | {
-      create_lp: {
-        assets: AssetInfoBaseFor_Addr[];
-        min_received?: Uint128 | null;
-        post_action?: PostActionCreate | null;
-        stage: StageType;
+      transfer_nft: {
+        recipient: string;
+        token_id: string;
       };
     }
   | {
-      withdraw_lp: {
-        min_received?: AssetBaseFor_Addr[] | null;
-        post_action?: PostActionWithdraw | null;
-        stage: StageType;
+      send_nft: {
+        contract: string;
+        msg: Binary;
+        token_id: string;
       };
     }
   | {
-      swap: {
+      approve: {
+        expires?: Expiration | null;
+        spender: string;
+        token_id: string;
+      };
+    }
+  | {
+      revoke: {
+        spender: string;
+        token_id: string;
+      };
+    }
+  | {
+      approve_all: {
+        expires?: Expiration | null;
+        operator: string;
+      };
+    }
+  | {
+      revoke_all: {
+        operator: string;
+      };
+    }
+  | {
+      mint: {
         /**
-         * List of reward asset send to compound
+         * Any custom extension used by this contract
          */
-        assets: AssetInfoBaseFor_Addr[];
+        extension?: NftMetadataStandard | null;
         /**
-         * LP into which the assets should be compounded into
+         * The owner of the newly minter NFT
          */
-        into: AssetInfoBaseFor_String;
-        min_received?: Uint128 | null;
+        owner: string;
         /**
-         * Receiver address for LP token
+         * Unique ID of the NFT
          */
-        receiver?: string | null;
+        token_id: string;
+        /**
+         * Universal resource identifier for this NFT Should point to a JSON file that conforms to the ERC721 Metadata JSON Schema
+         */
+        token_uri?: string | null;
       };
     }
   | {
-      update_config: {
-        delete_routes?: RouteDelete[] | null;
-        insert_routes?: RouteInit[] | null;
-        update_centers?: AssetInfoBaseFor_String[] | null;
+      burn: {
+        token_id: string;
       };
     }
   | {
-      callback: CallbackMsg;
+      extension: {
+        msg: AdditionalMessages;
+      };
+    }
+  | {
+      update_ownership: Action;
     };
 /**
- * Represents the type of an fungible asset.
+ * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
  *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
-export type AssetInfoBaseFor_Addr =
+export type Binary = string;
+/**
+ * Expiration represents a point in time when some event happens. It can compare with a BlockInfo and will return is_expired() == true once the condition is hit (and for every block in the future)
+ */
+export type Expiration =
   | {
-      native: string;
+      at_height: number;
     }
   | {
-      cw20: Addr;
+      at_time: Timestamp;
+    }
+  | {
+      never: {};
     };
 /**
- * A human readable address.
+ * A point in time in nanosecond precision.
  *
- * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
+ * This type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.
  *
- * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
+ * ## Examples
  *
- * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
+ * ``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);
+ *
+ * let ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```
  */
-export type Addr = string;
+export type Timestamp = Uint64;
 /**
- * A thin wrapper around u128 that is using strings for JSON encoding/decoding, such that the full u128 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
+ * A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.
  *
  * # Examples
  *
- * Use `from` to create instances of this and `u128` to get the value out:
+ * Use `from` to create instances of this and `u64` to get the value out:
  *
- * ``` # use cosmwasm_std::Uint128; let a = Uint128::from(123u128); assert_eq!(a.u128(), 123);
+ * ``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);
  *
- * let b = Uint128::from(42u64); assert_eq!(b.u128(), 42);
- *
- * let c = Uint128::from(70u32); assert_eq!(c.u128(), 70); ```
+ * let b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```
  */
-export type Uint128 = string;
-export type PostActionCreate =
-  | {
-      stake: {
-        asset_staking: Addr;
-        receiver?: string | null;
-      };
-    }
-  | {
-      send_result: {
-        receiver?: string | null;
-      };
-    };
-export type StageType =
-  | {
-      white_whale: {
-        pair: Addr;
-      };
-    }
-  | {
-      astroport: {
-        pair: Addr;
-      };
-    };
-export type PostActionWithdraw = {
-  swap_to: {
-    asset: AssetInfoBaseFor_Addr;
-    min_received?: Uint128 | null;
-    receiver?: string | null;
+export type Uint64 = string;
+export type AdditionalMessages = {
+  force_update_minter: {
+    minter?: string | null;
+    [k: string]: unknown;
   };
 };
 /**
- * Represents the type of an fungible asset.
- *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ * Actions that can be taken to alter the contract's ownership
  */
-export type AssetInfoBaseFor_String =
+export type Action =
   | {
-      native: string;
-    }
-  | {
-      cw20: string;
-    };
-export type CallbackMsg =
-  | {
-      optimal_swap: {
-        pair_info: PairInfo;
+      transfer_ownership: {
+        expiry?: Expiration | null;
+        new_owner: string;
       };
     }
-  | {
-      swap_stage: {
-        stage: Stage;
-      };
-    }
-  | {
-      provide_liquidity: {
-        pair_info: PairInfo;
-        receiver?: string | null;
-      };
-    }
-  | {
-      assert_received: {
-        asset: AssetBaseFor_Addr;
-      };
-    }
-  | {
-      stake: {
-        asset_staking: Addr;
-        receiver: string;
-        token: AssetInfoBaseFor_Addr;
-      };
-    }
-  | {
-      send_result: {
-        receiver: string;
-        token: AssetInfoBaseFor_Addr;
-      };
-    }
-  | {
-      send_results: {
-        min_received?: AssetBaseFor_Addr[] | null;
-        receiver: string;
-        tokens: AssetInfoBaseFor_Addr[];
-      };
-    };
-export type PairType =
-  | {
-      xyk: {};
-    }
-  | {
-      stable: {};
-    }
-  | {
-      custom: string;
-    }
-  | {
-      stable_white_whale: {};
-    }
-  | {
-      xyk_white_whale: {};
-    };
+  | "accept_ownership"
+  | "renounce_ownership";
 
-/**
- * Represents a fungible asset with a known amount
- *
- * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
- */
-export interface AssetBaseFor_Addr {
-  /**
-   * Specifies the asset's amount
-   */
-  amount: Uint128;
-  /**
-   * Specifies the asset's type (CW20 or native)
-   */
-  info: AssetInfoBaseFor_Addr;
+export interface NftMetadataStandard {
+  animation_url?: string | null;
+  attributes?: NftTraitStandard[] | null;
+  background_color?: string | null;
+  description?: string | null;
+  external_url?: string | null;
+  image?: string | null;
+  image_data?: string | null;
+  name?: string | null;
+  youtube_url?: string | null;
+  [k: string]: unknown;
 }
-export interface RouteDelete {
-  both?: boolean | null;
-  from: AssetInfoBaseFor_Addr;
-  to: AssetInfoBaseFor_Addr;
-}
-export interface RouteInit {
-  routes: Stage[];
-}
-export interface Stage {
-  from: AssetInfoBaseFor_Addr;
-  stage_type: StageType;
-  to: AssetInfoBaseFor_Addr;
-}
-export interface PairInfo {
-  /**
-   * Asset information for the assets in the pool
-   */
-  asset_infos: AssetInfoBaseFor_Addr[];
-  /**
-   * Pair contract address
-   */
-  contract_addr: Addr;
-  /**
-   * Pair LP token address
-   */
-  liquidity_token: AssetInfoBaseFor_Addr;
-  /**
-   * The pool type (xyk, stableswap etc) available in [`PairType`]
-   */
-  pair_type: PairType;
+export interface NftTraitStandard {
+  display_type?: string | null;
+  trait_type: string;
+  value: string;
 }

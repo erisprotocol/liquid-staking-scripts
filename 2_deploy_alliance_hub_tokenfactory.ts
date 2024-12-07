@@ -105,8 +105,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     operator: "terra1gtuvt6eh4m67tvd2dnfqhgks9ec6ff08c5vlup",
     utoken: {
       token: {
-        contract_addr:
-          "terra1t4p3u8khpd7f8qzurwyafxt648dya6mp6vur3vaapswt6m24gkuqrfdhar",
+        contract_addr: "terra1t4p3u8khpd7f8qzurwyafxt648dya6mp6vur3vaapswt6m24gkuqrfdhar",
       },
     },
     dao_interface: {
@@ -158,16 +157,14 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
   // },
   migaloo: <InstantiateMsg>{
     denom: "ampGASH",
-    protocol_fee_contract:
-      "migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v",
+    protocol_fee_contract: "migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v",
     protocol_reward_fee: "0.069",
     owner: "migaloo1dpaaxgw4859qhew094s87l0he8tfea3lf74c2y",
     operator: "migaloo1c023jxq099et7a44ledfwuu3sdkfq8caya90nk",
 
     utoken: {
       native_token: {
-        denom:
-          "factory/migaloo1r9x8fz4alekzr78k42rpmr9unpa7egsldpqeynmwl2nfvzexue9sn8l5rg/gash",
+        denom: "factory/migaloo1r9x8fz4alekzr78k42rpmr9unpa7egsldpqeynmwl2nfvzexue9sn8l5rg/gash",
       },
     },
     dao_interface: {
@@ -194,8 +191,8 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
 // boneWhale: ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --code-id 2790 --migrates terra10j3zrymfrkta2pxe0gklc79gu06tqyuy8c3kh6tqdsrrprsjqkrqzfl4df
 // 1927 -> 2038 -> 2040 -> 2790
 
-// CAPA 2042 -> terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y
-// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst
+// ampCAPA 2042 -> 3413->3418 -> terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y
+// ts-node amp-governance/1_upload_contracts.ts --network mainnet --key mainnet  --key-migrate ledger --contracts eris_alliance_hub_lst_terra --folder contracts-dao-lst --migrates terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y
 // ts-node 2_deploy_alliance_hub_tokenfactory.ts --network mainnet --key mainnet --hub-code-id 2042
 
 // Migaloo
@@ -211,9 +208,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const hubCodeId =
-    argv["hub-code-id"] ??
-    (await uploadCode(deployer, path.resolve(argv["hub-binary"])));
+  const hubCodeId = argv["hub-code-id"] ?? (await uploadCode(deployer, path.resolve(argv["hub-binary"])));
 
   let msg: any;
   if (argv["msg"]) {

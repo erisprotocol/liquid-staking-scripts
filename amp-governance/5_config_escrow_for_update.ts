@@ -89,11 +89,18 @@ const templates: Partial<Record<Chains, ExecuteMsg>> = {
     },
   },
   kujira: <ExecuteMsg>{
+    // update_config: {
+    //   push_update_contracts: [
+    //     "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4", // amp gauge
+    //     "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9", // prop gauge
+    //   ],
+    // },
     update_config: {
-      push_update_contracts: [
-        "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4", // amp gauge
-        "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9", // prop gauge
-      ],
+      // push_update_contracts: [
+      //   "kujira13kqc9jye2kcak4q9nl4p8zuhf9he2f32vvr8ds9lkd46aa0e936spmx7v4", // amp gauge
+      //   "kujira130umtav4d6dpfjat92d92wauq25ll6gzvfqx9hqcp8m86myy2q9qlr00u9", // prop gauge
+      // ],
+      decommissioned: true,
     },
   },
   // injective: <ExecuteMsg>{

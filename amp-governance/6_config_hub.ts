@@ -1,13 +1,7 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import { tokens, tokens_migaloo } from "../amp-compounder/tokens";
-import {
-  Chains,
-  createLCDClient,
-  createWallet,
-  getPrefix,
-  sendTxWithConfirm,
-} from "../helpers";
+import { tokens_migaloo } from "../amp-compounder/tokens";
+import { Chains, createLCDClient, createWallet, getPrefix, sendTxWithConfirm } from "../helpers";
 import * as keystore from "../keystore";
 import { ExecuteMsg as AllianceExecuteMsg } from "../types/alliance-hub-lst/execute";
 import { ExecuteMsg } from "../types/hub/execute_msg";
@@ -59,9 +53,7 @@ const argv = yargs(process.argv)
 // ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira1n3fr5f56r2ce0s37wdvwrk98yhhq3unnxgcqus8nzsfxvllk0yxquurqty
 // ts-node amp-governance/6_config_hub.ts --network kujira --key key-mainnet --contract kujira175yatpvkpgw07w0chhzuks3zrrae9z9g2y6r7u5pzqesyau4x9eqqyv0rr
 
-const templates: Partial<
-  Record<Chains, ExecuteMsg | AllianceExecuteMsg | AllianceLstExecuteMsg>
-> = {
+const templates: Partial<Record<Chains, ExecuteMsg | AllianceExecuteMsg | AllianceLstExecuteMsg>> = {
   // testnet: <ExecuteMsg>{
   //   update_config: {
   //     // delegation_strategy: "uniform",
@@ -85,8 +77,7 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 5000,
-          amp_gauges:
-            "terra1rpa66hlslyy9jl6hxkufv83eyje2lx6022569k497ytjf7nvm7hqu3wndk",
+          amp_gauges: "terra1rpa66hlslyy9jl6hxkufv83eyje2lx6022569k497ytjf7nvm7hqu3wndk",
           // emp_gauges:
           //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
           max_delegation_bps: 4000,
@@ -94,8 +85,7 @@ const templates: Partial<
           validator_count: 30,
         },
       },
-      vote_operator:
-        "terra1ut233rtsdjkdf775xq866tdvjkuazmgsyrh5n9l8ac9qpuj6sd3sr8a0q7",
+      vote_operator: "terra1ut233rtsdjkdf775xq866tdvjkuazmgsyrh5n9l8ac9qpuj6sd3sr8a0q7",
     },
   },
   // mainnet: <ExecuteMsg>{
@@ -128,6 +118,8 @@ const templates: Partial<
 
   mainnet: <AllianceLstExecuteMsg | ExecuteMsg>{
     update_config: {
+      // ampCAPA
+      vote_operator: "terra1x0vekyx6wltu8qe26nqzkyur4hf7xqatvdelre4p2vqcnwc83k9q9j7ka8",
       // stages_preset: [
       //   [
       //     [
@@ -139,6 +131,7 @@ const templates: Partial<
       //       tokens.solid,
       //       null,
       //       null,
+      //       false,
       //     ],
       //   ],
       // ],
@@ -160,51 +153,51 @@ const templates: Partial<
       //   ],
       // ],
 
-      // MOAR
-      stages_preset: [
-        [
-          [
-            {
-              dex: {
-                addr: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
-              },
-            },
-            tokens.luna,
-            null,
-            null,
-            true,
-          ],
-        ],
-        // [
-        //   [
-        //     {
-        //       eris: {
-        //         addr: "terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy",
-        //       },
-        //     },
-        //     tokens.roar,
-        //     null,
-        //     null,
-        //   ],
-        // ],
-        [
-          [
-            {
-              dex: {
-                addr: "terra1j0ackj0wru4ndj74e3mhhq6rffe63y8xd0e56spqcjygv2r0cfsqxr36k6",
-              },
-            },
-            tokens.roar,
-            null,
-            null,
-            null,
-          ],
-        ],
-      ],
-      // protocol_reward_fee: "0.1",
+      // // MOAR
+      // stages_preset: [
+      //   [
+      //     [
+      //       {
+      //         dex: {
+      //           addr: "terra189v2ewgfx5wdhje6geefdtxefeemujplk8qw2wx3x5hdswn95l8qf4n2r0",
+      //         },
+      //       },
+      //       tokens.luna,
+      //       null,
+      //       null,
+      //       true,
+      //     ],
+      //   ],
+      //   // [
+      //   //   [
+      //   //     {
+      //   //       eris: {
+      //   //         addr: "terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy",
+      //   //       },
+      //   //     },
+      //   //     tokens.roar,
+      //   //     null,
+      //   //     null,
+      //   //   ],
+      //   // ],
+      //   [
+      //     [
+      //       {
+      //         dex: {
+      //           addr: "terra1j0ackj0wru4ndj74e3mhhq6rffe63y8xd0e56spqcjygv2r0cfsqxr36k6",
+      //         },
+      //       },
+      //       tokens.roar,
+      //       null,
+      //       null,
+      //       null,
+      //     ],
+      //   ],
+      // ],
+      // // protocol_reward_fee: "0.1",
 
-      // protocol_fee_contract:
-      //   "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
+      // // protocol_fee_contract:
+      // //   "terra1v3h5lejqer5qnjnj6gds94u55x0qsxq7cpxs2kf7kqu6drwgmz4qd9qav9",
     },
   },
 
@@ -286,8 +279,7 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 10000,
-          amp_gauges:
-            "archway1ntne4eyrydxd2a80qnnggv6cj5aag60azfc2d52reytj6f8js4ns4rcwea",
+          amp_gauges: "archway1ntne4eyrydxd2a80qnnggv6cj5aag60azfc2d52reytj6f8js4ns4rcwea",
           // emp_gauges:
           //   "terra14s88p4t7uxqdf96vgsnqavx68lzgpcp3dy505hlywjm2tm9p97ms0ks83a",
           max_delegation_bps: 2500,
@@ -295,8 +287,7 @@ const templates: Partial<
           validator_count: 30,
         },
       },
-      vote_operator:
-        "archway16rnpysnujmp58qtd4xquxpqs3ht3h0290za7hjtztn0p7llseups8dug8q",
+      vote_operator: "archway16rnpysnujmp58qtd4xquxpqs3ht3h0290za7hjtztn0p7llseups8dug8q",
       // protocol_reward_fee: "0",
     },
   },
@@ -305,15 +296,13 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 10000,
-          amp_gauges:
-            "archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3",
+          amp_gauges: "archway1225r4qnj0tz3rpm0a4ukuqwe4tdyt70ut0kg308dxcpwl2s58p0qayn6n3",
           max_delegation_bps: 2500,
           min_delegation_bps: 50,
           validator_count: 30,
         },
       },
-      vote_operator:
-        "archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at",
+      vote_operator: "archway1jzkz28dmgwprmx4rnz54ny5vv8xqexcazgl2xg89x2t952fryg0qfg08at",
     },
   },
   // osmosis: <ExecuteMsg>{
@@ -343,15 +332,13 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 10000,
-          amp_gauges:
-            "juno1c4npgrxu9d9rrxrkd2xtgl8jhz3zsetq0y2mwvxhfvyggrmmvk8qkvw09e",
+          amp_gauges: "juno1c4npgrxu9d9rrxrkd2xtgl8jhz3zsetq0y2mwvxhfvyggrmmvk8qkvw09e",
           max_delegation_bps: 2500,
           min_delegation_bps: 50,
           validator_count: 30,
         },
       },
-      vote_operator:
-        "juno1l548zam9r7j89agyptrhnn9q9f92w0a7ja5c76vkmx9sreqfz69qq688rl",
+      vote_operator: "juno1l548zam9r7j89agyptrhnn9q9f92w0a7ja5c76vkmx9sreqfz69qq688rl",
     },
   },
   sei: <ExecuteMsg>{
@@ -359,21 +346,18 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 10000,
-          amp_gauges:
-            "sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35",
+          amp_gauges: "sei1fg7f9p2jcjm339yx49evpnylpxlc2g0ahym6az3kmyqx3yg3tjwsd3wq35",
           max_delegation_bps: 2500,
           min_delegation_bps: 50,
           validator_count: 30,
         },
       },
-      vote_operator:
-        "sei1qwzdnwzdka4yc5z2v5rlathef44flmvh66uahsmraatcyvfyxc6sze0ec8",
+      vote_operator: "sei1qwzdnwzdka4yc5z2v5rlathef44flmvh66uahsmraatcyvfyxc6sze0ec8",
     },
   },
   "testnet-kujira": <ExecuteMsg>{
     update_config: {
-      vote_operator:
-        "kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk",
+      vote_operator: "kujira1xgfxe88an654rrlm9f2rvz20hgex0aufhuzcdu3j6rx7a4tf75dsut22qk",
     },
   },
 
@@ -382,15 +366,13 @@ const templates: Partial<
       delegation_strategy: {
         gauges: {
           amp_factor_bps: 10000,
-          amp_gauges:
-            "nibi1qh59hdelxfwah7g7e8k0lxu4upqatq5w4jdw60yv9shhlhm86ckq4txl92",
+          amp_gauges: "nibi1qh59hdelxfwah7g7e8k0lxu4upqatq5w4jdw60yv9shhlhm86ckq4txl92",
           max_delegation_bps: 2500,
           min_delegation_bps: 50,
           validator_count: 30,
         },
       },
-      vote_operator:
-        "nibi19g4zl2rac0ljtxrwqrd0lqgaca7ettn3p2udu4w3zamk84fae72ssvf2le",
+      vote_operator: "nibi19g4zl2rac0ljtxrwqrd0lqgaca7ettn3p2udu4w3zamk84fae72ssvf2le",
       // protocol_reward_fee: "0",
 
       // // ampBTC
@@ -421,11 +403,7 @@ const templates: Partial<
   console.log("msg", msg);
 
   const { txhash } = await sendTxWithConfirm(deployer, [
-    new MsgExecuteContract(
-      deployer.key.accAddress(getPrefix()),
-      argv.contract,
-      msg!
-    ),
+    new MsgExecuteContract(deployer.key.accAddress(getPrefix()), argv.contract, msg!),
   ]);
   console.log(`Contract added route! Txhash: ${txhash}`);
 })();

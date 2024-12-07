@@ -177,7 +177,7 @@ const networks = {
   neutron: {
     chainID: "neutron-1",
     lcd: "https://rest-kralum.neutron-1.neutron.org/",
-    gasAdjustment: 1.2,
+    gasAdjustment: 1.4,
     prefix: "neutron",
     gasPrices: { untrn: 0.01 },
   },
@@ -592,12 +592,12 @@ export function addProposal(msg: MsgExecuteContract): MsgExecuteContract {
   return msg;
 }
 
-export function done(title: string, dao: string) {
+export function done(title: string, description: string, dao: string) {
   const data = {
     id: "DaoProposalSingle",
     data: {
-      title: title,
-      description: ".",
+      title,
+      description,
       actionData: props.map((a, index) => ({
         _id: index.toString(),
         actionKey: "execute",
@@ -614,11 +614,15 @@ export function done(title: string, dao: string) {
   };
 
   const dataFill = Buffer.from(JSON.stringify(data)).toString("base64");
+  const urlFill = encodeURIComponent(JSON.stringify(data));
 
   const url = `https://daodao.zone/dao/${dao}/proposals/create?prefill=${dataFill}`;
+  const url2 = `https://daodao.zone/dao/${dao}/proposals/create?prefill=${urlFill}`;
 
   props = [];
   console.log(url);
+  console.log("---");
+  console.log(url2);
   throw new Error("dont commit");
   return undefined;
 }

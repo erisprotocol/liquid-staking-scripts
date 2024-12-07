@@ -148,10 +148,11 @@ const argv = yargs(process.argv)
 
       arbluna_luna: token("terra19z7g4fnu529250sdkdmgm9kw4qgwmmqrjas9t24ll84mpd94lxnshf0z2h", true),
       xastro: token("ibc/65B3EB6263482979FD7A80E3FFB9D0C85CFBF6DB63EB8DDE918B2984A40CEAB6", false),
+      ampcapa: token("factory/terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y/ampCAPA", false),
     },
   };
   // const stable = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("stable"));
-  // const project = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("project"));
+  const project = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("project"));
   // const bluechip = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("bluechip"));
   const single = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("single"));
 
@@ -159,24 +160,24 @@ const argv = yargs(process.argv)
   const { txhash } = await sendTxWithConfirm(
     admin,
     [
-      addProposal(
-        new MsgExecuteContract(address, single, <ExecuteMsg>{
-          remove_assets: [astro.single.amproar_roar.info],
-        })
-      ),
       // addProposal(
       //   new MsgExecuteContract(address, single, <ExecuteMsg>{
-      //     whitelist_assets: [
-      //       astro.single.xastro,
-      //       astro.single.amproar_roar,
-      //       astro.single.arbluna_luna,
-      //       ww.single.statom_atom,
-      //       ww.single.steth_eth,
-      //     ],
+      //     remove_assets: [astro.single.amproar_roar.info],
       //   })
       // ),
+      addProposal(
+        new MsgExecuteContract(address, single, <ExecuteMsg>{
+          whitelist_assets: [astro.single.ampcapa],
+        })
+      ),
+      addProposal(
+        new MsgExecuteContract(address, project, <ExecuteMsg>{
+          whitelist_assets: [astro.project.luna_capa, ww.project.luna_capa],
+        })
+      ),
       done(
-        "[asset-staking] Change Single Whitelist",
+        "[asset-staking] Adding LUNA-CAPA to project and ampCAPA to single gauge whitelist",
+        ".",
         "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       ),
     ].filter(notEmpty)

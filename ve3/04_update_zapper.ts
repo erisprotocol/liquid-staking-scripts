@@ -36,6 +36,10 @@ const argv = yargs(process.argv)
 
   const centers = [tokens.luna];
 
+  const hubs = {
+    ampcapa: "terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y",
+  };
+
   const routes = [
     // RouteBuilder.start(tokens.ampluna).astro(tokens.luna),
     // using whale as ampluna pcl has issues
@@ -46,6 +50,7 @@ const argv = yargs(process.argv)
 
     RouteBuilder.start(tokens.solid).astro(tokens.luna),
     RouteBuilder.start(tokens.solid).astro(tokens.usdc),
+    RouteBuilder.start(tokens.ampcapa).whale(tokens.capa, hubs.ampcapa).astro(tokens.luna),
 
     RouteBuilder.start(tokens.ampwhale).whale(tokens.whale).whale(tokens.luna),
 
@@ -58,15 +63,18 @@ const argv = yargs(process.argv)
     RouteBuilder.start(tokens.luna).whale(tokens.usdt),
     RouteBuilder.start(tokens.usdc).astro(tokens.usdt),
 
-    RouteBuilder.start(tokens.luna).astro(tokens.axlWbtc),
     RouteBuilder.start(tokens.luna).whale(tokens.wbtc),
+    RouteBuilder.start(tokens.luna).astro(tokens.axlWbtc),
 
     RouteBuilder.start(tokens.luna).astro(tokens.atom),
     RouteBuilder.start(tokens.luna).whale(tokens.inj),
     RouteBuilder.start(tokens.luna).whale(tokens.wsol),
+    RouteBuilder.start(tokens.luna).whale(tokens.wsteth),
     // RouteBuilder.start(tokens.luna).astro(tokens.astro).astro(tokens.xastro_native),
     // RouteBuilder.start(tokens.rswth).astro(tokens.swth),
   ];
+
+  console.log("continue");
 
   const cache: Record<string, string> = {
     ["astroport:terra1xe8umegahlqphtpvjsuwfzfvyjfvag5h8rffsx6ezm0el4xzsf8s7uzezk-uluna"]:
@@ -129,6 +137,13 @@ const argv = yargs(process.argv)
       "terra1q2gd6kc7nt8xct94chrlsqtpxfs9rve0j76lquce624y5zp85cdseshh85",
     ["whitewhale:terra1ctelwayk6t2zu30a8v9kdg3u2gr0slpjdfny5pjp7m3tuquk32ysugyjdg-uluna"]:
       "terra12u7a9wkjqrkhxjcxx70uhfx8y49j4lclfnet2smw9agpnrv9chps27n9mh",
+
+    ["astroport:terra1t4p3u8khpd7f8qzurwyafxt648dya6mp6vur3vaapswt6m24gkuqrfdhar-uluna"]:
+      "terra183wqgrwa2k0uvlz99j57c496gfuwgtaccrhv4stcjzv3ydacl9zq0hmf25",
+    ["whitewhale:ibc/CF57A83CED6CEC7D706631B5DC53ABC21B7EDA7DF7490732B4361E6D5DD19C73-uluna"]:
+      "terra1aysexulsnuxna62m5rlnuzfcvct3df93gd4q0kkjtjcqsvv93s5sd0fyd2",
+    ["whitewhale:ibc/A356EC90DC3AE43D485514DA7260EDC7ABB5CFAA0654CE2524C739392975AD3C-uluna"]:
+      "terra12hs75vlyd38zjvhegsqzr8uvz2r764fdy8mhqw0qg0s2mv858yvstwmsf8",
   };
 
   for (const route of routes) {

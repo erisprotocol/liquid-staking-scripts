@@ -32,29 +32,18 @@ export class RouteBuilder {
     return this.routes.map((a) => [a.type, a.pair!]);
   }
 
-  astro(asset: AssetInfo) {
+  astro(asset: AssetInfo, pair: string | undefined = undefined) {
     const assets = [this.current!, asset];
     this.create(asset);
     this.routes.push({
       assets: assets,
-      pair: undefined,
+      pair,
       type: "astroport",
     });
     return this;
   }
 
-  whale(asset: AssetInfo) {
-    const assets = [this.current!, asset];
-    this.create(asset);
-    this.routes.push({
-      assets: assets,
-      pair: undefined,
-      type: "whitewhale",
-    });
-    return this;
-  }
-
-  pair(asset: AssetInfo, pair: string) {
+  whale(asset: AssetInfo, pair: string | undefined = undefined) {
     const assets = [this.current!, asset];
     this.create(asset);
     this.routes.push({
@@ -72,41 +61,43 @@ export class RouteBuilder {
 
       const key = `${route.type}:${tokens.join("-")}`;
 
-      if (!route.pair) {
-        if (cache[key]) {
-          route.pair = cache[key];
-        } else {
-          let pair = "";
-          if (route.type === "astroport") {
-            const factory =
-              "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r";
-            const response = await client.wasm.contractQuery<{
-              contract_addr: string;
-            }>(factory, {
-              pair: {
-                asset_infos: route.assets,
-              },
-            });
-
-            pair = response.contract_addr;
+      try {
+        if (!route.pair) {
+          if (cache[key]) {
+            route.pair = cache[key];
           } else {
-            const factory =
-              "terra1f4cr4sr5eulp3f2us8unu6qv8a5rhjltqsg7ujjx6f2mrlqh923sljwhn3";
-            const response = await client.wasm.contractQuery<{
-              contract_addr: string;
-            }>(factory, {
-              pair: {
-                asset_infos: route.assets,
-              },
-            });
+            let pair = "";
+            if (route.type === "astroport") {
+              const factory = "terra14x9fr055x5hvr48hzy2t4q7kvjvfttsvxusa4xsdcy702mnzsvuqprer8r";
+              const response = await client.wasm.contractQuery<{
+                contract_addr: string;
+              }>(factory, {
+                pair: {
+                  asset_infos: route.assets,
+                },
+              });
 
-            pair = response.contract_addr;
+              pair = response.contract_addr;
+            } else {
+              const factory = "terra1f4cr4sr5eulp3f2us8unu6qv8a5rhjltqsg7ujjx6f2mrlqh923sljwhn3";
+              const response = await client.wasm.contractQuery<{
+                contract_addr: string;
+              }>(factory, {
+                pair: {
+                  asset_infos: route.assets,
+                },
+              });
+
+              pair = response.contract_addr;
+            }
+
+            cache[key] = pair;
+            route.pair = pair;
+            console.log(`['${key}']: '${pair}',`);
           }
-
-          cache[key] = pair;
-          route.pair = pair;
-          console.log(`['${key}']: '${pair}',`);
         }
+      } catch (error) {
+        console.error("ROUTE", route, error);
       }
     }
   }

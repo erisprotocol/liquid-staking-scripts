@@ -34,7 +34,7 @@ export interface LpInfo {
   const result: LpInfo[] = [];
 
   for (const gauge in gauges) {
-    if (gauge != "single") continue;
+    if (gauge != "project") continue;
     const addr = gauges[gauge][Ve3InfoKeys.asset_staking_addr_str] as string;
 
     console.log(`whitelisted ${addr}`);
