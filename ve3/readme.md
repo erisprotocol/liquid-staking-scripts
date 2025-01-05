@@ -267,6 +267,12 @@ ts-node ve3/get_lp_info.ts \
 
 ```bash
 source ~/.network
+ts-node ve3/get_outstanding.ts \
+    --network $NETWORK
+```
+
+```bash
+source ~/.network
 ts-node ve3/get_routes.ts \
     --network $NETWORK
 ```
@@ -327,7 +333,7 @@ ts-node ve3/06_pdt_axelar_action.ts \
 
 ## Migrations
 
-```bash
+<!-- ```bash
 source ~/.network
 ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
@@ -335,7 +341,7 @@ ts-node amp-governance/1_upload_contracts.ts \
     --folder contracts-ve3 \
     --contracts ve3_asset_gauge \
     --migrates terra1z40yygcx7mau96yav87389fg8csx9479vay5lztwxv0t8l0p7yfqetdc3d
-```
+``` -->
 
 ```bash
 source ~/.network
@@ -419,7 +425,7 @@ ts-node amp-governance/1_upload_contracts.ts \
     --migrates terra1hfksrhchkmsj4qdq33wkksrslnfles6y2l77fmmzeep0xmq24l2smsd3lj
 ```
 
-// 3117 -> 3176 -> 3224
+// 3117 -> 3176 -> 3224 -> 3436
 
 --contracts ve3_asset_gauge ve3_asset_staking ve3_bribe_manager ve3_connector_alliance ve3_connector_emission ve3_global_config ve3_voting_escrow phoenix_treasury \
 
@@ -460,3 +466,10 @@ ts-node amp-governance/1_upload_contracts.ts \
 ```
 
 Axl OTC: 3225-> 3228
+
+```bash
+source ~/.network
+ts-node ve3/04_update_voting_escrow.ts \
+    --network $NETWORK \
+    --key mainnet
+```

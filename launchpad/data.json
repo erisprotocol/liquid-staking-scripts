@@ -3,6 +3,7 @@
     "global_config_addr": "neutron1qvehs5u2pd6wd4cj822q4wzgy0342rdkjp9pz282msypq754ntyqm7fh03",
     "zapper_addr": "neutron1rwrhsf5gfcchsf8zcr8d8tgcagss7shs643qm0u7au69kazfzy8qjgw4mt",
     "launch_addr": "neutron1926ks2plcsnz45p6nk9gr02p5xc6a5a23jvpwq8ljzdhpk0k9fmsljfqr5",
+    "burn_addr": "neutron1th9pqj2an2uyu80qwk0w9uvm0funyw679fj48u3vaqkv89vg3ttsn6eugz",
     "launches": {
       "permissionless": {
         "launch_addr": "neutron1e0n8uu8cz36z5yvexra2ay5z2akgy30r2d5ampsfd83m9gq7wa4qw0gjlh"

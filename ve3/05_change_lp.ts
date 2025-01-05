@@ -151,9 +151,9 @@ const argv = yargs(process.argv)
       ampcapa: token("factory/terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y/ampCAPA", false),
     },
   };
-  // const stable = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("stable"));
+  const stable = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("stable"));
   const project = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("project"));
-  // const bluechip = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("bluechip"));
+  const bluechip = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("bluechip"));
   const single = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("single"));
 
   const address = admin.key.accAddress(getPrefix());
@@ -166,17 +166,17 @@ const argv = yargs(process.argv)
       //   })
       // ),
       addProposal(
-        new MsgExecuteContract(address, single, <ExecuteMsg>{
-          whitelist_assets: [astro.single.ampcapa],
+        new MsgExecuteContract(address, bluechip, <ExecuteMsg>{
+          whitelist_assets: [astro.bluechip.usdc_eure, ww.bluechip.usdc_eure],
         })
       ),
-      addProposal(
-        new MsgExecuteContract(address, project, <ExecuteMsg>{
-          whitelist_assets: [astro.project.luna_capa, ww.project.luna_capa],
-        })
-      ),
+      // addProposal(
+      //   new MsgExecuteContract(address, project, <ExecuteMsg>{
+      //     whitelist_assets: [astro.project.luna_capa, ww.project.luna_capa],
+      //   })
+      // ),
       done(
-        "[asset-staking] Adding LUNA-CAPA to project and ampCAPA to single gauge whitelist",
+        "[asset-staking] Adding USDC-EURe to bluechip gauge whitelist",
         ".",
         "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       ),

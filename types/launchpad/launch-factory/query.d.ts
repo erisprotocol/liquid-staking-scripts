@@ -21,7 +21,7 @@ export type QueryMsg =
       };
     }
   | {
-      launch_deposit: {
+      user_deposit: {
         id: number;
         user?: string | null;
       };

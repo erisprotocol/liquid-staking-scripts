@@ -65,9 +65,15 @@ const argv = yargs(process.argv)
 
   const stewardship = "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg";
   const c1 = "terra1gaxzcygjyz7gq8gq9tjy02qq38kcf84um9wy0a";
+  const c2 = "terra15vwmgac9tlcgkrkjn4rq3r0md003ufsqp64vaw";
+  const c3 = "terra14p3mc04s7jcaxvvetlzehvhx9gdx6w4nm3zzw3";
+  const c4 = "terra18ruqkccl5tp493uhvra0u6jylrzq8t8dv5qs4c";
 
   const mod1 = "terra1lqqsydqeeccndxcaatgryf4ra8ujnrluk5meqs";
   const mod2 = "terra1xtyq8trkwwvpyjf4z0vltyr0c260pnnfm8vy68";
+
+  const core1 = "terra1azcpczz2jfysyl6m3wx3scpunt4lgcujpkyzt2";
+  const comms1 = "terra12jrvhyc4fn2zvhcw8t7cnyy2udgpvdcm8g7egn";
 
   const infra1 = "terra18ruqkccl5tp493uhvra0u6jylrzq8t8dv5qs4c";
   const legalContingencyDao = "terra1fnyxf85yd7z5wvwa2fxxspynh40ex9ajlgjr4dg7s9f6rhjma0uqfqr650";
@@ -228,17 +234,22 @@ const argv = yargs(process.argv)
       // cancelAction(26),
       // cancelAction(28),
       // cancelAction(29),
-      // addMilestones("SOLID Protocol Grant", tokens.usdc, "terra1dgmanyfy7ch3qn0g6fvpm6e60pwxdheuujfkee", [
+      // addMilestones("Boost DAO Project Grant", tokens.usdc, "terra18xcx0vq9szk4kczgk289g3l9t9yt70t4ygkg9z", [
       //   {
-      //     amount: (7500 * 1e6).toFixed(0),
-      //     text: "Delivery of CAPA",
+      //     amount: (25000 * 1e6).toFixed(0),
+      //     text: "$FUEL delivery",
       //   },
       //   {
-      //     amount: (7500 * 1e6).toFixed(0),
-      //     text: "Fixing SOLID Oracle Issue, Keplr Integration and Front-End Fixes",
+      //     amount: (25000 * 1e6).toFixed(0),
+      //     text: "Mainnet launch",
       //   },
       // ]),
-      // addPayment("Refund 400$ hydro + 150$ equinox", 550, tokens.usdc, c1),
+      // done(
+      //   `[pdt] Setup Boost DAO Project Grant`,
+      //   ".",
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+      // addPayment("Refund 1500$ hydro bribe", 1500, tokens.usdc, c1),
       // addPaymentsEachMonth(
       //   "mod payments (2024-11-15 - 2025-02-15)",
       //   [
@@ -266,10 +277,65 @@ const argv = yargs(process.argv)
       //   ],
       //   generatePaymentSchedule(1, 3, true)
       // ),
+      // addPaymentsEachMonth(
+      //   "stewardship payments (2025-01-01 - 2025-04-01)",
+      //   [
+      //     {
+      //       amount: 8640,
+      //       info: tokens.usdc,
+      //       recipient: c1,
+      //     },
+      //     {
+      //       amount: 5640,
+      //       info: tokens.usdc,
+      //       recipient: c2,
+      //     },
+      //     {
+      //       amount: 3000,
+      //       info: tokens.usdc,
+      //       recipient: c3,
+      //     },
+      //     {
+      //       amount: 2800,
+      //       info: tokens.usdc,
+      //       recipient: c4,
+      //     },
+      //   ],
+      //   generatePaymentSchedule(15, 3, true)
+      // ),
+      // done(`[pdt] Setup stewardship payments`, ".", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
+
+      // addPaymentsEachMonth(
+      //   "core payments (2024-12-01 - 2025-04-01)",
+      //   [
+      //     {
+      //       amount: 5000,
+      //       info: tokens.usdc,
+      //       recipient: core1,
+      //     },
+      //   ],
+      //   generatePaymentSchedule(15, 4, false)
+      // ),
+      // done(`[pdt] Setup core payments`, ".", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
+
+      // addPaymentsEachMonth(
+      //   "core development payments (2025-01-01 - 2025-04-01)",
+      //   [
+      //     {
+      //       amount: 5000,
+      //       info: tokens.usdc,
+      //       recipient: core1,
+      //     },
+      //   ],
+      //   generatePaymentSchedule(15, 3, true)
+      // ),
+      // done(
+      //   `[pdt] Setup core development payments`,
+      //   ".",
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+
       // cancelAction(8),
-      // addOtc(300000, lunaPrice, 0.02, "USDC", tokens.usdc, 1e6),
-      // addOtc(600000, lunaPrice, 0.01, "axlUSDC", tokens.axlUsdc, 1e6),
-      // addOtc(150000, lunaPrice, 0.01, "axlUSDT", tokens.axlUsdt, 1e6),
       // addOtc(100000, lunaPrice / btcPrice, 0.01, "axlWBTC", tokens.axlWbtc, 1e8),
       // done(
       //   `[pdt] Transfer 40k LUNA for Long Term Alignment Program`,
@@ -282,23 +348,20 @@ const argv = yargs(process.argv)
       //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       // ),
       // done(`[pdt] Setup mod payments`, ".", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
-      enableMilestone(11, 2),
-      done(
-        `[pdt] Enable SOLID Protocol Grant - Milestone 2`,
-        ".",
-        "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
-      ),
+      // enableMilestone(11, 2),
+      // done(`[pdt] Refund 1500 $ hydro bribe`, ".", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
       // addPayment("Setup Legal Contingency DAO", 70000, tokens.usdc, legalContingencyDao),
       // done(
       //   `[pdt] Setup Legal Contingency DAO - 70k USDC`,
       //   ".",
       //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       // ),
-      // done(
-      //   `[pdt] Setup OTC (CoinGecko: ${lunaPrice.toFixed(5)}, ${btcPrice.toFixed(5)})`,
-      //   ".",
-      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
-      // ),
+      addOtc(300000, lunaPrice, 0.02, "USDC", tokens.usdc, 1e6),
+      done(
+        `[pdt] Setup OTC (CoinGecko: ${lunaPrice.toFixed(5)}, ${btcPrice.toFixed(5)})`,
+        ".",
+        "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      ),
     ].filter(notEmpty)
   );
   console.log(`Contract added route! Txhash: ${txhash}`);

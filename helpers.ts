@@ -203,6 +203,14 @@ const networks = {
     prefix: "nibi",
     gasPrices: { unibi: 0.025 },
   },
+  "testnet-nibiru": {
+    chainID: "nibiru-testnet-1",
+    // lcd: "https://lcd.nibiru.fi/",
+    lcd: "https://lcd.testnet-1.nibiru.fi",
+    gasAdjustment: 1.3,
+    prefix: "nibi",
+    gasPrices: { unibi: 0.025 },
+  },
 };
 
 export type Chains = keyof typeof networks;
@@ -319,19 +327,31 @@ export async function sendTxWithConfirm(signer: Wallet, msgs: Msg[], memo?: stri
     let tx: Tx;
 
     try {
+      const info = await signer.accountNumber(x.chainID);
+      // console.log("signer", signer, info);
       tx = await signer.createAndSignTx(x);
     } catch (error: any) {
       if (error?.response?.data?.message?.includes("not found")) {
-        console.log("INSIDE " + error?.response?.data?.message);
+        // console.log("INSIDE " + error?.response?.data?.message);
         const accountNumber = await signer.accountNumber(x.chainID);
-        console.log("🚀 ~ file: helpers.ts:223 ~ accountNumber", accountNumber);
+        // console.log("🚀 ~ file: helpers.ts:223 ~ accountNumber", accountNumber);
         tx = await signer.createAndSignTx({
           ...x,
           accountNumber,
           sequence: 0,
         });
       } else {
-        throw error;
+        console.log("fallback axios");
+        const lcd = signer.lcd.config[x.chainID].lcd;
+        const account = await axios.default.get<{ info: { account_number: string; sequence: string } }>(
+          `${lcd}/cosmos/auth/v1beta1/account_info/nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke`
+        );
+        console.log(account.data);
+        tx = await signer.createAndSignTx({
+          ...x,
+          accountNumber: +account.data.info.account_number,
+          sequence: +account.data.info.sequence,
+        });
       }
     }
 

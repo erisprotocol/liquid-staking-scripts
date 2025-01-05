@@ -96,12 +96,16 @@ echo 'NETWORK="nibiru"; echo $NETWORK' >  ~/.network
 ```
 
 ```bash
+echo 'NETWORK="testnet-nibiru"; echo $NETWORK' >  ~/.network
+```
+
+```bash
 source ~/.network
 ts-node amp-governance/1_upload_contracts.ts \
     --network $NETWORK \
-    --key mainnet \
+    --key key-mainnet \
     --folder contracts-tokenfactory \
-    --contracts  eris_staking_hub_tokenfactory_nibiru ve3_voting_escrow ve3_zapper
+    --contracts  eris_staking_hub_tokenfactory_nibiru
 ```
 
 ```bash
@@ -109,7 +113,7 @@ source ~/.network
 ts-node 2_deploy_hub_tokenfactory.ts \
     --network $NETWORK \
     --key key-mainnet \
-    --hub-code-id 132 \
+    --hub-code-id 1602 \
     --hub-binary "../contracts-tokenfactory/artifacts/eris_staking_hub_tokenfactory_nibiru.wasm"
 ```
 

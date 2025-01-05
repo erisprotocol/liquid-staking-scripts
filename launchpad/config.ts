@@ -10,6 +10,7 @@ interface Data {
 export class LaunchpadInfoKeys {
   static global_config_addr = "global_config_addr";
   static zapper_addr = "zapper_addr";
+  static burn_addr = "burn_addr";
   static launch_addr = (project: string) => `launches.${project}.launch_addr`;
 }
 

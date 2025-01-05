@@ -168,6 +168,24 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
     utoken: "unibi",
     delegation_strategy: "uniform",
   },
+
+  "testnet-nibiru": <InstantiateMsg>{
+    denom: "ampNIBIT",
+    epoch_period: 3 * 24 * 60 * 60 + 60,
+    unbond_period: 21 * 24 * 60 * 60,
+    validators: [
+      "nibivaloper1rz82lglj7r93hcc4nzae453p6m2uh9x2g5cd8n",
+      "nibivaloper19twdlytf8nh8exngc3zsuhgstkngezyae9y2mh",
+      "nibivaloper14t6y0v3y9g8j5auma7nvsum3n7uvdsa5tcwxk3",
+    ],
+    protocol_fee_contract: "nibi1c023jxq099et7a44ledfwuu3sdkfq8ca7vgv0t",
+    protocol_reward_fee: "0.05",
+    owner: "nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke",
+    chain_config: {},
+    operator: "nibi1c023jxq099et7a44ledfwuu3sdkfq8ca7vgv0t",
+    utoken: "unibi",
+    delegation_strategy: "uniform",
+  },
 };
 
 // MIGALOO (ampWHALE)
@@ -214,9 +232,7 @@ const templates: Partial<Record<Chains, InstantiateMsg>> = {
   const terra = createLCDClient(argv["network"]);
   const deployer = await createWallet(terra, argv["key"], argv["key-dir"]);
 
-  const hubCodeId =
-    argv["hub-code-id"] ??
-    (await uploadCode(deployer, path.resolve(argv["hub-binary"])));
+  const hubCodeId = argv["hub-code-id"] ?? (await uploadCode(deployer, path.resolve(argv["hub-binary"])));
 
   let msg: any;
   if (argv["msg"]) {

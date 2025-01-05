@@ -1,19 +1,21 @@
 import { MsgExecuteContract } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
 import { tokens } from "../amp-compounder/tokens";
+import { notEmpty } from "../cosmos/helpers";
 import {
+  addProposal,
   Chains,
   createLCDClient,
   createWallet,
+  done,
   getInfo,
   getPrefix,
-  printProposal,
   sendTxWithConfirm,
   toNew,
 } from "../helpers";
 import * as keystore from "../keystore";
 import { AssetConfigFor_String, AssetInfoWithConfigFor_String, ExecuteMsg } from "../types/ve3/asset-staking/execute";
-import { Ve3InfoKeys, config } from "./config";
+import { config, Ve3InfoKeys } from "./config";
 
 const argv = yargs(process.argv)
   .options({
@@ -75,22 +77,23 @@ const argv = yargs(process.argv)
       // WW bLUNA,
       blune: token("terra1q475uvk9te5nxq2lzu0h96t0devmx4v8ctxqtm253ut05wrpugsq0m4e3k"),
     },
-    bluechip: [
+    bluechip: {
       // WW ATOM
-      token("terra1adp223mw8937arxcfl36acjjyn2dcf7wzp8h09jek5k0gw3vch8sqlq6su"),
+      atom: token("terra1adp223mw8937arxcfl36acjjyn2dcf7wzp8h09jek5k0gw3vch8sqlq6su"),
       // WW SOL,
-      token("factory/terra12u7a9wkjqrkhxjcxx70uhfx8y49j4lclfnet2smw9agpnrv9chps27n9mh/uLP"),
+      sol: token("factory/terra12u7a9wkjqrkhxjcxx70uhfx8y49j4lclfnet2smw9agpnrv9chps27n9mh/uLP"),
       // WW BNB,
-      token("factory/terra1m5juz238n27dd24d9e3kacmqax8gu7j5ee9hhfczpl52f3n7adaqudk2c9/uLP"),
+      bnb: token("factory/terra1m5juz238n27dd24d9e3kacmqax8gu7j5ee9hhfczpl52f3n7adaqudk2c9/uLP"),
       // WW INJ,
-      token("factory/terra1q2gd6kc7nt8xct94chrlsqtpxfs9rve0j76lquce624y5zp85cdseshh85/uLP"),
+      inj: token("factory/terra1q2gd6kc7nt8xct94chrlsqtpxfs9rve0j76lquce624y5zp85cdseshh85/uLP"),
       // WW USDC-USDT,
-      token("factory/terra17vas9rhxhc6j6f5wrup9cqapxn74jvpft069py7l7l9kr7wx3tnsxrazux/uLP"),
+      usdc_old: token("factory/terra17vas9rhxhc6j6f5wrup9cqapxn74jvpft069py7l7l9kr7wx3tnsxrazux/uLP"),
+      usdc_new: token("factory/terra178ca7z2w6346wlkmxwpw80s2a5fmas9q28xlzegkt4c4rdam67aql5fgxj/uLP"),
       // WW wstETH,
-      token("factory/terra12hs75vlyd38zjvhegsqzr8uvz2r764fdy8mhqw0qg0s2mv858yvstwmsf8/uLP"),
+      steth: token("factory/terra12hs75vlyd38zjvhegsqzr8uvz2r764fdy8mhqw0qg0s2mv858yvstwmsf8/uLP"),
       // WW BTC,
-      token("factory/terra1aysexulsnuxna62m5rlnuzfcvct3df93gd4q0kkjtjcqsvv93s5sd0fyd2/uLP"),
-    ],
+      btc: token("factory/terra1aysexulsnuxna62m5rlnuzfcvct3df93gd4q0kkjtjcqsvv93s5sd0fyd2/uLP"),
+    },
   };
 
   const astro = {
@@ -137,22 +140,31 @@ const argv = yargs(process.argv)
       token("terra1a5apghncafx0nem740fsrmd6demaywvp332a4uat63u2jtwn8mgsz7khkw", true),
     ],
   };
-  const from = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("stable"));
-  const to = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("project"));
+  const stable = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("stable"));
+  const project = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("project"));
+  const bluechip = getInfo("ve3", network, Ve3InfoKeys.asset_staking_addr("bluechip"));
 
   const address = admin.key.accAddress(getPrefix());
-  const { txhash } = await sendTxWithConfirm(admin, [
-    printProposal(
-      new MsgExecuteContract(address, from, <ExecuteMsg>{
-        remove_assets: [astro.stable.solid.info, ww.stable.solid.info],
-      })
-    ),
-    printProposal(
-      new MsgExecuteContract(address, to, <ExecuteMsg>{
-        whitelist_assets: [astro.stable.solid, ww.stable.solid],
-      })
-    ),
-  ]);
+  const { txhash } = await sendTxWithConfirm(
+    admin,
+    [
+      addProposal(
+        new MsgExecuteContract(address, bluechip, <ExecuteMsg>{
+          remove_assets: [ww.bluechip.usdc_old.info],
+        })
+      ),
+      addProposal(
+        new MsgExecuteContract(address, bluechip, <ExecuteMsg>{
+          whitelist_assets: [ww.bluechip.usdc_new],
+        })
+      ),
+      done(
+        "[asset-staking] Change WW USDC-USDT pool to stableswap",
+        ".",
+        "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      ),
+    ].filter(notEmpty)
+  );
   console.log(`Contract added route! Txhash: ${txhash}`);
 })();
 

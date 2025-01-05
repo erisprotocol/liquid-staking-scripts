@@ -278,6 +278,16 @@ export const tokens_neutron = {
       denom: "factory/neutron1ug740qrkquxzrk2hh29qrlx3sktkfml3je7juusc2te7xmvsscns0n2wry/wstETH",
     },
   },
+  fuel: {
+    native_token: {
+      denom: "factory/neutron1zl2htquajn50vxu5ltz0y5hf2qzvkgnjaaza2rssef268xplq6vsjuruxm/fuel",
+    },
+  },
+  xastro: {
+    native_token: {
+      denom: "factory/neutron1zlf3hutsa4qnmue53lz2tfxrutp8y2e3rj4nkghg3rupgl4mqy8s5jgxsn/xASTRO",
+    },
+  },
 };
 
 export const tokens_neutron_testnet = {
