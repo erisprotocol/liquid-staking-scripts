@@ -33,6 +33,10 @@ const argv = yargs(process.argv)
 
   const address = admin.key.accAddress(getPrefix());
   const contract = getInfo("ve3", network, Ve3InfoKeys.zapper_addr);
+  // console.log("Address", address, contract);
+  // if (1 == 1) {
+  //   return;
+  // }
 
   const centers = [tokens.luna];
 
@@ -48,8 +52,8 @@ const argv = yargs(process.argv)
 
     RouteBuilder.start(tokens.astro_native).astro(tokens.axlUsdc).astro(tokens.luna),
 
-    RouteBuilder.start(tokens.solid).astro(tokens.luna),
-    RouteBuilder.start(tokens.solid).astro(tokens.usdc),
+    // RouteBuilder.start(tokens.solid).astro(tokens.luna),
+    RouteBuilder.start(tokens.solid).astro(tokens.usdc).astro(tokens.luna),
     RouteBuilder.start(tokens.ampcapa).whale(tokens.capa, hubs.ampcapa).astro(tokens.luna),
 
     RouteBuilder.start(tokens.ampwhale).whale(tokens.whale).whale(tokens.luna),
@@ -71,7 +75,7 @@ const argv = yargs(process.argv)
     RouteBuilder.start(tokens.luna).whale(tokens.wsol),
     RouteBuilder.start(tokens.luna).whale(tokens.wsteth),
     // RouteBuilder.start(tokens.luna).astro(tokens.astro).astro(tokens.xastro_native),
-    // RouteBuilder.start(tokens.rswth).astro(tokens.swth),
+    RouteBuilder.start(tokens.rswth).astro(tokens.swth).astro(tokens.luna),
   ];
 
   console.log("continue");
@@ -144,6 +148,10 @@ const argv = yargs(process.argv)
       "terra1aysexulsnuxna62m5rlnuzfcvct3df93gd4q0kkjtjcqsvv93s5sd0fyd2",
     ["whitewhale:ibc/A356EC90DC3AE43D485514DA7260EDC7ABB5CFAA0654CE2524C739392975AD3C-uluna"]:
       "terra12hs75vlyd38zjvhegsqzr8uvz2r764fdy8mhqw0qg0s2mv858yvstwmsf8",
+    ["astroport:ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098-ibc/792AAE6279F4709F66068E29A79E6F16BBC0A9B93561A91FC040606793E62D6B"]:
+      "terra1rzw2egugtjhxz2x58z55kwldm96fzck8qsf9srf5v0uehf64a2asjsak68",
+    ["astroport:ibc/792AAE6279F4709F66068E29A79E6F16BBC0A9B93561A91FC040606793E62D6B-uluna"]:
+      "terra1crlsemxx6yjpeq3am9dzccln0dykusm685ecxscuyny7u596elqqj6xd9z",
   };
 
   for (const route of routes) {
@@ -174,7 +182,7 @@ const argv = yargs(process.argv)
       }
   );
 
-  console.log(JSON.stringify(insert_routes, undefined, 2));
+  // console.log(JSON.stringify(insert_routes, undefined, 2));
 
   const { txhash } = await sendTxWithConfirm(admin, [
     new MsgExecuteContract(address, contract, <ExecuteMsg>{

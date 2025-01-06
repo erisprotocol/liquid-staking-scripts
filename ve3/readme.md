@@ -1,11 +1,6 @@
 # Voting Escrow Scripts
 
 ```bash
-echo 'NETWORK="mainnet-copy"; echo $NETWORK' >  ~/.network
-
-```
-
-```bash
 echo 'NETWORK="mainnet"; echo $NETWORK' >  ~/.network
 ```
 

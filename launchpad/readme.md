@@ -93,3 +93,9 @@ ts-node amp-governance/1_upload_contracts.ts \
     --contracts treasury \
     --migrates neutron1th9pqj2an2uyu80qwk0w9uvm0funyw679fj48u3vaqkv89vg3ttsn6eugz
 ```
+
+# Terra
+
+```bash
+echo 'NETWORK="mainnet"; echo $NETWORK' >  ~/.network
+```

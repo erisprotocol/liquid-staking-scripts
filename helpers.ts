@@ -342,9 +342,10 @@ export async function sendTxWithConfirm(signer: Wallet, msgs: Msg[], memo?: stri
         });
       } else {
         console.log("fallback axios");
+        console.log("SETTINGS", x);
         const lcd = signer.lcd.config[x.chainID].lcd;
         const account = await axios.default.get<{ info: { account_number: string; sequence: string } }>(
-          `${lcd}/cosmos/auth/v1beta1/account_info/nibi1dpaaxgw4859qhew094s87l0he8tfea3ln0cmke`
+          `${lcd}/cosmos/auth/v1beta1/account_info/${signer.key.accAddress(getPrefix())}`
         );
         console.log(account.data);
         tx = await signer.createAndSignTx({

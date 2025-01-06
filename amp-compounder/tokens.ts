@@ -100,7 +100,7 @@ export const tokens = {
   },
   swth: {
     native_token: {
-      denom: "ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098",
+      denom: "ibc/792AAE6279F4709F66068E29A79E6F16BBC0A9B93561A91FC040606793E62D6B",
     },
   },
   red: {
