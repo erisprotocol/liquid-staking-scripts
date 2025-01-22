@@ -55,6 +55,8 @@ function removeKey(keyName: string, keyDir: string) {
 // ts-node 1_manage_keys.ts add key-test --key-dir keys --coin-type 118 --prefix cosmos
 // ts-node 1_manage_keys.ts add key-neutron --key-dir keys --coin-type 118 --prefix neutron
 // ts-node 1_manage_keys.ts test
+// ts-node 1_manage_keys.ts add boost-owner --key-dir keys
+// ts-node 1_manage_keys.ts add key-boost --key-dir keys --coin-type 118
 
 yargs(hideBin(process.argv))
   // .command(

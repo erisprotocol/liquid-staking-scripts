@@ -10,14 +10,7 @@ export type ExecuteMsg =
       update_config: ConfigOptionFor_String;
     }
   | {
-      setup: {
-        distribution: DistributionSetupFor_String;
-        from: AssetBaseFor_String;
-        name: string;
-        setup: LaunchSetup;
-        to_info: AssetInfoBaseFor_String;
-        whitelist?: string[] | null;
-      };
+      receive_nft: Cw721ReceiveMsg;
     }
   | {
       cancel: {
@@ -34,36 +27,10 @@ export type ExecuteMsg =
       deposit: {
         amount: Uint128;
         id: number;
-        min_received?: Uint128 | null;
       };
     }
   | {
-      withdraw: {
-        amount?: Uint128 | null;
-        id: number;
-      };
-    }
-  | {
-      launch: {
-        id: number;
-        min_received?: Uint128 | null;
-      };
-    }
-  | {
-      claim: {
-        id: number;
-      };
-    }
-  | {
-      claim_bond: {};
-    }
-  | {
-      claim_vesting: {
-        id: number;
-      };
-    }
-  | {
-      callback: CallbackMsg;
+      la: LaMsg;
     }
   | {
       update_ownership: Action;
@@ -102,83 +69,30 @@ export type AssetInfoBaseFor_String =
  * The greatest possible value that can be represented is 340282366920938463463.374607431768211455 (which is (2^128 - 1) / 10^18)
  */
 export type Decimal = string;
-export type LaunchTypeFor_String =
-  | "coins"
-  | {
-      lp: {
-        pair: string;
-        project_share: Decimal;
-      };
-    };
-export type Lockup =
-  | "none"
-  | {
-      vesting: {
-        end_s: number;
-        start_s: number;
-      };
-    }
-  | {
-      bond: {
-        end_s: number;
-        name: string;
-      };
-    };
-export type LaunchSetup =
-  | {
-      lbp: LbpSetup;
-    }
-  | {
-      otc: OtcSetup;
-    }
-  | {
-      stream: StreamSetup;
-    };
-export type CallbackMsg =
-  | {
-      distribute_lp: {
-        distribution: DistributionRuntime;
-        launch_id: number;
-        lp_before: AssetBaseFor_Addr;
-        user: Addr;
-      };
-    }
-  | {
-      store_distribution_amount: {
-        launch_id: number;
-        lp_before: AssetBaseFor_Addr;
-      };
-    };
 /**
- * Represents the type of an fungible asset.
+ * Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.
  *
- * Each **asset info** instance can be one of three variants:
- *
- * - Native SDK coins. To create an **asset info** instance of this type, provide the denomination. - CW20 tokens. To create an **asset info** instance of this type, provide the contract address.
+ * This is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.
  */
-export type AssetInfoBaseFor_Addr =
+export type Binary = string;
+export type LaMsg =
   | {
-      native: string;
+      vote: {
+        contract: string;
+        gauge: string;
+        votes: [string, number][];
+      };
     }
   | {
-      cw20: Addr;
-    };
-/**
- * A human readable address.
- *
- * In Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.
- *
- * This type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.
- *
- * This type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.
- */
-export type Addr = string;
-export type LaunchTypeFor_Addr =
-  | "coins"
+      claim_rebase: {
+        contract: string;
+        recipient: string;
+      };
+    }
   | {
-      lp: {
-        pair: Addr;
-        project_share: Decimal;
+      claim_bribes: {
+        contract: string;
+        recipient: string;
       };
     };
 /**
@@ -233,12 +147,11 @@ export type Uint64 = string;
 
 export interface ConfigOptionFor_String {
   denom_creation_fee?: AssetBaseFor_String | null;
-  fee_lbp?: Decimal | null;
-  fee_otc?: Decimal | null;
+  fee_la?: Decimal | null;
+  fee_nft?: Decimal | null;
   fee_recipient?: string | null;
-  fee_stream?: Decimal | null;
+  royalties?: [string, RoyaltyInfoFor_String | null][] | null;
   whitelist?: string[] | null;
-  zapper?: string | null;
 }
 /**
  * Represents a fungible asset with a known amount
@@ -255,55 +168,19 @@ export interface AssetBaseFor_String {
    */
   info: AssetInfoBaseFor_String;
 }
-export interface DistributionSetupFor_String {
-  launch_type: LaunchTypeFor_String;
-  lockup: Lockup;
-  project_recipient: string;
+export interface RoyaltyInfoFor_String {
+  recipient: string;
+  share: Decimal;
 }
-export interface LbpSetup {
-  deposit_end_s: number;
-  deposit_start_s: number;
-  withdraw_end_s: number;
-  withdraw_start_s: number;
-}
-export interface OtcSetup {
-  to_amount: Uint128;
-}
-export interface StreamSetup {
-  deposit_end_s: number;
-  deposit_start_s: number;
-  stream_end_s: number;
-  stream_start_s: number;
-  withdraw_end_s: number;
-  withdraw_start_s: number;
+/**
+ * Cw721ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg
+ */
+export interface Cw721ReceiveMsg {
+  msg: Binary;
+  sender: string;
+  token_id: string;
 }
 export interface UpdateWhitelist {
   add?: string[] | null;
   remove?: string[] | null;
-}
-export interface DistributionRuntime {
-  bond_denom?: string | null;
-  distribution_amount: Uint128;
-  distribution_asset: AssetInfoBaseFor_Addr;
-  setup: DistributionSetupFor_Addr;
-}
-export interface DistributionSetupFor_Addr {
-  launch_type: LaunchTypeFor_Addr;
-  lockup: Lockup;
-  project_recipient: Addr;
-}
-/**
- * Represents a fungible asset with a known amount
- *
- * Each asset instance contains two values: `info`, which specifies the asset's type (CW20 or native), and its `amount`, which specifies the asset's amount.
- */
-export interface AssetBaseFor_Addr {
-  /**
-   * Specifies the asset's amount
-   */
-  amount: Uint128;
-  /**
-   * Specifies the asset's type (CW20 or native)
-   */
-  info: AssetInfoBaseFor_Addr;
 }

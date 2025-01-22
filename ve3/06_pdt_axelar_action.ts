@@ -73,19 +73,22 @@ const argv = yargs(process.argv)
       })
     );
   };
-
   const addOtc = (
     amount: number,
     price: number,
     discount: number,
+    fromSymbol: string,
+    fromInfo: AssetInfo,
     toSymbol: string,
     toInfo: AssetInfo,
+    fromDecimals = 1e6,
     toDecimals = 1e6
   ) => {
     const discountPrice = price * (1 - discount);
+    amount = amount / discountPrice;
     const expected = amount * discountPrice;
 
-    const name = `OTC ${amount.toFixed(5)} LUNA -> ${expected.toFixed(5)} ${toSymbol}`;
+    const name = `OTC ${amount.toFixed(5)} ${fromSymbol} -> ${expected.toFixed(5)} ${toSymbol}`;
 
     console.log(name, price);
     return addProposal(
@@ -95,8 +98,8 @@ const argv = yargs(process.argv)
           action: {
             otc: {
               amount: {
-                amount: (amount * 1e6).toFixed(0),
-                info: toNew(tokens.luna),
+                amount: (amount * fromDecimals).toFixed(0),
+                info: toNew(fromInfo),
               },
               into: {
                 amount: (expected * toDecimals).toFixed(0),
@@ -108,6 +111,7 @@ const argv = yargs(process.argv)
       })
     );
   };
+
 
   const addPayment = (name: string, amount: number, info: AssetInfo, recipient: string, toDecimals = 1e6) => {
     console.log(name, amount);
@@ -147,19 +151,54 @@ const argv = yargs(process.argv)
       // addOtc(200000, lunaPrice, 0.01, "axlUSDC", tokens.axlUsdc, 1e6),
       // addOtc(50000, lunaPrice, 0.01, "axlUSDT", tokens.axlUsdt, 1e6),
       // addOtc(50000, lunaPrice / btcPrice, 0.01, "WBTC.axl", tokens.axlWbtc, 1e8),
-      // addOtc(100000, lunaPrice / btcPrice, 0.02, "WBTC.osmo", tokens.wbtc, 1e8),
+      // addOtc(1281870, 1, 0.005, 'USDC', tokens.usdc, "USDC.axl", tokens.axlUsdc, 1e6, 1e6),
+      // addOtc(67667, 1, 0.01, 'USDC', tokens.usdc, "USDT.axl", tokens.axlUsdt, 1e6, 1e6),
+      // addOtc(1.104, 1, 0.005, 'WBTC.osmo', tokens.wbtc, "WBTC.axl", tokens.axlWbtc, 1e8, 1e8),
       addPayment(
-        "Refund 136338 USDC to Astroport",
-        136338,
-        tokens.usdc,
-        "terra1alsky8h94xgfz24hsjq3cylw4vykgzrx6jr6sq"
+        "Refund 651,103.000000 LUNA to recovery multi-sig",
+        651103.0,
+        tokens.luna,
+        "terra1uh34jacuacgzlc7tmd99txafk29g22zqkdervya9nktzhu2q3hlsenfcyq"
       ),
+      // addPayment(
+      //   "Withdraw 259.310430 axlUSDT",
+      //   259.310430,
+      //   tokens.axlUsdt,
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+      // addPayment(
+      //   "Withdraw 0.00065203 axlWBTC",
+      //   0.00065203,
+      //   tokens.axlWbtc,
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+      // addPayment(
+      //   "Withdraw 0.589847 WBTC",
+      //   0.589847,
+      //   tokens.wbtc,
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+      // addPayment(
+      //   "Withdraw 3429.340594 USDC",
+      //   3429.340594,
+      //   tokens.usdc,
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
+
+
+
+
 
       done(
-        `[axelar-recovery] Refund Astroport`,
+        `[axelar-recovery] Refund 651,103.000000 LUNA to recovery multi-sig`,
         ".",
         "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       ),
+      // done(
+      //   `[pdt] Setup remaining OTC (CoinGecko: ${lunaPrice.toFixed(5)}, ${btcPrice.toFixed(5)})`,
+      //   ".",
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
     ].filter(notEmpty)
   );
   console.log(`Contract added route! Txhash: ${txhash}`);

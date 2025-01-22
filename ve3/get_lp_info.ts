@@ -4,6 +4,7 @@ import { AssetInfo } from "../types/ampz/eris_ampz_execute";
 import { QueryMsg } from "../types/ve3/asset-staking/query";
 import { ArrayOf_AssetInfoWithRuntime as Resp } from "../types/ve3/asset-staking/response_to_whitelisted_asset_details";
 import { Ve3InfoKeys, config } from "./config";
+import * as currencies from './get_lp_currencies.json';
 
 const argv = yargs(process.argv)
   .options({
@@ -34,7 +35,7 @@ export interface LpInfo {
   const result: LpInfo[] = [];
 
   for (const gauge in gauges) {
-    if (gauge != "project") continue;
+    // if (gauge != "project") continue;
     const addr = gauges[gauge][Ve3InfoKeys.asset_staking_addr_str] as string;
 
     console.log(`whitelisted ${addr}`);
@@ -60,7 +61,7 @@ export interface LpInfo {
           pair_contract = lp.info.native.split("/")[1];
         }
 
-        console.log(`pair ${pair_contract}`);
+        // console.log(`pair ${pair_contract}`);
         const pair = await terra.wasm.contractQuery<{ asset_infos: AssetInfo[] }>(pair_contract, { pair: {} });
 
         if (!result.some((a) => a.lp === lp_denom)) {
@@ -68,7 +69,7 @@ export interface LpInfo {
             lp: lp_denom,
             pair: pair_contract,
             tokens: pair.asset_infos.map((a) => getToken(a)),
-            type: is_astroport ? "Astroport" : "WhiteWhale",
+            type: is_astroport ? "Astroport" : "WhiteWhale"
           });
         }
       } catch (error) {
@@ -77,9 +78,32 @@ export interface LpInfo {
       }
     }
   }
-  const res = JSON.stringify(result)
-    .replace(/"Astroport"/gi, "PairType.Astroport")
-    .replace(/"WhiteWhale"/gi, "PairType.WhiteWhale");
 
-  console.log(res);
+  const deving = result.reduce((prev, current) => {
+    const isCw20 = current.lp.startsWith('terra');
+    const prefix = isCw20 ? 'cw20:' : 'native:';
+    const key = prefix + current.lp;
+
+    const typedCurrencies = currencies as any as Record<string, { symbol: string, other?: string[] }>
+    const tokenNames = current.tokens.map(a => {
+      const currency = typedCurrencies[a] ?? Object.values(typedCurrencies).find(c => c.other?.includes(a));
+      return (currency?.symbol ?? a)
+    });
+
+    prev[key] = {
+      ...current,
+      name: tokenNames.join('-') + ' LP'
+    }
+
+    return prev;
+  }, {} as Record<string, any>)
+
+  console.log(JSON.stringify(deving, undefined, 2))
+
+
+  // const res = JSON.stringify(result)
+  //   .replace(/"Astroport"/gi, "PairType.Astroport")
+  //   .replace(/"WhiteWhale"/gi, "PairType.WhiteWhale");
+
+  // console.log(res);
 })();

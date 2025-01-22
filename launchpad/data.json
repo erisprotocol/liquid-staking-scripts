@@ -6,11 +6,29 @@
     "burn_addr": "neutron1th9pqj2an2uyu80qwk0w9uvm0funyw679fj48u3vaqkv89vg3ttsn6eugz",
     "launches": {
       "permissionless": {
-        "launch_addr": "neutron1e0n8uu8cz36z5yvexra2ay5z2akgy30r2d5ampsfd83m9gq7wa4qw0gjlh"
+        "launch_addr": "neutron1e0n8uu8cz36z5yvexra2ay5z2akgy30r2d5ampsfd83m9gq7wa4qw0gjlh",
+        "launch_nft_addr": "neutron1h5ywh4ekgjnced540rzh52s2rx5ev206p988rd409g7xhnqfe6hq8402a9"
       },
       "boost": {
         "launch_addr": "neutron1926ks2plcsnz45p6nk9gr02p5xc6a5a23jvpwq8ljzdhpk0k9fmsljfqr5"
       }
+    },
+    "codes": {
+      "launch_factory": "3048",
+      "launch_nft": "3049"
+    }
+  },
+  "mainnet": {
+    "zapper_addr": "terra1qdjsxsv96aagrdxz83gwtjk8qvf2mrg4y8y3dqjxg556lm79pg5qdgmaxl",
+    "launches": {
+      "permissionless": {
+        "launch_addr": "terra1xype2z9pqp3rtysxa4s78w2deees3hfc5ua28z06tta4m8l32v2s2c6gmg",
+        "launch_nft_addr": "terra1kj7pasyahtugajx9qud02r5jqaf60mtm7g5v9utr94rmdfftx0vqspf4at"
+      }
+    },
+    "codes": {
+      "launch_nft": "3488",
+      "launch_factory": "3487"
     }
   }
 }

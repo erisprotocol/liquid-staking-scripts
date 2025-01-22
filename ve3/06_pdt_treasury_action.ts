@@ -64,6 +64,10 @@ const argv = yargs(process.argv)
   const btcPrice = prices.data["bitcoin"].usd;
 
   const stewardship = "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg";
+  const laDao = "terra1l0ny38guhwrzczesgvk2zwj7xcen63jzmpusjv9hemvua9vptcyqwqy7pl";
+  const pdOperations = "terra1d4pvkg4skggnzcd6twx8qt6vsfaf0auw4dr9v9";
+
+
   const c1 = "terra1gaxzcygjyz7gq8gq9tjy02qq38kcf84um9wy0a";
   const c2 = "terra15vwmgac9tlcgkrkjn4rq3r0md003ufsqp64vaw";
   const c3 = "terra14p3mc04s7jcaxvvetlzehvhx9gdx6w4nm3zzw3";
@@ -100,6 +104,7 @@ const argv = yargs(process.argv)
     toDecimals = 1e6
   ) => {
     const discountPrice = price * (1 - discount);
+    amount = amount / discountPrice;
     const expected = amount * discountPrice;
 
     const name = `OTC ${amount.toFixed(5)} LUNA -> ${expected.toFixed(5)} ${toSymbol}`;
@@ -249,7 +254,10 @@ const argv = yargs(process.argv)
       //   ".",
       //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       // ),
-      // addPayment("Refund 1500$ hydro bribe", 1500, tokens.usdc, c1),
+      // addPayment("Audit of Core Repository 36500$", 36500, tokens.usdc, infra1),
+      // done(`[pdt] Setup Audit of Core Repository`, ".", "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"),
+      addPayment("Funding for Ethereum ASTRO OTC", 35000, tokens.usdc, pdOperations),
+      done(`[pdt] Funding for Ethereum ASTRO OTC`, ".", stewardship),
       // addPaymentsEachMonth(
       //   "mod payments (2024-11-15 - 2025-02-15)",
       //   [
@@ -356,12 +364,12 @@ const argv = yargs(process.argv)
       //   ".",
       //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
       // ),
-      addOtc(300000, lunaPrice, 0.02, "USDC", tokens.usdc, 1e6),
-      done(
-        `[pdt] Setup OTC (CoinGecko: ${lunaPrice.toFixed(5)}, ${btcPrice.toFixed(5)})`,
-        ".",
-        "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
-      ),
+      // addOtc(300000, lunaPrice, 0.02, "USDC", tokens.usdc, 1e6),
+      // done(
+      //   `[pdt] Setup OTC (CoinGecko: ${lunaPrice.toFixed(5)}, ${btcPrice.toFixed(5)})`,
+      //   ".",
+      //   "terra1k8ug6dkzntczfzn76wsh24tdjmx944yj6mk063wum7n20cwd7lxq4lppjg"
+      // ),
     ].filter(notEmpty)
   );
   console.log(`Contract added route! Txhash: ${txhash}`);

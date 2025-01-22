@@ -1,18 +1,15 @@
 import { TxLog } from "@terra-money/feather.js";
 import yargs from "yargs/yargs";
-import { tokens, tokens_neutron } from "../amp-compounder/tokens";
 import {
   addInfo,
   Chains,
   createLCDClient,
   createWallet,
-  getInfo,
   getPrefix,
-  instantiateWithConfirm,
-  toNew,
+  instantiateWithConfirm
 } from "../helpers";
 import * as keystore from "../keystore";
-import { InstantiateMsg } from "../types/launchpad/launch-factory/instantiate";
+import { InstantiateMsg } from "../types/launchpad/launch-nft/instantiate";
 import { config, LaunchpadInfoKeys } from "./config";
 
 const argv = yargs(process.argv)
@@ -40,36 +37,24 @@ const argv = yargs(process.argv)
     },
   })
   .parseSync();
-
+/** @type {*} */
 const templates: Partial<Record<Chains, any>> = {
   neutron: <InstantiateMsg>{
     owner: "",
     config: {
-      denom_creation_fee: {
-        info: toNew(tokens_neutron.ntrn),
-        amount: "0",
-      },
-      whitelist: [],
-      zapper: "",
-      fee_lbp: "0.05",
-      fee_otc: "0.01",
-      fee_recipient: "",
-      fee_stream: "0.05",
+      fee_la: '0.03',
+      fee_nft: '0.02',
+      fee_recipient: '',
+      whitelist: []
     },
   },
   mainnet: <InstantiateMsg>{
     owner: "",
     config: {
-      denom_creation_fee: {
-        info: toNew(tokens.luna),
-        amount: "10000000",
-      },
-      whitelist: [],
-      zapper: "",
-      fee_lbp: "0.05",
-      fee_otc: "0.01",
-      fee_recipient: "",
-      fee_stream: "0.05",
+      fee_la: '0.03',
+      fee_nft: '0.02',
+      fee_recipient: '',
+      whitelist: []
     },
   },
 };
@@ -81,7 +66,6 @@ const templates: Partial<Record<Chains, any>> = {
 
   const msg = templates[network] as InstantiateMsg;
   msg.owner = config[network]?.owner ?? "";
-  msg.config.zapper = getInfo("launchpad", network, LaunchpadInfoKeys.zapper_addr);
   msg.config.fee_recipient = config[network]?.dao ?? "";
 
   console.log(msg);
@@ -91,7 +75,7 @@ const templates: Partial<Record<Chains, any>> = {
     deployer.key.accAddress(getPrefix()),
     argv.contractCodeId,
     msg,
-    "launch-" + argv.label
+    "launch-nft-" + argv.label
   );
 
   console.log("logs", JSON.stringify(result.logs));
@@ -99,5 +83,5 @@ const templates: Partial<Record<Chains, any>> = {
   const addresses = result.logs.map((a: TxLog) => a.eventsByType["instantiate"]["_contract_address"][0]);
 
   console.log(`Contract instantiated! Address: ${addresses}`);
-  addInfo("launchpad", network, LaunchpadInfoKeys.launch_addr(argv.label), addresses[0]);
+  addInfo("launchpad", network, LaunchpadInfoKeys.launch_nft_addr(argv.label), addresses[0]);
 })();

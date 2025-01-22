@@ -1,0 +1,455 @@
+{
+  "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct": {
+    "name": "Eris Amplified LUNA",
+    "decimals": 6,
+    "symbol": "ampLUNA",
+    "contractAddr": "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
+    "verified": true,
+    "icon": "https://www.erisprotocol.com/assets/ampLuna100.png",
+    "pairWith": ["uluna"],
+    "ustPairs": [],
+    "other": [
+      "ibc/05238E98A143496C8AF2B6067BABC84503909ECE9E45FBCBAC2CBA5C889FD82A",
+      "ibc/62A3870B9804FC3A92EAAA1F0F3F07E089DBF76CC521466CA33F5AAA8AD42290"
+    ]
+  },
+  "factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR": {
+    "name": "Eris Amplified ROAR",
+    "symbol": "ampROAR",
+    "contractAddr": "factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR",
+    "other": ["factory/terra1vklefn7n6cchn0u962w3gaszr4vf52wjvd4y95t2sydwpmpdtszsqvk9wy/ampROAR"],
+    "icon": "./assets/tokens/ampROAR.png"
+  },
+  "factory/terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y/ampCAPA": {
+    "name": "Eris Amplified CAPA",
+    "symbol": "ampCAPA",
+    "contractAddr": "factory/terra186rpfczl7l2kugdsqqedegl4es4hp624phfc7ddy8my02a4e8lgq5rlx7y/ampCAPA",
+    "icon": "./assets/tokens/ampCapa.svg",
+    "coingeckoId": "* capapult"
+  },
+  "factory/migaloo1nsskhvvh0msm7d5ke2kfg24a8d4jecsnxd28s27h0uz5kf9ap60shlqmcl/ampGASH": {
+    "name": "Eris Amplified gASH",
+    "symbol": "ampGASH",
+    "other": ["ibc/7D01429FF7542DBC41C261793B480B63FE7A83260C751989CC268BC7E852EB99"]
+  },
+  "factory/terra1dndhtdr2v7ca8rrn67chlqw3cl3xhm3m2uxls62vghcg3fsh5tpss5xmcu/MOAR": {
+    "symbol": "MOAR",
+    "icon": "./assets/tokens/MOAR.png",
+    "coingeckoId": "* * lion-dao"
+  },
+  "terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6": {
+    "name": "Eris Amplified LUNAT",
+    "decimals": 6,
+    "symbol": "ampLUNA-T",
+    "contractAddr": "terra1xgvp6p0qml53reqdyxgcl8ttl0pkh0n2mtx2n7tzfahn6e0vca7s0g7sg6",
+    "verified": true,
+    "icon": "https://www.erisprotocol.com/assets/ampLuna100.png",
+    "pairWith": ["uluna"],
+    "ustPairs": []
+  },
+  "terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst": {
+    "name": "Solid",
+    "decimals": 6,
+    "symbol": "SOLID",
+    "contractAddr": "terra10aa3zdkrc7jwuf8ekl3zq7e7m42vmzqehcmu74e4egc7xkm5kr2s0muyst",
+    "icon": "./assets/tokens/solid.svg",
+    "coingeckoId": "usd"
+  },
+  "terra1t4p3u8khpd7f8qzurwyafxt648dya6mp6vur3vaapswt6m24gkuqrfdhar": {
+    "name": "Capa",
+    "decimals": 6,
+    "symbol": "CAPA",
+    "contractAddr": "terra1t4p3u8khpd7f8qzurwyafxt648dya6mp6vur3vaapswt6m24gkuqrfdhar",
+    "icon": "./assets/tokens/capa.svg"
+  },
+  "terra1lxx40s29qvkrcj8fsa3yzyehy7w50umdvvnls2r830rys6lu2zns63eelv": {
+    "name": "Roar",
+    "decimals": 6,
+    "symbol": "ROAR",
+    "contractAddr": "terra1lxx40s29qvkrcj8fsa3yzyehy7w50umdvvnls2r830rys6lu2zns63eelv",
+    "icon": "./assets/tokens/roar.png",
+    "other": ["ibc/31ED168F5E93D988FCF223B1298113ACA818DB7BED8F7B73764C5C9FAC293609"]
+  },
+  "terra17aj4ty4sz4yhgm08na8drc0v03v2jwr3waxcqrwhajj729zhl7zqnpc0ml": {
+    "name": "Bone LUNA",
+    "decimals": 6,
+    "symbol": "boneLUNA",
+    "contractAddr": "terra17aj4ty4sz4yhgm08na8drc0v03v2jwr3waxcqrwhajj729zhl7zqnpc0ml",
+    "coingeckoId": "~ terra-luna-2",
+    "verified": true,
+    "icon": "./assets/tokens/boneluna.png",
+    "other": ["ibc/40C29143BF4153B365089E40E437B7AA819672646C45BB0A5F1E10915A0B6708"]
+  },
+  "terra1xe8umegahlqphtpvjsuwfzfvyjfvag5h8rffsx6ezm0el4xzsf8s7uzezk": {
+    "name": "Red",
+    "decimals": 6,
+    "symbol": "RED",
+    "contractAddr": "terra1xe8umegahlqphtpvjsuwfzfvyjfvag5h8rffsx6ezm0el4xzsf8s7uzezk",
+    "verified": true,
+    "icon": "./assets/tokens/red.svg"
+  },
+  "terra1xp9hrhthzddnl7j5du83gqqr4wmdjm5t0guzg9jp6jwrtpukwfjsjgy4f3": {
+    "name": "Sayve",
+    "decimals": 6,
+    "symbol": "SAYVE",
+    "contractAddr": "terra1xp9hrhthzddnl7j5du83gqqr4wmdjm5t0guzg9jp6jwrtpukwfjsjgy4f3",
+    "verified": true,
+    "icon": "./assets/tokens/sayve.svg"
+  },
+  "terra14xsm2wzvu7xaf567r693vgfkhmvfs08l68h4tjj5wjgyn5ky8e2qvzyanh": {
+    "name": "Stader LunaX Token",
+    "decimals": 6,
+    "symbol": "LunaX",
+    "contractAddr": "terra14xsm2wzvu7xaf567r693vgfkhmvfs08l68h4tjj5wjgyn5ky8e2qvzyanh",
+    "verified": true,
+    "icon": "https://raw.githubusercontent.com/stader-labs/assets/main/terra/LunaX_1.png"
+  },
+  "uluna": {
+    "name": "Luna",
+    "decimals": 6,
+    "symbol": "LUNA",
+    "contractAddr": "uluna",
+    "verified": true,
+    "icon": "https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg",
+    "other": ["ibc/DA59C009A0B3B95E0549E6BF7B075C8239285989FF457A8EDDBB56F10B2A6986"]
+  },
+  "uwhale": {
+    "name": "Whale",
+    "decimals": 6,
+    "symbol": "WHALE",
+    "contractAddr": "uluna",
+    "verified": true,
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/migaloo/images/white-whale.svg",
+    "other": [
+      "ibc/21F041CFE99994E0D027D0C5F72A9EB6224CBCAF5A6AD5DDB75F67A781D46C68",
+      "ibc/36A02FFC4E74DF4F64305130C3DFA1B06BEAC775648927AA44467C76A77AB8DB"
+    ],
+    "coingeckoId": "white-whale"
+  },
+  "factory/migaloo1ey4sn2mkmhew4pdrzk90l9acluvas25qlhuvsfgssw42ugz8yjlqx92j9l/arbWHALE": {
+    "symbol": "arbWHALE"
+  },
+  "terra1se7rvuerys4kd2snt6vqswh9wugu49vhyzls8ymc02wl37g2p2ms5yz490": {
+    "symbol": "arbLUNA",
+    "icon": "./assets/tokens/arbLuna.svg",
+    "coingeckoId": "? terra-luna-2"
+  },
+  "inj": {
+    "symbol": "INJ",
+    "decimals": 18,
+    "other": ["ibc/25BC59386BB65725F735EFC0C369BB717AA8B5DAD846EAF9CBF5D0F18F207211"],
+    "icon": "./assets/tokens/inj.png",
+    "coingeckoId": "injective-protocol"
+  },
+  "factory/inj1cdwt8g7nxgtg2k4fn8sj363mh9ahkw2qt0vrnc/ampINJ": {
+    "symbol": "ampINJ",
+    "decimals": 18
+  },
+  "factory/kujira175yatpvkpgw07w0chhzuks3zrrae9z9g2y6r7u5pzqesyau4x9eqqyv0rr/ampMNTA": {
+    "symbol": "ampMNTA",
+    "decimals": 6
+  },
+  "aarch": {
+    "symbol": "ARCH",
+    "decimals": 18
+  },
+  "archway1fwurjg7ah4v7hhs6xsc3wutqpvmahrfhns285s0lt34tgfdhplxq6m8xg5": {
+    "symbol": "ampARCH",
+    "decimals": 18
+  },
+  "uosmo": {
+    "symbol": "OSMO",
+    "decimals": 6,
+    "icon": "./assets/tokens/osmo.svg"
+  },
+  "factory/osmo1dv8wz09tckslr2wy5z86r46dxvegylhpt97r9yd6qc3kyc6tv42qa89dr9/ampOSMO": {
+    "symbol": "ampOSMO",
+    "decimals": 6,
+    "icon": "./assets/tokens/ampOSMO.png",
+    "other": ["ibc/BEFB9AB13AB43157A0AF6214AD4B1F565AC0CA0C1760B8337BE7B9E2996F7752"]
+  },
+  "factory/osmo1s3l0lcqc7tu0vpj6wdjz9wqpxv8nk6eraevje4fuwkyjnwuy82qsx3lduv/boneOsmo": {
+    "symbol": "boneOSMO",
+    "decimals": 6,
+    "icon": "./assets/tokens/bOSMO.png",
+    "other": ["ibc/EC48B819FC1D955ED1708A8E8E230B37217CC6D953448D3B4BCCF5B29BD1FCF9"]
+  },
+  "factory/migaloo1436kxs0w2es6xlqpp9rd35e3d0cjnw4sv8j3a7483sgks29jqwgshqdky4/ampWHALE": {
+    "symbol": "ampWHALE",
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/migaloo/images/ampwhale.svg",
+    "other": ["ibc/B3F639855EE7478750CC8F82072307ED6E131A8EFF20345E1D136B50C4E5EC36"]
+  },
+  "factory/migaloo1mf6ptkssddfmxvhdx0ech0k03ktp6kf9yk59renau2gvht3nq2gqdhts4u/boneWhale": {
+    "symbol": "boneWHALE",
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/migaloo/images/bWHALE.png",
+    "other": ["ibc/517E13F14A1245D4DE8CF467ADD4DA0058974CDCC880FA6AE536DBCA1D16D84E"]
+  },
+  "factory/kujira1qk00h5atutpsv900x202pxx42npjr9thg58dnqpa72f2p7m2luase444a7/uusk": {
+    "symbol": "USK"
+  },
+  "$": {
+    "symbol": "USD",
+    "decimals": 0,
+    "precision": 2
+  },
+  "%": {
+    "symbol": "%",
+    "decimals": 0,
+    "precision": 2
+  },
+  "exchange_rate": {
+    "symbol": "exchange_rate",
+    "decimals": 0,
+    "precision": 4
+  },
+  "factory/kujira1643jxg8wasy5cfcn7xm8rd742yeazcksqlg4d7/umnta": {
+    "symbol": "MNTA"
+  },
+  "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2": {
+    "symbol": "ATOM",
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/cosmoshub/images/atom.svg",
+    "other": ["ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9"],
+    "coingeckoId": "cosmos"
+  },
+  "untrn": {
+    "symbol": "NTRN",
+    "icon": "./assets/chains/neutron.svg",
+    "icon2": "https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/images/ntrn.svg"
+  },
+  "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4": {
+    "name": "uusdc",
+    "coingeckoId": "usd",
+    "decimals": 6,
+    "symbol": "USDC.axl",
+    "contractAddr": "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+    "verified": true,
+    "icon": "/images/Tokens/terra2/usdc.svg",
+    "other": [
+      "ibc/295548A78785A1007F232DE286149A6FF512F180AF5657780FC89C009E2C348F",
+      "ibc/F082B65C88E4B6D5EF1DB243CDA1D331D002759E938A0F5CD3FFDC5D53B3E349",
+      "ibc/BC5C0BAFD19A5E4133FDA0F3E04AE1FBEE75A4A226554B2CBB021089FF2E1F8A"
+    ]
+  },
+  "ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB": {
+    "name": "uusdc",
+    "decimals": 6,
+    "symbol": "USDC",
+    "contractAddr": "ibc/2C962DAB9F57FE0921435426AE75196009FAA1981BF86991203C8411F8980FDB",
+    "verified": true,
+    "icon": "/images/Tokens/terra2/usdc.svg",
+    "other": [],
+    "coingeckoId": "usd"
+  },
+  "ibc/9B19062D46CAB50361CE9B0A3E6D0A7A53AC9E7CB361F32A73CC733144A9A9E5": {
+    "name": "uusdt",
+    "decimals": 6,
+    "symbol": "USDT",
+    "contractAddr": "ibc/9B19062D46CAB50361CE9B0A3E6D0A7A53AC9E7CB361F32A73CC733144A9A9E5",
+    "verified": true,
+    "icon": "/images/Tokens/terra2/usdt.svg",
+    "other": [],
+    "coingeckoId": "usd"
+  },
+  "ibc/CBF67A2BCF6CAE343FDF251E510C8E18C361FC02B23430C121116E0811835DEF": {
+    "name": "uusdt",
+    "decimals": 6,
+    "symbol": "USDT.axl",
+    "contractAddr": "ibc/CBF67A2BCF6CAE343FDF251E510C8E18C361FC02B23430C121116E0811835DEF",
+    "verified": true,
+    "icon": "/images/Tokens/terra2/usdt.svg",
+    "coingeckoId": "usd",
+    "other": ["ibc/57503D7852EF4E1899FE6D71C5E81D7C839F76580F86F21E39348FC2BC9D7CE2"]
+  },
+  "ibc/08095CEDEA29977C9DD0CE9A48329FDA622C183359D5F90CF04CC4FF80CBE431": {
+    "name": "stLUNA",
+    "decimals": 6,
+    "symbol": "stLUNA",
+    "contractAddr": "ibc/08095CEDEA29977C9DD0CE9A48329FDA622C183359D5F90CF04CC4FF80CBE431",
+    "verified": true,
+    "icon": "./assets/tokens/stluna.svg",
+    "network": "stride-1",
+    "other": ["ibc/FBEE20115530F474F8BBE1460DA85437C3FBBFAF4A5DEBD71CA6B9C40559A161"],
+    "coingeckoId": "stride terra-luna-2"
+  },
+  "ibc/FD9DBF0DB4D301313195159303811FD2FD72185C4B11A51659EFCD49D7FF1228": {
+    "symbol": "stATOM",
+    "icon": "./assets/tokens/statom.svg",
+    "coingeckoId": "stride-staked-atom"
+  },
+  "ibc/223FF539430381ADAB3A66AC4822E253C3F845E9841F17FEEC207B3AA9F8D915": {
+    "symbol": "dATOM",
+    "icon": "./assets/tokens/datom.svg",
+    "coingeckoId": "drop-staked-atom"
+  },
+  "terra1nsuqsk6kh58ulczatwev87ttq2z6r3pusulg9r24mfj2fvtzd4uq3exn26": {
+    "name": "Astroport",
+    "decimals": 6,
+    "symbol": "ASTRO.cw20",
+    "contractAddr": "terra1nsuqsk6kh58ulczatwev87ttq2z6r3pusulg9r24mfj2fvtzd4uq3exn26",
+    "verified": true,
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/images/astro.png",
+    "other": ["ibc/5751B8BCDA688FD0A8EC0B292EEF1CDEAB4B766B63EC632778B196D317C40C3A"],
+    "coingeckoId": "astroport-fi"
+  },
+  "ibc/8D8A7F7253615E5F76CB6252A1E1BD921D5EDB7BBAAF8913FB1C77FF125D9995": {
+    "name": "Astroport",
+    "decimals": 6,
+    "symbol": "ASTRO",
+    "verified": true,
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/images/astro.png",
+    "other": ["ibc/8D8A7F7253615E5F76CB6252A1E1BD921D5EDB7BBAAF8913FB1C77FF125D9995"],
+    "coingeckoId": "astroport-fi"
+  },
+  "ibc/65B3EB6263482979FD7A80E3FFB9D0C85CFBF6DB63EB8DDE918B2984A40CEAB6": {
+    "symbol": "xASTRO",
+    "coingeckoId": "#astroport-fi",
+    "icon": "https://raw.githubusercontent.com/cosmos/chain-registry/master/neutron/images/xAstro.svg"
+  },
+  "terra1xumzh893lfa7ak5qvpwmnle5m5xp47t3suwwa9s0ydqa8d8s5faqn6x7al": {
+    "name": "Steak Token",
+    "decimals": 6,
+    "symbol": "STEAK",
+    "contractAddr": "terra1xumzh893lfa7ak5qvpwmnle5m5xp47t3suwwa9s0ydqa8d8s5faqn6x7al",
+    "verified": true,
+    "icon": "https://liquidstaking.app/steak.png"
+  },
+  "terra13j2k5rfkg0qhk58vz63cze0uze4hwswlrfnm0fa4rnyggjyfrcnqcrs5z2": {
+    "name": "Terra Poker Token",
+    "decimals": 6,
+    "symbol": "TPT",
+    "contractAddr": "terra13j2k5rfkg0qhk58vz63cze0uze4hwswlrfnm0fa4rnyggjyfrcnqcrs5z2",
+    "verified": true,
+    "icon": "/images/Tokens/terra2/tpt.svg"
+  },
+  "swth": {
+    "name": "SWTH",
+    "symbol": "SWTH",
+    "decimals": 8,
+    "other": ["ibc/792AAE6279F4709F66068E29A79E6F16BBC0A9B93561A91FC040606793E62D6B"],
+    "icon": "./assets/tokens/swth.svg",
+    "coingeckoId": "switcheo"
+  },
+  "ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098": {
+    "name": "rSWTH",
+    "symbol": "rSWTH",
+    "decimals": 8,
+    "other": ["ibc/0E90026619DD296AD4EF9546396F292B465BAB6B5BE00ABD6162AA1CE8E68098"],
+    "icon": "./assets/tokens/rswth.webp",
+    "coingeckoId": "stafi-staked-swth"
+  },
+  "wBNB": {
+    "name": "wBNB",
+    "symbol": "wBNB",
+    "decimals": 8,
+    "other": ["terra1xc7ynquupyfcn43sye5pfmnlzjcw2ck9keh0l2w2a4rhjnkp64uq4pr388"],
+    "coingeckoId": "binancecoin",
+    "icon": "./assets/tokens/bnb.png"
+  },
+  "wSOL": {
+    "name": "wSOL",
+    "symbol": "wSOL",
+    "decimals": 8,
+    "other": ["terra1ctelwayk6t2zu30a8v9kdg3u2gr0slpjdfny5pjp7m3tuquk32ysugyjdg"],
+    "coingeckoId": "solana",
+    "icon": "./assets/tokens/sol.svg"
+  },
+  "factory/neutron1ug740qrkquxzrk2hh29qrlx3sktkfml3je7juusc2te7xmvsscns0n2wry/wstETH": {
+    "name": "wstETH",
+    "symbol": "wstETH",
+    "decimals": 18,
+    "icon": "./assets/tokens/steth.svg",
+    "other": ["ibc/A356EC90DC3AE43D485514DA7260EDC7ABB5CFAA0654CE2524C739392975AD3C"],
+    "coingeckoId": "wrapped-steth"
+  },
+  "ibc/A585C2D15DCD3B010849B453A2CFCB5E213208A5AB665691792684C26274304D": {
+    "name": "wETH.axl",
+    "symbol": "wETH.axl",
+    "decimals": 18,
+    "icon": "./assets/tokens/axlweth.svg",
+    "other": ["ibc/BC8A77AFBD872FDC32A348D3FB10CC09277C266CFE52081DE341C7EC6752E674"],
+    "coingeckoId": "ethereum"
+  },
+  "terra15hhqg8gyz04zapynqtk7uvlsp7lzay7etrt9ann0276v94yae63sxygeat": {
+    "name": "wETH",
+    "symbol": "wETH",
+    "decimals": 8,
+    "icon": "./assets/tokens/weth.svg",
+    "coingeckoId": "ethereum"
+  },
+  "terra1gy73st560m2j0esw5c5rjmr899hvtv4rhh4seeajt3clfhr4aupszjss4j": {
+    "name": "Valkyrie Token",
+    "decimals": 6,
+    "symbol": "VKR",
+    "contractAddr": "terra1gy73st560m2j0esw5c5rjmr899hvtv4rhh4seeajt3clfhr4aupszjss4j",
+    "verified": true,
+    "icon": "https://app.valkyrieprotocol.com/icon_vkr.png"
+  },
+  "terra1uc3r74qg44csdrl8hrm5muzlue9gf7umgkyv569pgazh7tudpr4qdtgqh6": {
+    "name": "USDC",
+    "decimals": 6,
+    "symbol": "USDC",
+    "contractAddr": "terra1uc3r74qg44csdrl8hrm5muzlue9gf7umgkyv569pgazh7tudpr4qdtgqh6",
+    "verified": false
+  },
+  "ibc/6E5BF71FE1BEBBD648C8A7CB7A790AEF0081120B2E5746E6563FC95764716D61": {
+    "name": "wBTC.axl",
+    "decimals": 8,
+    "precision": 5,
+    "symbol": "wBTC.axl",
+    "other": ["ibc/05D299885B07905B6886F554B39346EA6761246076A1120B1950049B92B922DD"],
+    "icon": "./assets/tokens/axlwbtc.webp",
+    "coingeckoId": "bitcoin"
+  },
+  "ibc/CF57A83CED6CEC7D706631B5DC53ABC21B7EDA7DF7490732B4361E6D5DD19C73": {
+    "name": "wBTC",
+    "decimals": 8,
+    "precision": 5,
+    "symbol": "wBTC",
+    "other": [],
+    "icon": "./assets/tokens/btc.png",
+    "coingeckoId": "bitcoin"
+  },
+  "ibc/B2AA4C3CD19954859C3B537EC0705640AFC01075F52993D9AC5E73F07F0386CC": {
+    "name": "DGN",
+    "decimals": 6,
+    "symbol": "DGN",
+    "other": [],
+    "icon": "./assets/tokens/DGN.png",
+    "coingeckoId": "dragon-coin-2"
+  },
+  "factory/migaloo1pll95yfcnxd5pkkrcsad63l929m4ehk4c46fpqqp3c2d488ca0csc220d0/ampBTC": {
+    "name": "ampBTC",
+    "decimals": 8,
+    "precision": 5,
+    "symbol": "ampBTC"
+  },
+  "ujuno": {
+    "symbol": "JUNO"
+  },
+  "ukuji": {
+    "symbol": "KUJI"
+  },
+  "factory/kujira1n3fr5f56r2ce0s37wdvwrk98yhhq3unnxgcqus8nzsfxvllk0yxquurqty/ampKUJI": {
+    "symbol": "ampKUJI"
+  },
+  "uhuahua": {
+    "symbol": "HUAHUA"
+  },
+  "usei": {
+    "symbol": "SEI"
+  },
+  "factory/migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup/ash": {
+    "symbol": "ASH"
+  },
+  "migaloo10nucfm2zqgzqmy7y7ls398t58pjt9cwjsvpy88y2nvamtl34rgmqt5em2v": {
+    "symbol": "mUSDC"
+  },
+  "vAMP": {},
+  "VP": {},
+  "shares": {},
+  "-": {},
+  "ulunc": {
+    "symbol": "LUNC",
+    "coingeckoId": "terra-luna"
+  }
+}

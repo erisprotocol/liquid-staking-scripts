@@ -248,19 +248,19 @@ export function createLCDClient(network: string): LCDClient {
 export async function createWallet(terra: LCDClient, keyName: string, keyDir: string): Promise<Wallet> {
   if (keyName === "ledger") {
     const lk = await LedgerKey.create({
-      transport: await TransportNodeHid.create(60 * 1000),
+      transport: async () => await TransportNodeHid.create(60 * 1000),
     });
     return terra.wallet(lk as any);
   }
   if (keyName === "ledger-classic") {
     const lk = await LedgerKey.create({
-      transport: await TransportNodeHid.create(60 * 1000),
+      transport: async () => await TransportNodeHid.create(60 * 1000),
     });
     return terra.wallet(lk as any);
   }
   if (keyName === "ledger-juno") {
     const lk = await LedgerKey.create({
-      transport: await TransportNodeHid.create(60 * 1000),
+      transport: async () => await TransportNodeHid.create(60 * 1000),
       coinType: 118,
     });
     return terra.wallet(lk as any);
@@ -275,6 +275,11 @@ export async function createWallet(terra: LCDClient, keyName: string, keyDir: st
 
   const password = await promptly.password("Enter password to decrypt the key:");
 
+  if (keyName.startsWith("key-") && keyName.endsWith('-terra')) {
+    const words = keystore.loadKey(keyName, keyDir, password);
+    const mnemonic = new MnemonicKey({ mnemonic: words, coinType: 330 });
+    return terra.wallet(mnemonic);
+  }
   if (keyName.startsWith("key-")) {
     const words = keystore.loadKey(keyName, keyDir, password);
     const mnemonic = new MnemonicKey({ mnemonic: words, coinType: 118 });
@@ -453,7 +458,7 @@ export async function getTx(txhash: string) {
       if (tx.code === 0) {
         return tx;
       }
-    } catch (error) {}
+    } catch (error) { }
   }
   return undefined;
 }
